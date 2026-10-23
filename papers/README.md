@@ -23,10 +23,284 @@ the table below.
 | complementary | [IndoorCrowd: A Multi-Scene Dataset for Human Detection, Segmentation, and Tracking with an Automated Annotation Pipeline](#indoorcrowd) | 2026 | CVPR 2026 Workshops | [arXiv:2604.02032v1](https://arxiv.org/abs/2604.02032v1) | Auto-labelling comparison, SAM3 vs GroundingSAM | ok (v1, title checked) |
 | complementary | [Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection](#grounding_dino) | 2023 | TODO(verify) | [arXiv:2303.05499v5](https://arxiv.org/abs/2303.05499v5) | Reference open-vocabulary baseline | ok (v5, title checked) |
 | task1 | [ELEVATER: A Benchmark and Toolkit for Evaluating Language-Augmented Visual Models](#elevater) | 2022 | NeurIPS 2022 Datasets and Benchmarks | [arXiv:2204.08790v6](https://arxiv.org/abs/2204.08790v6) | Task 1 benchmark (20 classification datasets, zero/few-shot protocol, class knowledge) | ok (v6, title checked) |
-| task1 | [Open-Set Recognition in the Age of Vision-Language Models](#osr_vlm) | 2024 | ECCV 2024 | [arXiv:2403.16528v2](https://arxiv.org/abs/2403.16528v2) | Protocol for the "none" answer (open-set evaluation of VLM classifiers) | ok (v2, title checked) |
+| task1 | [Open-Set Recognition in the Age of Vision-Language Models](#osr_vlm) | 2024 | ECCV 2024 | [arXiv:2403.16528v2](https://arxiv.org/abs/2403.16528v2) | Metrics for the "none" answer (open-set evaluation of VLM classifiers) | ok (v2, title checked) |
 <!-- END papers-table -->
 
 ## Reading notes
 
 One note per paper, written from the downloaded PDF (pinned version above). Page numbers are
 PDF pages; "Tab." and "Fig." refer to the paper's own numbering.
+
+Each note gives the core idea, what this repository reuses, the numbers that matter here (with
+their table and page), and the pipelines that draw on it. "TODO(verify)" marks facts the paper
+does not state and that must be checked in code or model cards before use.
+
+### Main papers
+
+<a id="sam3"></a>
+#### SAM 3: Segment Anything with Concepts (2025)
+- **Idea.** Promptable concept segmentation: a short noun phrase and/or exemplar boxes in the
+  same image give boxes, masks and scores for all matching instances. A global presence token
+  predicts whether the concept is in the image; each detection's score is its query score
+  times the presence score (p4).
+- **Data engine.** Fine-tuned Llama 3.2 "AI verifiers" rate mask quality (MV) and exhaustivity
+  (EV), roughly doubling annotation throughput (p6).
+- **We reuse.**
+  - The grounder of p00 and p02.
+  - IoM-NMS: overlap divided by the smaller mask, threshold 0.5, removes whole-vs-part
+    duplicates (§F.4, p48).
+  - The SAM 3 Agent tool design: `segment_phrase`, `examine_each_mask`,
+    `select_masks_and_return`, `report_no_mask`, with Set-of-Marks rendering and context
+    pruning (§G, p55–56).
+- **Numbers.**
+  - RF100-VL zero-shot: 15.2 AP, vs 15.7 for gDino-T and 11.6 for Gemini 2.5 Pro.
+    10-shot (fine-tuned): 36.5 (Tab. 2, p8).
+  - Zero-shot by domain: Medical 2.6, Industrial 9.0, Document 12.9, Aerial 24.0 (Tab. 37, p49).
+  - AI verifiers on SA-Co/Gold, in cgF1: SAM 3 alone 54.0; replacing the presence score with
+    the EV verifier's image-level score gives 61.2; adding MV mask filtering gives 62.3;
+    humans reach 72.8 (Tab. 9d p10, Tab. 14 p16).
+  - One exemplar box, sampled from the ground truth of the same image, on COCO in AP+:
+    58.8 with text only, 76.8 with the exemplar only, 78.1 with both (Tab. 3, p8).
+- **Caveat.** Exemplars are ROI-pooled from the image being segmented (p4). Using few-shot
+  exemplars from other images needs another mechanism: TODO(verify) in the official API (M2).
+- **Used by.** p00, p02 (grounder). p03/p04: the image-level presence check gained more than
+  the per-mask check.
+
+<a id="rf100vl"></a>
+#### Roboflow100-VL (NeurIPS 2025 D&B)
+- **Idea.** 100 Roboflow Universe datasets in 7 domains, curated to be out-of-distribution for
+  VLM pre-training. Each dataset has GPT-4o-generated, human-edited annotator instructions and
+  official 10-shot splits.
+- **We reuse (task 2 protocol, `datasets/rf100vl`).**
+  - pycocotools bbox evaluation with **maxDets = 500** (§3.2, p5).
+  - Each dataset is scored on its own, then averaged per super-category and overall (§4.1, p6).
+  - No per-dataset tuning of zero-shot prompts or parameters (§3.2, p5).
+  - MLLM boxes without a score get 1.0; failed requests score 0 AP on those images
+    (App. A, p19).
+  - Multi-class prompting is the advocated default (App. C, p19–20).
+- **Numbers.**
+  - Zero-shot, all datasets: GroundingDINO 15.7, OWLv2 13.6, Gemini 2.5 Pro 11.6,
+    Qwen2.5-VL-72B 5.6 (Tab. 2, p8).
+  - 10-shot: fine-tuned GroundingDINO 33.6 (Tab. 2, p8).
+  - Annotator instructions help Qwen2.5-VL (5.6 → 7.6) but hurt Gemini (11.6 → 4.5) (Tab. 2).
+  - Scoring MLLM boxes with SigLIPv2 crop-to-text similarity on RF20-VL: Qwen2.5-VL 7.4 → 9.7,
+    Gemini 5.7 → 8.3. NMS changes almost nothing (Tab. 12, p25).
+  - The CVPR'25 RF20-VL challenge was won with 50.4, vs 33.4 for the best baseline
+    (Tab. 3, p9).
+- **Used by.** Every detection pipeline (protocol, settings D3/D4). p01 (how to score MLLM
+  boxes). p02 (concept cards vs raw instructions).
+
+<a id="rex_omni"></a>
+#### Rex-Omni: Detect Anything via Next Point Prediction (2025)
+- **Idea.** A 3B MLLM built on Qwen2.5-VL-3B (p6). It detects by emitting box coordinates
+  quantised to 1,000 relative bins, one special token per value, so 4 tokens per box
+  (p4–5). Trained with SFT on 22M samples, then GRPO with geometry-aware rewards that also
+  curb duplicate boxes (p3).
+- **We reuse (M4, only if recall plateaus).** As a second proposer:
+  - Prompt: "Please detect {classes} in this image. Return the output in box format."
+  - Output format: `<|object_ref_start|>PHRASE<|object_ref_end|><|box_start|>COORDS<|box_end|>`
+    (p5).
+  - TODO(verify): the exact bin ↔ pixel rounding. The paper's Fig. 3 example (1164 px of a
+    2240 px image → token 518) matches neither floor nor round of x/W·1000, so check the
+    official code before writing the wrapper.
+- **Numbers.** COCO zero-shot F1 at IoU 0.5: 72.0, vs 69.8 for Grounding DINO-T at its best
+  threshold and 64.0 for Qwen2.5-VL-7B (Tab. 2, p14).
+- **Caveat.** It outputs no confidence scores, so the paper reports F1, not AP. Each image was
+  prompted only with the categories annotated in it (p14), the referential protocol that
+  RF100-VL shows inflates scores.
+- **Used by.** A future proposer variant.
+
+<a id="qwen3_vl"></a>
+#### Qwen3-VL Technical Report (2025)
+- **Idea.** A family of dense models (2B–32B) and MoE models (30B-A3B, 235B-A22B), each in
+  Instruct and Thinking variants. Grounding uses boxes and points with coordinates
+  **normalised to [0, 1000]**, unlike Qwen2.5-VL (§3.2.4, p7).
+- **We reuse (p01 baseline).**
+  - The ODinW-13 prompt: "Locate every instance that belongs to the following categories:
+    '{obj_names}'. Report bbox coordinates in JSON format." (App. B.5, p37).
+  - The evaluation choices: confidence fixed at 1.0, all categories in one prompt (p19).
+  - TODO(verify): the JSON key of 2D boxes is not given in the report. Check the model card,
+    and whether Qwen3.5/3.8 use the same convention.
+- **Numbers.**
+  - ODinW-13 mAP: 235B-A22B Instruct 48.6, Thinking 43.2, Gemini 2.5 Pro 33.7 / 34.5
+    (Tab. 2, p15).
+  - 32B Instruct 46.6, 30B-A3B Instruct 47.5 (Tab. 3, p16).
+  - Tool-based zoom adds about 5 points on V* across the family (p19).
+- **Used by.** p01. Indirectly the compiler and verifier models.
+
+<a id="laod"></a>
+#### LAOD: MLLM-Guided Autonomous Object Detection (2025)
+- **Idea.** An MLLM writes an image-specific vocabulary and an open-vocabulary detector grounds
+  it: the MLLM decides *what*, the detector decides *where*. Evaluated with CAAP, SNAP and
+  SemLoc-AP on COCO, LVIS and COCO-OOD, over 7 MLLMs × 4 detectors.
+- **We reuse.**
+  - The decomposition behind p02: concept-card phrases are localised by SAM 3.
+  - The discipline of picking detector thresholds once on held-out data and keeping them
+    fixed across datasets (p8), as in D3.
+- **Numbers.**
+  - The detector matters more than the MLLM: detector averages vary more than MLLM averages
+    on all three metrics (p9).
+  - On COCO-Val, direct Qwen2.5-VL-7B detection reaches 0.142 CAAP and 0.036 SemLoc-AP, vs
+    0.300 and 0.188 in LAOD (Tab. 3, p11).
+  - The best detector changes between COCO and LVIS (p10).
+  - Prompts specialised for one benchmark do not transfer to others (p2).
+- **Used by.** p02 (rationale; keep the grounder swappable).
+
+<a id="colon_bench"></a>
+#### Colon-Bench (MICCAI 2026)
+- **Idea.** An agentic annotation workflow for colonoscopy videos (Fig. 1, p3):
+  1. VLM temporal proposals;
+  2. video verification agent;
+  3. EdgeTAM box tracking;
+  4. "cued" AI confirmation on clips with the boxes drawn;
+  5. physician review.
+- **We reuse.** p03's second view (the box drawn on the image), and accounting precision and
+  recall stage by stage, as our failure-structure sections should.
+- **Numbers.**
+  - On REAL-COLON polyp labels, P / R / F1: proposals 30.9 / 67.5 / 42.4 → verification
+    36.2 / 68.7 / 47.4 → tracking + cued confirmation 53.1 / 48.8 / 50.8 → human review
+    55.4 / 48.6 / 51.8 (Tab. 2, p4).
+  - Cued confirmation alone adds +6.7 precision and +2.0 F1. The physician rejected 11.6% of
+    the windows (App. A.2, p12).
+  - Video segmentation: SAM 3 reaches 2.5 IoU, vs 48.3 for Gemini 3 Flash boxes + EdgeTAM.
+  - On binary lesion classification, the large Qwen models collapse to "negative":
+    Qwen3.5-397B recall 0.4%, Qwen3-VL-235B 0.7% (Tab. 3, p6).
+- **Used by.** p03. Also a warning to check verifiers for an "always no" bias in OOD domains.
+
+<a id="sam3_i"></a>
+#### SAM3-I: Segment Anything with Instructions (2025)
+- **Idea.** An instruction-following extension of SAM 3: cascaded adapters and alignment
+  losses, trained on HMPL-Instruct. It segments from long instructions directly, instead of
+  an MLLM agent reducing them to short noun phrases.
+- **We reuse.** The evidence that reducing rich descriptions to noun phrases loses the
+  discriminating conditions. This argues for verifiers that check attributes (p04) rather
+  than richer phrases alone. SAM3-I itself needs training and is not used.
+- **Numbers.**
+  - HMPL-Instruct gIoU: SAM 3 Agent (Qwen3-VL-8B) 28.4 simple / 26.4 complex, vs 59.7 / 49.0
+    for SAM3-I (Tab. 2, p7).
+  - The agent is worst when the target is a subset of similar objects ("one-to-many"):
+    14.9 gIoU on simple instructions (Tab. 3, p8).
+  - RefCOCO gIoU: 71.1 vs 76.3 (Tab. 4, p8).
+- **Used by.** p04 (rationale). A caution for p02's phrase-only design.
+
+<a id="mqadet"></a>
+#### MQADet (2025)
+- **Idea.** Three MLLM question-answering stages around an off-the-shelf open-vocabulary
+  detector (§3, p4):
+  1. the MLLM extracts the subjects from the query;
+  2. the detector proposes boxes for each subject, and the boxes are numbered on the image;
+  3. the MLLM picks the right number.
+- **We reuse.** Numbered-box (Set-of-Marks) verification: one MLLM call over all candidates.
+  It is a cheaper alternative to one yes/no question per candidate (p03 variant).
+- **Numbers.** On Ref-L4 test, Acc@0.5 of Grounding DINO goes from 16.34 to 59.34 with
+  GPT-4o (Tab. 1, p6). Removing stage 1 or stage 3 hurts (Tab. 2, p6).
+- **Caveat.** These are referring benchmarks with one target per query, not exhaustive
+  detection.
+- **Used by.** A future p03 variant.
+
+<a id="deepeyes"></a>
+#### DeepEyes (ICLR 2026)
+- **Idea.** RL (GRPO, no SFT cold start) teaches Qwen2.5-VL-7B to call an
+  `image_zoom_in_tool` (argument `bbox_2d`) inside its reasoning.
+- **We reuse.** The zoom-tool schema (App. A, p15–16), for small objects. It also motivates a
+  tiling or zoom stage (`utils/tiling.py`).
+- **Numbers.** V*: 90.1 vs 71.2 for the base model (+18.9). HR-Bench 4K: 75.1 (+6.3).
+  HR-Bench 8K: 72.6 (+7.3) (Tab. 1, p6).
+- **Used by.** Future zoom and tiling stages; p03's crop view.
+
+<a id="aura"></a>
+#### AURA: Label Curation Using Agentic AI (2026)
+- **Idea.** Aggregate the labels of several off-the-shelf AI annotators with Dawid–Skene EM:
+  one confusion matrix per annotator, no ground truth needed (Alg. 1, p3).
+- **We reuse.** Aggregation of several MLLM classifiers or verifiers (task 1 ensembles,
+  multi-verifier p03 variants). The estimated reliabilities also serve as a diagnostic.
+- **Numbers.** Accuracy vs majority vote: Food-101 0.827 vs 0.769, CUB-200 0.915 vs 0.858,
+  ImageNet-ReaL 0.831 vs 0.786, Kinetics-400 0.938 vs 0.924 (Tab. 2, p5). The estimated
+  reliabilities track true accuracy (Tab. 3, p5).
+- **Caveat.** Subsets of about 1,000 items; classification only.
+- **Used by.** Task 1 ensemble pipelines (M3+), verifier aggregation.
+
+### Complementary papers
+
+<a id="lfpc"></a>
+#### LFPC: Learning to Focus and Precise Cropping (CVPR 2026)
+- **Idea.** Two-stage RL. Stage 1 downscales the full image (an "information gap") so the
+  model must use its crops. Stage 2 adds a grounding loss from a few boxes.
+- **We reuse.** A design test for p03's two views. With a high-resolution full image, models
+  ignore the crop: replacing DeepEyes' crop with random noise moves V* only from 85.9 to 85.4
+  (Tab. 1a, p4). So we will try a downscaled context view next to a full-resolution crop.
+- **Numbers.** With 1,024 visual tokens, LFPC reaches 72.1 on HR-Bench 8K vs 62.0 for
+  DeepEyes, and 80.6 on V* vs 75.9 (Tab. 2a, p7).
+- **Used by.** p03 (view design).
+
+<a id="medsam3"></a>
+#### MedSAM3 (2025)
+- **Idea.** Fine-tune SAM 3's detector on medical images paired with concept phrases. The
+  MedSAM-3 Agent adds an MLLM (Gemini 3 Pro) for iterative refinement.
+- **We reuse.** Evidence that raw SAM 3 text prompts fail on medical images, which motivates
+  concept cards and verifiers. Also its per-dataset phrase list (Tab. 1, p5).
+- **Numbers.**
+  - SAM 3 with text only: Dice 0 on BUSI, RIM-ONE (cup) and Kvasir-SEG, 0.22 on ISIC 2018.
+    Adding a box taken from the ground truth gives 0.71–0.83 (Tab. 2, p6).
+  - The agent improves BUSI from 0.7772 to 0.8064 (Tab. 3, p6).
+- **Used by.** p02 (rationale under domain shift). A caution for medical dev datasets.
+
+<a id="indoorcrowd"></a>
+#### IndoorCrowd (CVPR 2026 Workshops)
+- **Idea.** An indoor crowd dataset. Its 620-frame control subset compares three
+  auto-annotators against humans: SAM3, GroundingSAM and EfficientGroundingSAM.
+- **We reuse.** SAM3 as a high-recall proposer to be filtered by verification (p03/p04).
+  Cohen's κ and per-scene P/R as measures of auto-labelling quality.
+- **Numbers.** SAM3 recall is 0.88–0.98 at IoU 0.5, but it over-predicts: 3,596 boxes for
+  2,128 ground-truth instances on ACS-EC, precision 0.52. GroundingSAM has precision
+  0.83–0.93 but recall 0.47–0.94 (Tab. 4, p6).
+- **Caveat.** An in-distribution class (person); score thresholds are not reported.
+- **Used by.** Rationale for going from p02 to p03/p04.
+
+<a id="grounding_dino"></a>
+#### Grounding DINO (2023)
+- **Idea.** The DINO detector with grounded pre-training: feature enhancer, language-guided
+  query selection and cross-modality decoder. The text prompt concatenates category names,
+  with attention masked between unrelated names ("sub-sentence" level, §3.4, p7–8).
+- **We reuse.** The reference open-vocabulary baseline. It is the best zero-shot model in the
+  RF100-VL paper (15.7 AP).
+- **Numbers.** COCO zero-shot: 52.5 AP (Swin-L, O365 + OI + GoldG, Tab. 2, p8). ODinW-35
+  zero-shot mean AP: 26.1 for L, 22.3 for T (Tab. 4, p11).
+- **Used by.** An optional baseline; not in the initial model list.
+
+### Task 1 papers
+
+<a id="elevater"></a>
+#### ELEVATER (NeurIPS 2022 D&B)
+- **Idea.** A benchmark and toolkit for language-augmented visual models: 20 classification
+  and 35 detection datasets. Each has external knowledge: WordNet hierarchy and definition,
+  Wiktionary, and GPT-3 text. Protocols: zero-shot, few-shot, linear probing, fine-tuning.
+- **We reuse (task 1, D9).**
+  - The 20 classification datasets with their official splits and metrics (Tab. 5, p18).
+  - Few-shot with N ∈ {5, 20, 50} and 3 fixed seeds (p5).
+  - The class knowledge, as descriptions for a with-knowledge setting.
+- **Numbers.** Zero-shot average over the 20 datasets: CLIP ViT-B/32 56.8, ViT-L/14 65.9,
+  L/14 at 336 px 66.8 (Tab. 15, p29). These are reproducible checks for our classification
+  evaluation.
+- **Caveats.**
+  - Metrics differ per dataset: accuracy, mean-per-class accuracy, 11-point mAP for VOC2007,
+    ROC AUC for Hateful Memes.
+  - VOC2007 is multi-label, Rendered-SST2 and Hateful Memes are not object classes, and
+    PatchCamelyon is binary, so task 1 needs a subset.
+  - The official download host is dead (D9).
+- **Used by.** The task 1 benchmark (M1).
+
+<a id="osr_vlm"></a>
+#### Open-Set Recognition in the Age of Vision-Language Models (ECCV 2024)
+- **Idea.** VLMs are not open-set: their finite query set imposes a closed-set assumption.
+  The protocol tests each image twice. With the full query set, it finds the correct
+  predictions. With the image's own classes removed, every prediction is an open-set error.
+  How well uncertainty separates the two is scored by AuPR, P@95R and R@95P (§4, p5–7).
+- **We reuse.** These metrics, for the "none" decision of task 1. Not the per-image query
+  sets: they would reveal the answer to pipelines that prepare on the full class list. We
+  use a fixed class split instead (D9).
+- **Numbers.**
+  - On ImageNet-1k, at 95% recall, precision is only 46.2–58.4%. At 95% precision, recall
+    is 3.4–11.1% (Tab. 1, p8).
+  - Larger query sets lower both accuracy and AuPR (Fig. 5, p14).
+- **Used by.** Task 1 evaluation (M1).

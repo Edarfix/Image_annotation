@@ -308,7 +308,7 @@ Task 1 papers **[added]** (D9):
 | arXiv | Title | Role |
 |---|---|---|
 | 2204.08790 | ELEVATER: A Benchmark and Toolkit for Evaluating Language-Augmented Visual Models | Task 1 benchmark: 20 classification datasets, zero/few-shot protocol, class knowledge |
-| 2403.16528 | Open-Set Recognition in the Age of Vision-Language Models | Protocol for the "none" answer: open-set evaluation of VLM classifiers |
+| 2403.16528 | Open-Set Recognition in the Age of Vision-Language Models | Metrics for the "none" answer: open-set evaluation of VLM classifiers |
 
 ## Initial models
 

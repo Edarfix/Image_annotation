@@ -80,11 +80,20 @@ class stays importable from the installed package by pipelines, tests and script
 **Decision (proposed).**
 - The public task 1 benchmark is ELEVATER image classification: 20 datasets (Li et al.,
   NeurIPS 2022 D&B, arXiv 2204.08790).
-- It is run with an open-set protocol following Miller et al. (ECCV 2024, arXiv 2403.16528),
-  so that "none" is a valid, evaluated answer. A seeded subset of classes is withheld per
-  dataset, and images of withheld classes must be labelled "none".
+- It is run with an open-set protocol so that "none" is a valid, evaluated answer. A seeded
+  subset of classes is withheld per dataset; pipelines only ever see the known classes; images
+  of withheld classes must be labelled "none".
+- The "none" decision is scored with the metrics of Miller et al. (ECCV 2024,
+  arXiv 2403.16528): precision–recall of correct predictions against open-set errors (AuPR,
+  P@95R, R@95P), alongside accuracy.
 - Closed-set results (all classes given) are reported as well, to compare with published
   ELEVATER numbers.
+
+**Correction (2026-10-23, after reading the PDF).** Miller et al. do not withhold classes per
+dataset. They test each image twice: once with all classes, and once with the image's own
+classes removed from the query set. With our pipelines, which prepare per dataset on the full
+class list (e.g. concept cards), a per-image query set would reveal the answer (the missing
+class). So we keep a fixed class split and reuse only their metrics.
 
 **Why.**
 - No public multi-domain classification benchmark with a "none" answer turned up in the
