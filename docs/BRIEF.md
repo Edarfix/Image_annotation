@@ -124,11 +124,13 @@ class Exemplar:
     image_id: str
     bbox_xyxy: tuple[float, float, float, float]
 
+
 @dataclass
 class ClassSpec:
     name: str
     description: str
     exemplars: list[Exemplar]  # empty in zero-shot
+
 
 @dataclass
 class DatasetSpec:
@@ -138,12 +140,14 @@ class DatasetSpec:
     annotator_instructions: str | None  # RF100-VL instruction text, if any
     domain: str
 
+
 @dataclass
 class ImageRecord:
     image_id: str
     path: Path
     width: int
     height: int
+
 
 @dataclass
 class Detection:
@@ -154,11 +158,13 @@ class Detection:
     provenance: list[str]  # models that produced / validated the detection
     extras: dict  # e.g. attribute scores, verifier rationale
 
+
 @dataclass
 class Failure:
     stage: str
     kind: str  # parse_error | timeout | oom | empty_output | model_error | invalid_box | other
     message: str
+
 
 @dataclass
 class ImageAnnotation:
