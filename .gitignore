@@ -1,0 +1,39 @@
+# Python and tooling
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# Local tools (Node.js, mermaid-cli, headless Chrome) installed by scripts/setup_mermaid.sh
+.tools/
+node_modules/
+
+# Secrets (HF_TOKEN, ROBOFLOW_API_KEY, ...) are read from the environment, never committed
+.env
+*.env
+
+# Data, model weights and caches never go to git (symlink data/ to cluster storage)
+data/
+cache/
+.cache/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+
+# Paper PDFs are fetched by papers/download_papers.py
+papers/pdf/
+
+# Runs: only metrics.json and config.resolved.yaml are versioned
+results/runs/**
+!results/runs/*/
+!results/runs/*/metrics.json
+!results/runs/*/config.resolved.yaml
+
+# Anything confidential (proprietary datasets, their runs, concept cards, reports)
+# lives in a directory whose name ends with _private
+*_private/
