@@ -41,6 +41,7 @@ class Pipeline(ABC):
     id: ClassVar[str] = ""  # set by @register_pipeline
     task: ClassVar[Task]
     Config: ClassVar[type[PipelineConfig]] = PipelineConfig
+    requires_models: ClassVar[bool] = True  # False: smoke-tested locally, without model servers
 
     def __init__(self, cfg: Mapping[str, Any], hub: ModelHub) -> None:
         self.cfg = self.Config.model_validate(dict(cfg))

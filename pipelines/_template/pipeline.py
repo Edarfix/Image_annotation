@@ -31,6 +31,7 @@ class TemplateConfig(PipelineConfig):
 class TemplatePipeline(Pipeline):
     task = Task.DETECTION
     Config = TemplateConfig
+    requires_models = False  # TODO: delete this line once the pipeline calls models
 
     def prepare(self, ds: DatasetSpec, workdir: Path) -> None:
         super().prepare(ds, workdir)

@@ -62,7 +62,7 @@ def test_folder_is_complete(pipeline_id, load_script):
 def test_smoke_run_without_models(pipeline_id, tmp_path):
     """Pipelines that need no model run here; the others are smoke-tested on the cluster."""
     cls = PIPELINES.get(pipeline_id)
-    if getattr(cls, "requires_models", True) and pipeline_id != "_template":
+    if cls.requires_models:
         pytest.skip("needs model servers (smoke-tested with -m gpu on the cluster)")
     image_path = tmp_path / "img.png"
     Image.new("RGB", (64, 48), "gray").save(image_path)
