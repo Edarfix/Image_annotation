@@ -1,0 +1,9 @@
+{
+  "name": "ovannot-diagram-tools",
+  "private": true,
+  "description": "Pinned mermaid-cli for scripts/render_diagrams.py, installed under .tools/ by scripts/setup_mermaid.sh",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "11.17.0",
+    "puppeteer": "25.12.0"
+  }
+}
