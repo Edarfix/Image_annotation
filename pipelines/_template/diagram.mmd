@@ -1,0 +1,6 @@
+flowchart LR
+  spec["DatasetSpec<br/>(classes, setting)"] --> prep["prepare()<br/>per-dataset artefacts<br/>cached in workdir"]
+  img["ImageRecord"] --> propose["stage: propose<br/>model: TODO"]
+  prep --> propose
+  propose -->|"candidates"| refine["stage: verify / fuse<br/>model: TODO"]
+  refine --> out["ImageAnnotation<br/>detections, failures, cost"]

@@ -1,5 +1,3 @@
-import importlib.util
-import sys
 from pathlib import Path
 
 import pytest
@@ -21,15 +19,8 @@ REQUIRED = {
 
 
 @pytest.fixture(scope="module")
-def dp():
-    spec = importlib.util.spec_from_file_location(
-        "download_papers", ROOT / "papers/download_papers.py"
-    )
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["download_papers"] = module
-    spec.loader.exec_module(module)
-    yield module
-    del sys.modules["download_papers"]
+def dp(load_script):
+    return load_script("papers/download_papers.py")
 
 
 def test_papers_yaml_is_well_formed(dp):

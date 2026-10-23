@@ -1,0 +1,3 @@
+# Default hyper-parameters of the pipeline, validated by the config class in pipeline.py.
+# Experiments override them under `pipeline_cfg:` (see configs/experiments/).
+score_threshold: 0.3  # operating threshold for precision / recall / F1 at IoU 0.5

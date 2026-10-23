@@ -1,0 +1,6 @@
+{#- Role: ask the model for every instance of the given classes.
+    Variables: class_names (list of str).
+    Expected output: JSON list of {"label": str, "bbox_2d": [x0, y0, x1, y1]}
+    in the model's own coordinate format (the model wrapper converts it to pixels). -#}
+Locate every instance of the following categories: {{ class_names | join(", ") }}.
+Answer with a JSON list of objects with keys "label" and "bbox_2d".
