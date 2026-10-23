@@ -1,0 +1,186 @@
+# Source of truth for the papers the project builds on.
+#
+# - Titles were checked against the arXiv API on 2026-10-23 (all ids matched their expected
+#   titles). `version` pins the PDF the reading notes in README.md refer to: page and table
+#   numbers depend on it.
+# - `year` is the year of the first arXiv version. `venue` comes from the arXiv comment field
+#   or the PDF itself; `TODO(verify)` means neither states it.
+# - The PDF is saved as papers/pdf/<year>_<acronym>_<short_title>.pdf by download_papers.py.
+# - `group`: main / complementary (from the brief), task1 (added for classification, D9).
+
+papers:
+  - key: sam3
+    arxiv_id: "2511.16719"
+    version: v2
+    title: "SAM 3: Segment Anything with Concepts"
+    acronym: SAM3
+    short_title: segment-anything-with-concepts
+    year: 2025
+    venue: TODO(verify)
+    group: main
+    role: Main grounder; data engine with AI verifiers; SAM 3 Agent
+
+  - key: rf100vl
+    arxiv_id: "2505.20612"
+    version: v4
+    title: "Roboflow100-VL: A Multi-Domain Object Detection Benchmark for Vision-Language Models"
+    acronym: RF100VL
+    short_title: multi-domain-detection-benchmark-for-vlms
+    year: 2025
+    venue: NeurIPS 2025 Datasets and Benchmarks
+    group: main
+    role: Task 2 target benchmark; evaluation protocol; annotator instructions
+
+  - key: rex_omni
+    arxiv_id: "2510.12798"
+    version: v1
+    title: "Detect Anything via Next Point Prediction"
+    acronym: RexOmni
+    short_title: detect-anything-via-next-point-prediction
+    year: 2025
+    venue: TODO(verify)
+    group: main
+    role: Second proposer; detection-specialised MLLM
+
+  - key: qwen3_vl
+    arxiv_id: "2511.21631"
+    version: v2
+    title: "Qwen3-VL Technical Report"
+    acronym: Qwen3VL
+    short_title: technical-report
+    year: 2025
+    venue: Technical report (arXiv)
+    group: main
+    role: Grounding with the main MLLM family; coordinate format
+
+  - key: laod
+    arxiv_id: "2507.10844"
+    version: v2
+    title: "MLLM-Guided Autonomous Object Detection for Open-World Understanding"
+    acronym: LAOD
+    short_title: mllm-guided-autonomous-object-detection
+    year: 2025
+    venue: TODO(verify)
+    group: main
+    role: The MLLM decides what to detect, the detector decides where
+
+  - key: colon_bench
+    arxiv_id: "2603.25645"
+    version: v3
+    title: "Colon-Bench: An Agentic Workflow for Scalable Dense Lesion Annotation in Full-Procedure Colonoscopy Videos"
+    acronym: ColonBench
+    short_title: agentic-dense-lesion-annotation
+    year: 2026
+    venue: MICCAI 2026
+    group: main
+    role: Detection and verification agents in an OOD domain
+
+  - key: sam3_i
+    arxiv_id: "2512.04585"
+    version: v4
+    title: "SAM3-I: Segment Anything with Instructions"
+    acronym: SAM3I
+    short_title: segment-anything-with-instructions
+    year: 2025
+    venue: TODO(verify)
+    group: main
+    role: Limits of the agent loop on long instructions
+
+  - key: mqadet
+    arxiv_id: "2502.16486"
+    version: v2
+    title: "MQADet: A Plug-and-Play Paradigm for Enhancing Open-Vocabulary Object Detection via Multimodal Question Answering"
+    acronym: MQADet
+    short_title: plug-and-play-ovd-via-multimodal-qa
+    year: 2025
+    venue: TODO(verify)
+    group: main
+    role: Multimodal QA to strengthen an open-vocabulary detector
+
+  - key: deepeyes
+    arxiv_id: "2505.14362"
+    version: v3
+    title: "DeepEyes: Incentivizing \"Thinking with Images\" via Reinforcement Learning"
+    acronym: DeepEyes
+    short_title: thinking-with-images-via-rl
+    year: 2025
+    venue: ICLR 2026
+    group: main
+    role: Tool-based zoom; small objects
+
+  - key: aura
+    arxiv_id: "2602.02564"
+    version: v1
+    title: "Label Curation Using Agentic AI"
+    acronym: AURA
+    short_title: label-curation-using-agentic-ai
+    year: 2026
+    venue: TODO(verify)
+    group: main
+    role: Probabilistic aggregation of several AI annotators
+
+  - key: lfpc
+    arxiv_id: "2603.27494"
+    version: v2
+    title: "Learning to Focus and Precise Cropping: A Reinforcement Learning Framework with Information Gaps and Grounding Loss for MLLMs"
+    acronym: LFPC  # name of the official code repository (github.com/XuanPu-Z/LFPC)
+    short_title: learning-to-focus-and-precise-cropping
+    year: 2026
+    venue: CVPR 2026
+    group: complementary
+    role: Grounding rewards for cropping
+
+  - key: medsam3
+    arxiv_id: "2511.19046"
+    version: v2
+    title: "MedSAM3: Delving into Segment Anything with Medical Concepts"
+    acronym: MedSAM3
+    short_title: segment-anything-with-medical-concepts
+    year: 2025
+    venue: TODO(verify)
+    group: complementary
+    role: SAM 3 agent in a specialised domain
+
+  - key: indoorcrowd
+    arxiv_id: "2604.02032"
+    version: v1
+    title: "IndoorCrowd: A Multi-Scene Dataset for Human Detection, Segmentation, and Tracking with an Automated Annotation Pipeline"
+    acronym: IndoorCrowd
+    short_title: multi-scene-human-dataset-automated-annotation
+    year: 2026
+    venue: CVPR 2026 Workshops
+    group: complementary
+    role: Auto-labelling comparison, SAM3 vs GroundingSAM
+
+  - key: grounding_dino
+    arxiv_id: "2303.05499"
+    version: v5
+    title: "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection"
+    acronym: GroundingDINO
+    short_title: dino-with-grounded-pretraining
+    year: 2023
+    venue: TODO(verify)
+    group: complementary
+    role: Reference open-vocabulary baseline
+
+  - key: elevater
+    arxiv_id: "2204.08790"
+    version: v6
+    title: "ELEVATER: A Benchmark and Toolkit for Evaluating Language-Augmented Visual Models"
+    acronym: ELEVATER
+    short_title: benchmark-for-language-augmented-visual-models
+    year: 2022
+    venue: NeurIPS 2022 Datasets and Benchmarks
+    group: task1
+    role: Task 1 benchmark (20 classification datasets, zero/few-shot protocol, class knowledge)
+
+  - key: osr_vlm
+    arxiv_id: "2403.16528"
+    version: v2
+    title: "Open-Set Recognition in the Age of Vision-Language Models"
+    acronym: OSR-VLM
+    short_title: open-set-recognition-in-the-age-of-vlms
+    year: 2024
+    venue: ECCV 2024
+    group: task1
+    role: Protocol for the "none" answer (open-set evaluation of VLM classifiers)
