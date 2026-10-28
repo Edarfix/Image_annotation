@@ -74,14 +74,17 @@ def to_coco(rows: list[dict], categories: list[dict], split_dir: Path) -> tuple[
         raise ValueError(f"{split_dir}: duplicate file names")
     for coco_id, row in enumerate(rows):
         data = row["image"]["bytes"]
-        (image_dir / row["file_name"]).write_bytes(data)
+        # opaque file names: Roboflow names can carry a class hint, and pipelines see the path
+        file_name = f"{coco_id:06d}{Path(row['file_name']).suffix.lower()}"
+        (image_dir / file_name).write_bytes(data)
         with Image.open(io.BytesIO(data)) as im:
             if im.size != (row["width"], row["height"]):
                 size_mismatch += 1  # e.g. EXIF rotation; boxes follow width/height
         images.append(
             {
                 "id": coco_id,
-                "file_name": row["file_name"],
+                "file_name": file_name,
+                "original_file_name": row["file_name"],
                 "width": row["width"],
                 "height": row["height"],
                 "hf_image_id": row["image_id"],

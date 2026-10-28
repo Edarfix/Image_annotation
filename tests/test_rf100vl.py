@@ -63,7 +63,8 @@ def test_conversion_orders_images_and_keeps_boxes(root):
     assert [a["image_id"] for a in coco["annotations"]] == [0, 0, 1]
     assert coco["annotations"][2]["bbox"] == [1.0, 2.0, 10.0, 5.0]
     assert coco["info"]["image_size_mismatch"] == 0
-    assert (root / "ufba-425" / "test" / "images" / "a.png").exists()
+    assert coco["images"][0]["original_file_name"] == "a.png"
+    assert (root / "ufba-425" / "test" / "images" / "000000.png").exists()  # opaque name
 
 
 def test_loader_spec_images_and_ground_truth(root):

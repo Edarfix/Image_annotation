@@ -116,6 +116,30 @@ def test_elevater_open_set_split(elevater_root, load_script):
     assert described.classes[0].description and not described.classes[0].exemplars
 
 
+def test_extraction_uses_opaque_names_and_the_loader_sample(tmp_path, load_script):
+    import zipfile
+
+    dl = load_script("datasets/elevater/download.py")
+    mirror = tmp_path / "mirror"
+    mirror.mkdir()
+    lines = []
+    with zipfile.ZipFile(mirror / "val.zip", "w") as zf:
+        for i in range(30):
+            member = f"forest/forest_{i}.png" if i % 2 else f"river/river {i}.png"
+            path = tmp_path / "x.png"
+            Image.new("RGB", (4, 4)).save(path)
+            zf.write(path, member)
+            lines.append(f"val.zip@{member} {i % 2}")
+    (mirror / "val.txt").write_text("\n".join(lines))
+    out = tmp_path / "eurosat" / "val"
+    assert dl.convert_split(mirror, "eurosat", "val", out, 7) == 7
+    rows = [json.loads(x) for x in (out / "index.jsonl").read_text().splitlines()]
+    assert len(rows) == 30 and rows[1]["file"] == "000001.png"
+    assert not any("forest" in r["file"] or "river" in r["file"] for r in rows)  # no leak
+    loader = DATASETS.get("elevater")({"name": "eurosat", "root": str(tmp_path), "max_images": 7})
+    assert all(img.path.exists() for img in loader.images("val"))  # same seeded sample
+
+
 # --- pipelines with fake models -------------------------------------------------------------
 
 CLASSES = ["forest", "river", "highway"]

@@ -8,9 +8,11 @@ Usage (download on the login node, extract anywhere)::
 
 For each dataset of ``knowledge.json`` and each split in ``SPLITS``, the mirror's index file
 (``<split>.txt``, lines ``<zip>@<path in zip> <label id>``) gives the images and labels. Images
-are extracted to ``$OVANNOT_DATA/elevater/<dataset>/<split>/images/`` (PPM files, which
-model servers do not read, are converted to PNG) and listed in ``<split>/index.jsonl`` as
-``{"file": ..., "label": <label id>}``. Idempotent unless ``--force``.
+are extracted to ``$OVANNOT_DATA/elevater/<dataset>/<split>/images/<line number>.<ext>``, under
+opaque names because the mirror's paths contain the class (PPM files, which model servers do
+not read, become PNG). They are listed in ``<split>/index.jsonl`` as
+``{"file", "label": <label id>, "source": <mirror path>}``; only the evaluator reads labels.
+Idempotent unless ``--force``.
 """
 
 from __future__ import annotations
@@ -28,9 +30,6 @@ from ovannot.paths import data_root
 from ovannot.utils.io import atomic_write_text, read_json
 from ovannot.utils.sampling import seeded_subset
 
-sys.path.insert(0, str(Path(__file__).parent))
-from loader import sample_key
-
 SPLITS = ("val", "test")
 KNOWLEDGE = Path(__file__).with_name("knowledge.json")
 
@@ -41,14 +40,16 @@ def convert_split(folder: Path, name: str, split: str, out: Path, k: int | None)
     lines = [
         ln.rsplit(" ", 1) for ln in (folder / f"{split}.txt").read_text().splitlines() if ln.strip()
     ]
-    rows, wanted = [], set(seeded_subset(sample_key(name, split), len(lines), k))
+    # same key as loader.py's sample_key (tests/test_classification.py checks they agree)
+    rows, wanted = [], set(seeded_subset(f"elevater-{name}-{split}", len(lines), k))
     by_zip: dict[str, list[tuple[str, Path]]] = defaultdict(list)
     for i, (ref, label) in enumerate(lines):
         zip_name, member = ref.split("@", 1)
-        target = (
-            Path(member).with_suffix(".png") if member.lower().endswith(".ppm") else Path(member)
-        )
-        rows.append({"file": str(target), "label": int(label)})
+        # opaque file names: the mirror's paths contain the class (e.g. "banded/banded_0002.jpg")
+        # and pipelines can read ImageRecord.path
+        suffix = ".png" if member.lower().endswith(".ppm") else Path(member).suffix.lower()
+        target = Path(f"{i:06d}{suffix}")
+        rows.append({"file": str(target), "label": int(label), "source": ref})
         if i in wanted:
             by_zip[zip_name].append((member, out / "images" / target))
     for zip_name, members in sorted(by_zip.items()):
