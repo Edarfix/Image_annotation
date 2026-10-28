@@ -1,0 +1,25 @@
+Open choices for the owner (written before implementing M1-M3 minimal, 2026-10-28).
+Each was taken as a default so that pipelines run tonight; all are reversible.
+
+Q1. Dev subset rule (D3 asks for 5 datasets from varied domains). Default: per domain among
+    Lab Imaging, Aerial, Industrial, Flora/Fauna, Document, take the dataset with the largest
+    `valid` split (mechanical rule, chosen before any run, to avoid cherry-picking):
+    ufba-425, apoce-aerial-photographs-for-object-detection-of-construction-equipment,
+    2024-frc, into-the-vale, paper-parts (472 valid images). OK, or hand-pick instead?
+ok
+Q2. MLLM for p01: Qwen3-VL-30B-A3B-Instruct tonight (agreed 2026-10-28) instead of the brief's
+    Qwen3-VL-235B-A22B. Same family and box format; switching is a change of configs/models/.
+ok
+Q3. RF100-VL source: the HF mirror probicheaux/rf100-vl-fsod (no Roboflow key). Its category
+    lists are already cleaned like the official package (placeholder 0 removed). Not yet
+    cross-checked against an official Roboflow export (needs ROBOFLOW_API_KEY).
+ok
+Q4. Evaluation freeze (end of M1 in the brief). Implemented and sanity-tested but NOT declared
+    frozen: the owner should confirm, ideally after reproducing a published baseline from
+    predictions_rf20vl.zip.
+
+Q5. Task 1 (ELEVATER open-set, D9) is not implemented tonight: detection first.
+
+Q6. p00 needs facebook/sam3 (gated, manual approval). SAM 3.1 not used: its release notes only
+    change video multi-object tracking, and its checkpoint is not in transformers format.
+waiting the token approval from meta

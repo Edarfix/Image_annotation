@@ -1,0 +1,23 @@
+Log of non-trivial changes (workspace convention; decisions are in docs/decisions.md).
+
+2026-10-28  Review fixes of the M0 core (each covered by a regression test):
+  - utils/io.atomic_write_text: files were created 0600 by mkstemp (unreadable by the group on
+    the shared cluster); they now follow the umask.
+  - core/types.to_jsonable: numpy scalars and arrays (model outputs) broke json.dumps.
+  - core/dataset.restrict_to_setting: few_shot passed `domain` (D4 forbids it); the restricted
+    spec shared lists with the loader's spec. Now stripped and deep-copied.
+  - core/config: PyYAML read `1e-3` as a string (YAML 1.1); a SafeLoader subclass reads it as
+    a float, in files and in key=value overrides.
+  - .gitignore: `data/` and `cache/` did not match the symlinks the README prescribes.
+  - scripts/setup_mermaid.sh: npm 11 skipped puppeteer's postinstall, so no browser was
+    installed; it is now fetched explicitly, through the proxy (NODE_USE_ENV_PROXY=1).
+
+2026-10-28  M1-M3 minimal (see docs/milestones/M1-M3.md):
+  - RF100-VL: datasets/rf100vl/{download.py, loader.py, domains.json}, configs/datasets/.
+  - Evaluation: src/ovannot/eval/detection.py (COCO mAP at maxDets 500, F1 at IoU 0.5) with
+    sanity tests. pycocotools' summarize() gives mAP -1 with maxDets (1, 10, 500): AP is read
+    from the precision array instead (D15).
+  - Models: call cache, OpenAI-compatible MLLM client (Qwen3-VL boxes), SAM 3 HTTP client and
+    server, vLLM / SAM 3 launch scripts, model configs.
+  - Runner (resumable, threads), scripts/run.py, scripts/make_leaderboard.py, SLURM script.
+  - Pipelines p00_sam3_raw and p01_mllm_grounding_raw, shared stages in stages/grounding.py.

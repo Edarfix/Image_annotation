@@ -24,9 +24,9 @@ The full specification is [docs/BRIEF.md](docs/BRIEF.md); the choices made since
 | Milestone | Content | State |
 |---|---|---|
 | M0 | Skeleton, core contract, papers and reading notes | done ([recap](docs/milestones/M0.md)) |
-| M1 | Datasets (RF100-VL, task 1 benchmark), official evaluation, sanity tests; evaluation frozen | next |
-| M2 | Model serving, wrappers, call cache | |
-| M3 | Runner; first pipelines on the dev subset; first leaderboard | |
+| M1 | Datasets (RF100-VL, task 1 benchmark), official evaluation, sanity tests; evaluation frozen | RF100-VL and evaluation done; task 1 and freeze open ([recap](docs/milestones/M1-M3.md)) |
+| M2 | Model serving, wrappers, call cache | done for Qwen3-VL and SAM 3 (SAM 3 weights pending access) |
+| M3 | Runner; first pipelines on the dev subset; first leaderboard | runner, p00, p01, leaderboard script done |
 | M4 | Concept-card and verifier pipelines; error analysis | |
 | M5 | Final RF100-VL test run and report | |
 
@@ -43,9 +43,10 @@ scripts/setup_mermaid.sh                       # optional: mermaid-cli, to edit 
 uv run python scripts/render_diagrams.py       # re-render changed pipeline diagrams
 ```
 
-Running a pipeline will look like
-`uv run python scripts/run.py --exp configs/experiments/<name>.yaml [--subset dev|test]`
-(runner arrives at M3). Models are served on the GPU cluster; see [serving/](serving/).
+Run a pipeline with
+`uv run python scripts/run.py --exp configs/experiments/<name>.yaml [--subset dev|test]`, on a
+node where its models are served; on the cluster, `scripts/slurm/run_experiment.sbatch` serves
+them and runs it (see [serving/](serving/)). Then `uv run python scripts/make_leaderboard.py`.
 
 ## Repository map
 

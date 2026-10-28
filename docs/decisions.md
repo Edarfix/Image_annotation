@@ -127,3 +127,47 @@ extras, installed on the cluster only. The base install is CPU-only and light.
 
 **Why.** The laptop has no GPU, and the cluster compute nodes are aarch64 while the login node
 is x86_64.
+
+## D12 (2026-10-28): RF100-VL from the Hugging Face mirror; dev subset by rule
+
+**Decision.**
+- The data come from `probicheaux/rf100-vl-fsod` (revision `4bcf86c4`), converted to one COCO
+  folder per dataset and split by `datasets/rf100vl/download.py`. Category names are in its
+  `dataset_metadata.json`, already cleaned like the official package (placeholder removed, ids
+  from 0). Domains are copied from the official package (`domains.json`, commit `451c6dd`).
+- Dev subset: in each of Lab Imaging, Aerial, Industrial, Flora/Fauna and Document, the
+  dataset with the largest `valid` split (472 images in total).
+
+**Why.** No Roboflow key is needed, and the counts match the paper (14,446 test images). The
+mechanical rule picks the dev datasets before any run, so they cannot be cherry-picked; the
+larger `valid` splits give less noisy dev metrics. Confirmed by the owner (question.txt, Q1,
+Q3). Not yet cross-checked against an official Roboflow export.
+
+## D13 (2026-10-28): models served over HTTP from the shared vLLM container
+
+**Decision.** MLLMs run in `vllm serve` and SAM 3 in a small FastAPI server
+(`serving/sam3_server.py`), both inside the cluster's vLLM Apptainer image
+(`shared/vllm-sifs/vllm_cuda13.sif`: vLLM 0.23.1, transformers 5.13, torch 2.11). Wrappers
+reach them over HTTP without the cluster proxy. A SLURM job starts the servers it needs on
+its own GPUs, then runs the experiment (`scripts/slurm/run_experiment.sbatch`).
+
+**Why.** The ovannot environment stays CPU-only (D11) and identical on the laptop and the
+cluster; torch and CUDA come from an image that already works on aarch64 B200 nodes.
+
+## D14 (2026-10-28): p01 uses Qwen3-VL-30B-A3B for now
+
+**Decision.** `p01_mllm_grounding_raw` uses Qwen3-VL-30B-A3B-Instruct instead of the brief's
+235B-A22B, until the latter is downloaded. MLLM boxes get the score 1.0.
+
+**Why.** 62 GB instead of about 470 GB, one GPU; same family and box format. Agreed by the
+owner (question.txt, Q2). The constant score is the protocol of the RF100-VL and Qwen3-VL
+evaluations.
+
+## D15 (2026-10-28): COCO mAP read at maxDets = 500
+
+**Decision.** `src/ovannot/eval/detection.py` reads every AP from `COCOeval.eval["precision"]`
+at `maxDets = 500` instead of calling `COCOeval.summarize`.
+
+**Why.** `summarize` computes its headline mAP with `maxDets=100` whatever `params.maxDets`
+holds, which returns -1 when the list is `(1, 10, 500)`. detectron2, used by the RF100-VL
+reference code, patches it the same way (`COCOevalMaxDets`, `coco_evaluation.py:684`).
