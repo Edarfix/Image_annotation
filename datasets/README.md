@@ -21,6 +21,6 @@ Image ids are unique across splits (e.g. `"test/42"`). Boxes are absolute-pixel 
 
 | Folder | Task | Role | State |
 |---|---|---|---|
-| [`rf100vl/`](rf100vl/) | detection | Phase 1 benchmark (RF100-VL, FSOD variant, D10) | M1 |
+| [`rf100vl/`](rf100vl/) | detection | Phase 1 benchmark (RF100-VL, FSOD variant, D10) | loader and dev subset done |
 | `elevater/` | classification | Phase 1 benchmark for task 1, open-set split (D9, to confirm) | M1 |
 | `_template_proprietary/` | either | Template for phase 2 datasets, with a confidentiality checklist | M1 |

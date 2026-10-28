@@ -1,0 +1,10 @@
+# Generated from the RF100-VL-FSOD mirror counts (2026-10-28); see datasets/rf100vl/README.md.
+# Dev subset (D3, question.txt Q1): per domain, the dataset with the largest `valid` split.
+loader: rf100vl
+splits: {dev: valid, test: test}
+datasets:
+  - ufba-425  # Lab Imaging, 105 valid images, 32 classes
+  - apoce-aerial-photographs-for-object-detection-of-construction-equipment  # Aerial, 52 valid images, 7 classes
+  - 2024-frc  # Industrial, 89 valid images, 11 classes
+  - into-the-vale  # Flora/Fauna, 51 valid images, 6 classes
+  - paper-parts  # Document, 175 valid images, 19 classes

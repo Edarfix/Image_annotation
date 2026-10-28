@@ -4,8 +4,40 @@ Roboflow100-VL (Robicheaux et al., NeurIPS 2025 D&B, arXiv 2505.20612; reading n
 [papers/README.md](../../papers/README.md#rf100vl)). 100 detection datasets from Roboflow
 Universe in 7 domains, licensed Apache 2.0.
 
-**State: M1 in progress.** The loader, download script and dev subset come at M1. Below are the
-facts checked on 2026-10-23 that M1 builds on, with their sources.
+**State: loader, conversion and dev subset done (2026-10-28, D12).** Annotator instructions are
+still missing (see "Open points").
+
+## Use
+
+```bash
+# login node (internet): fetch the mirror at a pinned revision
+hf download probicheaux/rf100-vl-fsod --repo-type dataset \
+    --revision 4bcf86c4cc58f3afecfb6fe7b3a541b33bfbb301
+# anywhere: one COCO folder per dataset and split under $OVANNOT_DATA/rf100vl/
+uv run python datasets/rf100vl/download.py --snapshot <snapshot folder>
+```
+
+`loader.py` registers `rf100vl`; its config is `{name: <dataset>}`. Image ids are
+`<split>/<coco id>`. Few-shot exemplars are the boxes of the `train` split (the official
+10-shot examples). The domains in `domains.json` are copied from the official package.
+
+## Dev subset (D3, D12)
+
+In each of five domains, the dataset with the largest `valid` split (a rule fixed before any
+run, so that the choice cannot follow results): `configs/datasets/rf100vl_dev.yaml`.
+
+| Domain | Dataset | Valid images | Classes |
+|---|---|---:|---:|
+| Lab Imaging | `ufba-425` | 105 | 32 |
+| Aerial | `apoce-aerial-photographs-for-object-detection-of-construction-equipment` | 52 | 7 |
+| Industrial | `2024-frc` | 89 | 11 |
+| Flora/Fauna | `into-the-vale` | 51 | 6 |
+| Document | `paper-parts` | 175 | 19 |
+
+Global settings are tuned on these `valid` splits only. Test numbers are reported over all
+100 datasets and over the 95 others (`configs/datasets/rf100vl_all.yaml`).
+
+## Facts checked on 2026-10-23
 
 ## Source and download
 
@@ -49,5 +81,4 @@ facts checked on 2026-10-23 that M1 builds on, with their sources.
 - TODO(verify): where the annotator instructions are published. They are not in the pip
   package, the HF mirrors, or the GitHub repositories; probably on the Roboflow Universe FSOD
   projects (needs the API key).
-- Dev subset: 5 datasets from 5 different domains, global tuning on their `valid` split only
-  (D3). The choice and its justification will go here at M1.
+- Cross-check the mirror against an official Roboflow export (needs `ROBOFLOW_API_KEY`).

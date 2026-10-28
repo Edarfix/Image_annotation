@@ -1,0 +1,105 @@
+# Generated from the RF100-VL-FSOD mirror counts (2026-10-28); see datasets/rf100vl/README.md.
+# All 100 datasets; final reports also average over the 95 not in the dev subset (D3).
+loader: rf100vl
+splits: {dev: valid, test: test}
+datasets:
+  - aerial-airport  # Aerial
+  - aerial-cows  # Aerial
+  - aerial-sheep  # Aerial
+  - apoce-aerial-photographs-for-object-detection-of-construction-equipment  # Aerial
+  - electric-pylon-detection-in-rsi  # Aerial
+  - floating-waste  # Aerial
+  - human-detection-in-floods  # Aerial
+  - sssod  # Aerial
+  - uavdet-small  # Aerial
+  - wildfire-smoke  # Aerial
+  - zebrasatasturias  # Aerial
+  - activity-diagrams  # Document
+  - all-elements  # Document
+  - circuit-voltages  # Document
+  - invoice-processing  # Document
+  - label-printing-defect-version-2  # Document
+  - macro-segmentation  # Document
+  - paper-parts  # Document
+  - signatures  # Document
+  - speech-bubbles-detection  # Document
+  - wine-labels  # Document
+  - aquarium-combined  # Flora/Fauna
+  - bees  # Flora/Fauna
+  - deepfruits  # Flora/Fauna
+  - exploratorium-daphnia  # Flora/Fauna
+  - grapes-5  # Flora/Fauna
+  - grass-weeds  # Flora/Fauna
+  - gwhd2021  # Flora/Fauna
+  - into-the-vale  # Flora/Fauna
+  - jellyfish  # Flora/Fauna
+  - marine-sharks  # Flora/Fauna
+  - orgharvest  # Flora/Fauna
+  - peixos-fish  # Flora/Fauna
+  - penguin-finder-seg  # Flora/Fauna
+  - pig-detection  # Flora/Fauna
+  - roboflow-trained-dataset  # Flora/Fauna
+  - sea-cucumbers-new-tiles  # Flora/Fauna
+  - thermal-cheetah  # Flora/Fauna
+  - tomatoes-2  # Flora/Fauna
+  - trail-camera  # Flora/Fauna
+  - underwater-objects  # Flora/Fauna
+  - varroa-mites-detection--test-set  # Flora/Fauna
+  - wb-prova  # Flora/Fauna
+  - weeds4  # Flora/Fauna
+  - -grccs  # Industrial
+  - 13-lkc01  # Industrial
+  - 2024-frc  # Industrial
+  - aircraft-turnaround-dataset  # Industrial
+  - asphaltdistressdetection  # Industrial
+  - cable-damage  # Industrial
+  - conveyor-t-shirts  # Industrial
+  - dataconvert  # Industrial
+  - deeppcb  # Industrial
+  - defect-detection  # Industrial
+  - fruitjes  # Industrial
+  - infraredimageofpowerequipment  # Industrial
+  - ism-band-packet-detection  # Industrial
+  - l10ul502  # Industrial
+  - needle-base-tip-min-max  # Industrial
+  - recode-waste  # Industrial
+  - screwdetectclassification  # Industrial
+  - smd-components  # Industrial
+  - truck-movement  # Industrial
+  - tube  # Industrial
+  - water-meter  # Industrial
+  - wheel-defect-detection  # Industrial
+  - canalstenosis  # Lab Imaging
+  - crystal-clean-brain-tumors-mri-dataset  # Lab Imaging
+  - dentalai  # Lab Imaging
+  - inbreast  # Lab Imaging
+  - liver-disease  # Lab Imaging
+  - nih-xray  # Lab Imaging
+  - spinefrxnormalvindr  # Lab Imaging
+  - stomata-cells  # Lab Imaging
+  - train  # Lab Imaging
+  - ufba-425  # Lab Imaging
+  - urine-analysis1  # Lab Imaging
+  - x-ray-id  # Lab Imaging
+  - xray  # Lab Imaging
+  - buoy-onboarding  # Misc
+  - car-logo-detection  # Misc
+  - clashroyalechardetector  # Misc
+  - cod-mw-warzone  # Misc
+  - countingpills  # Misc
+  - everdaynew  # Misc
+  - flir-camera-objects  # Misc
+  - halo-infinite-angel-videogame  # Misc
+  - mahjong  # Misc
+  - new-defects-in-wood  # Misc
+  - orionproducts  # Misc
+  - pill  # Misc
+  - soda-bottles  # Misc
+  - taco-trash-annotations-in-context  # Misc
+  - the-dreidel-project  # Misc
+  - actions  # Sport
+  - aerial-pool  # Sport
+  - ball  # Sport
+  - bibdetection  # Sport
+  - football-player-detection  # Sport
+  - lacrosse-object-detection  # Sport
