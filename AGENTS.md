@@ -100,7 +100,19 @@ uv run pytest -m gpu                        # cluster: smoke tests that need mod
 uv run ruff check . && uv run ruff format .
 uv run python papers/download_papers.py     # papers + status table in papers/README.md
 uv run python scripts/render_diagrams.py    # diagrams (needs scripts/setup_mermaid.sh once)
+uv run python scripts/run.py --exp configs/experiments/<name>.yaml [--limit N]  # resumable
+uv run python scripts/make_leaderboard.py   # results/leaderboard.md and the README tables
+# cluster: serve the models on the job's GPUs, smoke-test, then run (see serving/README.md)
+SERVE="vllm:qwen3_vl_30b" sbatch scripts/slurm/run_experiment.sbatch --smoke --exp <yaml>
 ```
+
+## Concurrency
+
+The runner annotates images on a thread pool (`--workers`, 32 on the cluster): several
+`annotate` calls of the **same pipeline object** run at the same time. Keep per-image state in
+local variables of `annotate`, never in `self`; whatever `prepare` builds is read-only
+afterwards. Model wrappers are thread-safe (one HTTP client each, `ModelHub.get` is locked).
+The runner does not use processes: plugin classes are imported by path and cannot be pickled.
 
 ## Where things run
 
