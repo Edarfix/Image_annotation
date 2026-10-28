@@ -18,23 +18,25 @@ from the sources listed at the end. What could not be checked is marked TODO(ver
 | Tasks | Task 2 (detection) and task 1 (classification with "none") both run end to end |
 | Benchmarks | RF100-VL: 100 datasets converted, dev subset of 5 (D12). ELEVATER: 5 datasets, open-set split (D16) |
 | Evaluation | RF100-VL protocol (COCO AP at maxDets 500) and task 1 metrics (accuracy, "none", Miller et al.'s open-set AuPR / P@95R / R@95P). Sanity-tested, **not frozen** (Q4) |
-| Models served | Qwen3-VL-30B-A3B (vLLM), SigLIP 2 So400m (own server), SAM 3 (own server, **never run**: weights gated, token pending) |
-| Pipelines | `p00_sam3_raw` (code only), `p01_mllm_grounding_raw` (runs), `c00_siglip2_zeroshot`, `c01_rar_siglip2_qwen3vl` (run) |
+| Models served | Qwen3-VL-30B-A3B (vLLM), SigLIP 2 So400m (own server), SAM 3 (own server; ran on the dev subset on 2026-10-28) |
+| Pipelines | `p00_sam3_raw`, `p01_mllm_grounding_raw`, `c00_siglip2_zeroshot`, `c01_rar_siglip2_qwen3vl`: all pass their GPU smoke test and have a dev run |
 | Tests | 91 CPU tests in a few seconds, plus GPU smoke tests (`pytest -m gpu`). ruff clean |
-| GPU used | About 30 min of one B200 in total, of the 4 h allowed |
+| GPU used | About 45 min of one B200 in total, of the 4 h allowed |
 
 **Headline numbers.** All are dev numbers, with small samples; see §5 for their limits.
 
-- `p01` (Qwen3-VL-30B-A3B, direct grounding, zero-shot): **14.7 mAP** on the 5 RF100-VL dev
-  datasets. The range is 0.03 (dental X-rays, 32 classes) to 43.3 (into-the-vale).
+- Detection, 5 RF100-VL dev datasets, zero-shot:
+  - `p00` (SAM 3, raw class names): **16.4 mAP**.
+  - `p01` (Qwen3-VL-30B-A3B, direct grounding): **14.7 mAP**.
+  - Both are near 0 on dental X-rays, whose classes are FDI tooth numbers ("11", "12"...).
 - Task 1, ELEVATER open-set dev (5 × 200 images): `c01` (retrieve and rank) **42.6%
   accuracy** with "none" (60.8% closed-set), against 33.8% (49.1%) for the SigLIP 2 baseline
   `c00`. c01 over-uses "none" (§5.2).
 
 **Main risks.** In order:
 1. The evaluation is not yet checked against published baseline predictions.
-2. p00 (the SAM 3 floor) has never run.
-3. MLLM boxes all score 1.0, which cripples AP.
+2. MLLM boxes all score 1.0, which cripples AP.
+3. c01 over-uses "none".
 4. The dev samples are small.
 
 ---
@@ -102,10 +104,9 @@ Size: about 2,500 lines in `src/`, 240 in `pipelines/`, 470 in `datasets/`, 290 
    has been reproduced. The planned check scores the RF20-VL baseline predictions
    (`predictions_rf20vl.zip`, rf100-vl.org) and compares them with the paper. Until then, do
    not freeze the evaluation (Q4).
-2. **SAM 3 has never run.** `serving/sam3_server.py` follows the transformers 5.13 API checked
-   in the container (`get_vision_features`, then `vision_embeds=` per phrase,
-   `post_process_instance_segmentation`), but has not been executed on a GPU. Expect a fix or
-   two at first launch.
+2. **The SAM 3 server is slow under load.** It ran correctly on its first launch, but
+   ufba-425 (32 classes) took 45 s per image under 32 concurrent requests: one decoder pass per
+   phrase, one request at a time. See item 8.
 3. **MLLM boxes score 1.0** (p01). This is the RF100-VL and Qwen3-VL protocol, but AP then ranks
    boxes by output order, so p01's mAP understates what the boxes are worth. P/R/F1 at IoU 0.5
    are less affected.
@@ -157,20 +158,29 @@ Size: about 2,500 lines in `src/`, 240 in `pipelines/`, 470 in `datasets/`, 290 
 
 | Pipeline | Idea | State | Dev mAP (5 datasets) |
 |---|---|---|---:|
-| `p00_sam3_raw` | SAM 3, one text prompt per raw class name; floor of the SAM 3 branch | code + fake-model tests | not run |
+| `p00_sam3_raw` | SAM 3, one text prompt per raw class name; floor of the SAM 3 branch | runs | **16.4** |
 | `p01_mllm_grounding_raw` | Qwen3-VL-30B-A3B, all classes in one ODinW-style prompt, JSON boxes, score 1.0 | runs | **14.7** |
 
-`p01` per dataset (run `..._dev_047845dd`, parser of 2026-10-28 evening):
+Per dataset (p00 run `..._dev_fd828fda`; p01 run `..._dev_047845dd`, parser of 2026-10-28
+evening), mAP / AP50 / F1@0.5 in %:
 
-| Dataset | Domain | mAP | AP50 | F1@0.5 | Failures |
-|---|---|---:|---:|---:|---:|
-| ufba-425 | Lab Imaging | 0.0 | 0.1 | 0.4 | 0% |
-| apoce-aerial-... | Aerial | 24.3 | 31.3 | 40.8 | 0% |
-| 2024-frc | Industrial | 1.5 | 4.1 | 10.7 | 0% |
-| into-the-vale | Flora/Fauna | 43.3 | 60.7 | 68.8 | 0% |
-| paper-parts | Document | 3.9 | 7.1 | 3.7 | 5.1% |
+| Dataset | Domain | p00 SAM 3 | p01 Qwen3-VL | Note |
+|---|---|---|---|---|
+| ufba-425 | Lab Imaging | 0.0 / 0.0 / 0.0 | 0.0 / 0.1 / 0.4 | classes are FDI tooth numbers ("11"...): SAM 3 returns nothing |
+| apoce-aerial-... | Aerial | 21.1 / 28.4 / 21.5 | **24.3** / 31.3 / 40.8 | |
+| 2024-frc | Industrial | **5.6** / 8.5 / 8.1 | 1.5 / 4.1 / 10.7 | |
+| into-the-vale | Flora/Fauna | **53.9** / 64.6 / 61.1 | 43.3 / 60.7 / 68.8 | |
+| paper-parts | Document | 1.3 / 2.4 / 3.8 | **3.9** / 7.1 / 3.7 | SAM 3 makes 26 boxes per image, mostly wrong |
+| **mean** | | **16.4** | 14.7 | |
+
+Neither pipeline had failures on these runs, except p01 on paper-parts (5.1%).
 
 **Reading.**
+- The two baselines fail in different places. SAM 3 is better on natural and industrial
+  images; the MLLM is better on documents and aerial views. That argues for fusing them, and
+  for an MLLM verifier on SAM 3's boxes (p03).
+- On ufba-425, both are near 0 because the class names are codes: the case concept cards
+  (p02) are meant for, by turning "11" into a visual description of the tooth.
 - The spread matches the RF100-VL paper's finding: grounding MLLMs do well on natural scenes and
   close to 0 on medical and document data, where class names are jargon ("tooth 11",
   "black_robot").
@@ -282,9 +292,10 @@ Dev results (ELEVATER open-set, `described`, 200 images per dataset, runs `..._c
 
 **Detection**
 
-1. **Run p00 as soon as the HF token is in place.** It gives the floor, checks the SAM 3
-   server, and checks the evaluation against the SAM 3 paper's 15.2 on the full test set.
-   That check runs once, at M5, not for tuning.
+1. **Speed up the SAM 3 server, then run p00 once on the full test set (M5).** Batch the
+   phrases of an image into one decoder pass and drop the global lock, or run several
+   replicas. The full-test run checks the SAM 3 paper's 15.2, as a reproduction, not as
+   tuning.
 2. **Reproduce a published number from `predictions_rf20vl.zip`**, then freeze the evaluation
    (Q4).
 3. **p03 verifier.** SAM 3 proposals, then a Qwen3-VL yes/no on a context crop plus the full
@@ -322,7 +333,7 @@ Dev results (ELEVATER open-set, `described`, 200 images per dataset, runs `..._c
 | Q4 | Freeze the evaluation | Not frozen; freeze after step 7.D2 |
 | Q5 / D16 | Task 1 benchmark: 5 ELEVATER datasets, 20% of classes withheld, seed 0 | Implemented as default |
 | D17 | `described` setting for task 1 | Implemented |
-| Q6 | SAM 3 access | Waiting for the token |
+| Q6 | SAM 3 access | Granted; p00 runs |
 
 ---
 

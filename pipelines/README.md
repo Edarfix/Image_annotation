@@ -16,6 +16,7 @@ Detection pipelines are named `pNN_*`, classification pipelines `cNN_*` (decisio
 |---|---:|---|
 | [`c00_siglip2_zeroshot`](c00_siglip2_zeroshot/) | 33.8 (Accuracy) | described, dev |
 | [`c01_rar_siglip2_qwen3vl`](c01_rar_siglip2_qwen3vl/) | 42.6 (Accuracy) | described, dev |
+| [`p00_sam3_raw`](p00_sam3_raw/) | 16.4 (mAP) | zero_shot, dev |
 | [`p01_mllm_grounding_raw`](p01_mllm_grounding_raw/) | 14.6 (mAP) | zero_shot, dev |
 <!-- END pipelines-index -->
 
