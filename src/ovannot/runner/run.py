@@ -42,6 +42,7 @@ from ovannot.core.config import config_hash, deep_merge, dump_yaml, load_config,
 from ovannot.core.dataset import DATASETS, discover_datasets, restrict_to_setting
 from ovannot.core.pipeline import PIPELINES, discover_pipelines
 from ovannot.core.types import ImageAnnotation, Setting, Task
+from ovannot.eval.classification import evaluate_classification
 from ovannot.eval.detection import evaluate_detection
 from ovannot.models.hub import ModelHub
 from ovannot.paths import repo_root, results_root
@@ -67,6 +68,7 @@ class DatasetGroupConfig(BaseModel):
     datasets: list[str]
     splits: dict[str, str]  # subset (dev / test) -> split name
     loader_cfg: dict[str, Any] = {}
+    split_loader_cfg: dict[str, dict[str, Any]] = {}  # split name -> extra loader config
 
 
 def run_experiment(
@@ -110,6 +112,9 @@ def run_experiment(
         "models": {n: hub.config(n) for n in hub.names()},
         "subset": subset,
         "limit": limit,
+        # the code is part of a run's identity: a new commit starts a new run (cached model
+        # calls make that cheap); uncommitted edits resume the current one
+        "code": _git_state()["commit"],
     }
     run_hash = config_hash(identity)
     tag = f"{exp.pipeline}_{Path(exp.dataset).stem}_{exp.setting.value}_{subset}_{run_hash}"
@@ -122,10 +127,13 @@ def run_experiment(
         log.info("run %s (%s)", run_dir.name, "resumed" if existing else "new")
         per_dataset = {}
         for name in names:
-            loader = loader_cls({**group.loader_cfg, "name": name})
+            split = group.splits[subset]
+            loader = loader_cls(
+                {**group.loader_cfg, **group.split_loader_cfg.get(split, {}), "name": name}
+            )
             per_dataset[name] = _run_dataset(
                 loader,
-                group.splits[subset],
+                split,
                 exp,
                 pipeline_cls,
                 pipeline_cfg,
@@ -142,7 +150,9 @@ def run_experiment(
             "finished": dt.datetime.now().isoformat(timespec="seconds"),
         }
         dump_yaml(resolved, run_dir / "config.resolved.yaml")
-        write_json(run_dir / "metrics.json", _summarise(exp, subset, per_dataset))
+        write_json(
+            run_dir / "metrics.json", _summarise(exp, pipeline_cls.task, subset, per_dataset)
+        )
         log.info("done: %s", run_dir)
     finally:
         logging.getLogger("ovannot").removeHandler(handler)
@@ -184,11 +194,13 @@ def _run_dataset(loader, split, exp, pipeline_cls, pipeline_cfg, hub, out: Path,
                 log.info("%s: %d/%d", spec.name, i, len(todo))
 
     anns = [done[img.image_id] for img in images]
-    threshold = float(getattr(pipeline.cfg, "score_threshold", 0.0))
     if pipeline_cls.task is Task.DETECTION:
+        threshold = float(getattr(pipeline.cfg, "score_threshold", 0.0))
         metrics, predictions = evaluate_detection(loader.ground_truth(split), anns, threshold)
     else:
-        raise NotImplementedError("classification metrics arrive with the task 1 benchmark")
+        metrics, predictions = evaluate_classification(
+            loader.ground_truth(split), anns, spec.class_names
+        )
     metrics["domain"] = full_spec.domain  # the evaluator may know it; the pipeline did not
     metrics["failures"] = _failure_rates(anns)
     timings = _timings(anns, prepare_s)
@@ -206,11 +218,9 @@ def _run_dataset(loader, split, exp, pipeline_cls, pipeline_cfg, hub, out: Path,
                 f.write(json.dumps({"image_id": a.image_id, **fl.__dict__, "kind": fl.kind.value}))
                 f.write("\n")
     log.info(
-        "%s: mAP %.4f AP50 %.4f F1@0.5 %.4f, failure rate %.3f",
+        "%s: %s, failure rate %.3f",
         spec.name,
-        metrics["mAP"],
-        metrics["AP50"],
-        metrics["f1@0.5"],
+        ", ".join(f"{k} {metrics[k]:.4f}" for k in SUMMARY_KEYS[pipeline_cls.task]),
         metrics["failures"]["rate"],
     )
     return metrics
@@ -270,8 +280,16 @@ def _timings(anns: list[ImageAnnotation], prepare_s: float) -> dict[str, Any]:
     }
 
 
-def _summarise(exp: ExperimentConfig, subset: str, per_dataset: dict[str, dict]) -> dict:
-    keys = ("mAP", "AP50", "precision@0.5", "recall@0.5", "f1@0.5")
+SUMMARY_KEYS = {
+    Task.DETECTION: ("mAP", "AP50", "precision@0.5", "recall@0.5", "f1@0.5"),
+    Task.CLASSIFICATION: ("accuracy", "closed_accuracy", "macro_f1", "none_f1", "aupr"),
+}
+
+
+def _summarise(
+    exp: ExperimentConfig, task: Task, subset: str, per_dataset: dict[str, dict]
+) -> dict:
+    keys = SUMMARY_KEYS[task]
     domains: dict[str, list[str]] = {}
     for name, m in per_dataset.items():
         domains.setdefault(m["domain"], []).append(name)
@@ -281,6 +299,8 @@ def _summarise(exp: ExperimentConfig, subset: str, per_dataset: dict[str, dict])
 
     return {
         "pipeline": exp.pipeline,
+        "task": task.value,
+        "finished": dt.datetime.now().isoformat(timespec="seconds"),
         "dataset_group": Path(exp.dataset).stem,
         "setting": exp.setting.value,
         "subset": subset,

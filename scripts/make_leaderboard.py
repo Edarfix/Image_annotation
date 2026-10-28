@@ -26,11 +26,31 @@ sys.path.insert(0, str(ROOT / "src"))  # run as a script, the package may not be
 from ovannot.utils.io import read_json  # noqa: E402
 
 RUN_NAME = re.compile(r"^(?P<date>\d{4}-\d{2}-\d{2})_(?P<pipeline>.+)_(?P<hash>[0-9a-f]{8})$")
-HEADER = (
-    "| Pipeline | Dataset | Domain | Images | mAP | AP50 | P@0.5 | R@0.5 | F1@0.5 "
-    "| s/img mean | s/img p95 | calls/img | failures | Run |"
-)
-RULE = "|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"
+COLUMNS = {  # task -> (header, metrics.json key); the first one is the headline metric
+    "detection": [
+        ("mAP", "mAP"),
+        ("AP50", "AP50"),
+        ("P@0.5", "precision@0.5"),
+        ("R@0.5", "recall@0.5"),
+        ("F1@0.5", "f1@0.5"),
+    ],
+    "classification": [
+        ("Accuracy", "accuracy"),
+        ("Closed acc.", "closed_accuracy"),
+        ("Macro-F1", "macro_f1"),
+        ("None F1", "none_f1"),
+        ("AuPR", "aupr"),
+    ],
+}
+
+
+def header(task: str) -> str:
+    names = " | ".join(h for h, _ in COLUMNS[task])
+    return (
+        f"| Pipeline | Dataset | Domain | Images | {names} "
+        "| s/img mean | s/img p95 | calls/img | failures | Run |\n"
+        "|---|---|---|---:|" + "---:|" * (len(COLUMNS[task]) + 4) + "---|"
+    )
 
 
 def latest_runs(runs_root: Path) -> list[tuple[Path, dict]]:
@@ -40,45 +60,56 @@ def latest_runs(runs_root: Path) -> list[tuple[Path, dict]]:
             continue
         m = read_json(path)
         key = (m["pipeline"], m["dataset_group"], m["setting"], m["subset"])
-        by_key[key] = (path.parent, m)  # sorted by name, which starts with the date
+        if key not in by_key or _when(path.parent, m) > _when(*by_key[key]):
+            by_key[key] = (path.parent, m)
     return [by_key[k] for k in sorted(by_key)]
+
+
+def _when(run_dir: Path, m: dict) -> tuple[str, str]:
+    return (m.get("finished", run_dir.name[:10]), run_dir.name)
 
 
 def pct(x: float) -> str:
     return f"{100 * x:.1f}"
 
 
+def task_of(m: dict) -> str:
+    return m.get("task", "detection")  # runs before 2026-10-28 evening were all detection
+
+
 def rows(run_dir: Path, m: dict) -> list[str]:
+    cols = COLUMNS[task_of(m)]
     out = []
     for name, d in m["per_dataset"].items():
         c = d["cost"]
+        values = " | ".join(pct(d[k]) for _, k in cols)
         out.append(
-            f"| `{m['pipeline']}` | {name} | {d['domain']} | {d['n_images']} | {pct(d['mAP'])} "
-            f"| {pct(d['AP50'])} | {pct(d['precision@0.5'])} | {pct(d['recall@0.5'])} "
-            f"| {pct(d['f1@0.5'])} | {c['time_per_image_s']['mean']:.2f} "
-            f"| {c['time_per_image_s']['p95']:.2f} | {c['model_calls_per_image']:.1f} "
-            f"| {pct(d['failure_rate'])}% | `{run_dir.name}` |"
+            f"| `{m['pipeline']}` | {name} | {d['domain']} | {d['n_images']} | {values} "
+            f"| {c['time_per_image_s']['mean']:.2f} | {c['time_per_image_s']['p95']:.2f} "
+            f"| {c['model_calls_per_image']:.1f} | {pct(d['failure_rate'])}% | `{run_dir.name}` |"
         )
     mean = m["mean"]
+    values = " | ".join(
+        f"**{pct(mean[k])}**" if i == 0 else pct(mean[k]) for i, (_, k) in enumerate(cols)
+    )
     out.append(
-        f"| `{m['pipeline']}` | **mean of {len(m['per_dataset'])}** | | | **{pct(mean['mAP'])}** "
-        f"| {pct(mean['AP50'])} | {pct(mean['precision@0.5'])} | {pct(mean['recall@0.5'])} "
-        f"| {pct(mean['f1@0.5'])} | | | | | |"
+        f"| `{m['pipeline']}` | **mean of {len(m['per_dataset'])}** | | | {values} | | | | | |"
     )
     return out
 
 
 def tables(runs: list[tuple[Path, dict]], pipeline: str | None = None) -> str:
-    sections: dict[tuple[str, str], list[str]] = {}
+    sections: dict[tuple[str, str, str], list[str]] = {}
     for run_dir, m in runs:
         if pipeline is None or m["pipeline"] == pipeline:
-            sections.setdefault((m["setting"], m["subset"]), []).extend(rows(run_dir, m))
+            key = (task_of(m), m["setting"], m["subset"])
+            sections.setdefault(key, []).extend(rows(run_dir, m))
     if not sections:
         return "_No run yet._"
     parts = []
-    for (setting, subset), lines in sorted(sections.items()):
-        parts.append(f"**Setting `{setting}`, subset `{subset}`** (metrics in %)\n")
-        parts.append("\n".join([HEADER, RULE, *lines]) + "\n")
+    for (task, setting, subset), lines in sorted(sections.items()):
+        parts.append(f"**{task.capitalize()}, setting `{setting}`, subset `{subset}`** (in %)\n")
+        parts.append("\n".join([header(task), *lines]) + "\n")
     return "\n".join(parts).strip()
 
 
@@ -101,13 +132,18 @@ def main() -> int:
         + "\n",
         encoding="utf-8",
     )
-    best: dict[str, tuple[float, str]] = {}
+    best: dict[str, tuple[float, str, str]] = {}
     for _, m in runs:
+        metric_name, key = COLUMNS[task_of(m)][0]
         label = f"{m['setting']}, {m['subset']}"
-        if m["pipeline"] not in best or m["mean"]["mAP"] > best[m["pipeline"]][0]:
-            best[m["pipeline"]] = (m["mean"]["mAP"], label)
-    index = ["| Pipeline | Best mean mAP | Setting, subset |", "|---|---:|---|"]
-    index += [f"| [`{p}`]({p}/) | {pct(v)} | {lbl} |" for p, (v, lbl) in sorted(best.items())]
+        value = m["mean"][key]
+        if m["pipeline"] not in best or value > best[m["pipeline"]][0]:
+            best[m["pipeline"]] = (value, metric_name, label)
+    index = ["| Pipeline | Best mean (headline metric) | Setting, subset |", "|---|---:|---|"]
+    index += [
+        f"| [`{p}`]({p}/) | {pct(v)} ({name}) | {lbl} |"
+        for p, (v, name, lbl) in sorted(best.items())
+    ]
     replace_block(
         ROOT / "pipelines" / "README.md",
         "pipelines-index",

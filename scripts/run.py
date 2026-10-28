@@ -2,8 +2,8 @@
 
 Usage::
 
-    uv run python scripts/run.py --exp configs/experiments/<name>.yaml [--subset dev|test]
-        [--limit N] [--workers K] [--only DATASET ...] [key.sub=value ...]
+    uv run python scripts/run.py --exp configs/experiments/<name>.yaml [<other.yaml> ...]
+        [--subset dev|test] [--limit N] [--workers K] [--only DATASET ...] [key.sub=value ...]
 
 Re-running the same command resumes the run: images already annotated are skipped.
 """
@@ -19,7 +19,7 @@ from ovannot.runner.run import run_experiment
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--exp", required=True, help="experiment yaml")
+    parser.add_argument("--exp", required=True, nargs="+", help="experiment yaml(s), in turn")
     parser.add_argument("--subset", default="dev", choices=["dev", "test"])
     parser.add_argument("--limit", type=int, default=None, help="first N images per dataset")
     parser.add_argument("--workers", type=int, default=8, help="images annotated in parallel")
@@ -28,10 +28,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
-    run_dir = run_experiment(
-        args.exp, args.subset, args.limit, args.workers, args.only, args.overrides
-    )
-    print(run_dir)
+    for exp in args.exp:
+        run_dir = run_experiment(
+            exp, args.subset, args.limit, args.workers, args.only, args.overrides
+        )
+        print(run_dir)
     return 0
 
 
