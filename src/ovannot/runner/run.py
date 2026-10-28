@@ -8,7 +8,8 @@ An experiment file (``configs/experiments/*.yaml``) holds::
     pipeline_cfg: {score_threshold: 0.5}    # overrides of the pipeline's config.yaml
     models: {qwen3_vl_30b: {...}}           # optional overrides of configs/models/*.yaml
 
-Run folder ``results/runs/<date>_<pipeline>_<datasets>_<setting>_<subset>_<hash>/``:
+Run folder ``results/runs/<date>_<pipeline>_<datasets>_<setting>_<subset>_<hash>/``
+(``results/runs_private/`` for a dataset group marked ``private: true``, which git ignores):
 
 - ``config.resolved.yaml``: everything above resolved, the git commit, the models used;
 - ``metrics.json``: per-dataset metrics, their mean and the mean per domain;
@@ -69,6 +70,7 @@ class DatasetGroupConfig(BaseModel):
     splits: dict[str, str]  # subset (dev / test) -> split name
     loader_cfg: dict[str, Any] = {}
     split_loader_cfg: dict[str, dict[str, Any]] = {}  # split name -> extra loader config
+    private: bool = False  # proprietary data: runs go to results/runs_private (git-ignored)
 
 
 def run_experiment(
@@ -118,7 +120,7 @@ def run_experiment(
     }
     run_hash = config_hash(identity)
     tag = f"{exp.pipeline}_{Path(exp.dataset).stem}_{exp.setting.value}_{subset}_{run_hash}"
-    root = runs_root or results_root() / "runs"
+    root = runs_root or results_root() / ("runs_private" if group.private else "runs")
     existing = sorted(root.glob(f"*_{tag}"))
     run_dir = existing[-1] if existing else root / f"{dt.date.today():%Y-%m-%d}_{tag}"
     run_dir.mkdir(parents=True, exist_ok=True)

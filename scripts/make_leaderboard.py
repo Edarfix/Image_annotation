@@ -16,6 +16,7 @@ Settings and subsets are never mixed in one table (README, "Reading the leaderbo
 
 from __future__ import annotations
 
+import argparse
 import re
 import sys
 from pathlib import Path
@@ -121,7 +122,24 @@ def replace_block(path: Path, name: str, body: str) -> None:
     path.write_text(pattern.sub(lambda mt: mt.group(1) + body + "\n" + mt.group(2), text))
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument(
+        "--private",
+        action="store_true",
+        help="proprietary runs: read results/runs_private, write results/leaderboard_private/ "
+        "only (both git-ignored); READMEs are left alone",
+    )
+    args = parser.parse_args(argv)
+    if args.private:
+        runs = latest_runs(ROOT / "results" / "runs_private")
+        out = ROOT / "results" / "leaderboard_private" / "leaderboard.md"
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(
+            "# Leaderboard (private datasets)\n\n" + tables(runs) + "\n", encoding="utf-8"
+        )
+        print(f"{len(runs)} private run(s) -> {out.relative_to(ROOT)}")
+        return 0
     runs = latest_runs(ROOT / "results" / "runs")
     board = ROOT / "results" / "leaderboard.md"
     board.write_text(
