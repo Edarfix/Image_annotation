@@ -22,23 +22,26 @@ cd "${SLURM_SUBMIT_DIR:-.}"
 export TMPDIR="${SLURM_TMPDIR:-/tmp}" OVANNOT_LOGS="$PWD/logs/$SLURM_JOB_ID"
 mkdir -p "$OVANNOT_LOGS"
 
-GPU=0; PORT=8000
+# One port range per server kind, so that each matches the default endpoint of its model
+# config (vLLM 8000+, SAM 3 8100, SigLIP 8200+) and two servers never share a port.
+GPU=0; VLLM_PORT=8000; SIGLIP_PORT=8200
 for server in ${SERVE:-}; do
   case "$server" in
     vllm:*) name=${server#vllm:}
             var="OVANNOT_ENDPOINT_$(echo "$name" | tr '[:lower:]' '[:upper:]')"
-            CUDA_VISIBLE_DEVICES=$GPU serving/launch_vllm.sh "$name" $PORT
-            export "$var=http://127.0.0.1:$PORT/v1" ;;
-    sam3)   CUDA_VISIBLE_DEVICES=$GPU serving/launch_sam3.sh $PORT
-            export OVANNOT_ENDPOINT_SAM3="http://127.0.0.1:$PORT" ;;
+            CUDA_VISIBLE_DEVICES=$GPU serving/launch_vllm.sh "$name" $VLLM_PORT
+            export "$var=http://127.0.0.1:$VLLM_PORT/v1"
+            GPU=$((GPU + 1)); VLLM_PORT=$((VLLM_PORT + 1)) ;;
+    sam3)   CUDA_VISIBLE_DEVICES=$GPU serving/launch_sam3.sh 8100
+            export OVANNOT_ENDPOINT_SAM3="http://127.0.0.1:8100"
+            GPU=$((GPU + 1)) ;;
     siglip:*) name=${server#siglip:}  # small: shares the GPU of the previous server
-            (( GPU > 0 )) && GPU=$((GPU - 1))
             var="OVANNOT_ENDPOINT_$(echo "$name" | tr '[:lower:]' '[:upper:]')"
-            CUDA_VISIBLE_DEVICES=$GPU serving/launch_siglip.sh "$name" $PORT
-            export "$var=http://127.0.0.1:$PORT" ;;
+            CUDA_VISIBLE_DEVICES=$(( GPU > 0 ? GPU - 1 : 0 )) serving/launch_siglip.sh "$name" $SIGLIP_PORT
+            export "$var=http://127.0.0.1:$SIGLIP_PORT"
+            SIGLIP_PORT=$((SIGLIP_PORT + 1)) ;;
     *)      echo "unknown server $server" >&2; exit 1 ;;
   esac
-  GPU=$((GPU + 1)); PORT=$((PORT + 100))
 done
 
 uv sync --locked -q

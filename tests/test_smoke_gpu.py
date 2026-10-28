@@ -17,19 +17,34 @@ from ovannot.models.hub import ModelHub
 pytestmark = pytest.mark.gpu
 DATASETS_BY_TASK = {  # (loader, config, split, setting)
     Task.DETECTION: ("rf100vl", {"name": "into-the-vale"}, "valid", Setting.ZERO_SHOT),
-    Task.CLASSIFICATION: ("elevater", {"name": "eurosat"}, "val", Setting.DESCRIBED),
+    # the dev sample (configs/datasets/elevater_dev.yaml): only it is extracted
+    Task.CLASSIFICATION: (
+        "elevater",
+        {"name": "eurosat", "max_images": 200},
+        "val",
+        Setting.DESCRIBED,
+    ),
 }
 MODEL_KEYS = ("model", "retriever", "ranker")  # config keys that name models
 PIPELINE_IDS = [p for p in discover_pipelines() if PIPELINES.get(p).requires_models]
 
 
 def server_up(cfg: dict) -> bool:
+    """The model's endpoint answers /health, and, for our servers, serves this checkpoint."""
     fields = {k: v for k, v in cfg.items() if k in ModelConfig.model_fields}
-    url = ModelConfig.model_validate(fields).resolved_endpoint().removesuffix("/v1")
+    model = ModelConfig.model_validate(fields)
+    url = model.resolved_endpoint().removesuffix("/v1")
     try:
-        return httpx.get(f"{url}/health", timeout=5, trust_env=False).status_code == 200
+        r = httpx.get(f"{url}/health", timeout=5, trust_env=False)
     except httpx.HTTPError:
         return False
+    if r.status_code != 200:
+        return False
+    try:
+        served = r.json().get("checkpoint", "")
+    except ValueError:  # vLLM answers /health with an empty body
+        return True
+    return model.checkpoint.replace("/", "--") in served  # a snapshot path of that repo
 
 
 @pytest.mark.parametrize("pipeline_id", PIPELINE_IDS)
