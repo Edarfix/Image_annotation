@@ -38,6 +38,7 @@ fi
 export PATH="$NODE_DIR/bin:$PATH"
 export PUPPETEER_CACHE_DIR="$TOOLS/puppeteer"
 export PUPPETEER_CHROME_SKIP_DOWNLOAD=true  # mmdc launches chrome-headless-shell only
+export NODE_USE_ENV_PROXY=1  # downloads honour HTTPS_PROXY (behind the cluster proxy)
 
 MERMAID_DIR="$TOOLS/mermaid"
 LOCK="$ROOT/scripts/mermaid/package-lock.json"
@@ -46,5 +47,8 @@ if [[ ! -x "$MERMAID_DIR/node_modules/.bin/mmdc" ]] || ! cmp -s "$LOCK" "$MERMAI
   cp "$ROOT/scripts/mermaid/package.json" "$LOCK" "$MERMAID_DIR/"
   npm ci --prefix "$MERMAID_DIR" --no-audit --no-fund
 fi
+# npm >= 11 skips install scripts not listed in allowScripts: fetch the browser explicitly
+# (a no-op when it is already in $PUPPETEER_CACHE_DIR).
+(cd "$MERMAID_DIR" && node node_modules/puppeteer/install.mjs)
 
 echo "mmdc ready: $MERMAID_DIR/node_modules/.bin/mmdc ($("$MERMAID_DIR/node_modules/.bin/mmdc" --version))"
