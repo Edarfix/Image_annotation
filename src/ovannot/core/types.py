@@ -24,6 +24,8 @@ from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 BBox = tuple[float, float, float, float]
 """``(x_min, y_min, x_max, y_max)`` in absolute pixels."""
 
@@ -38,6 +40,8 @@ class Setting(StrEnum):
 
     - ``zero_shot``: class names only.
     - ``few_shot``: class names, descriptions, annotator instructions and labelled exemplars.
+
+    Anything else (dataset name, domain...) would define a new setting.
     """
 
     ZERO_SHOT = "zero_shot"
@@ -208,7 +212,9 @@ def _bbox(values: Any) -> BBox:
 
 
 def to_jsonable(value: Any) -> Any:
-    """Convert dataclasses, enums, paths and tuples into plain JSON-compatible values."""
+    """Convert dataclasses, enums, paths, tuples and numpy values into plain JSON values."""
+    if isinstance(value, np.generic | np.ndarray):  # model outputs: np.float32 scores...
+        return value.tolist()
     if isinstance(value, StrEnum):
         return value.value
     if isinstance(value, Path):

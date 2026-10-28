@@ -50,3 +50,13 @@ def test_config_hash_ignores_key_order():
         {"b": {"d": 3, "c": 2}, "a": 1}
     )
     assert config_hash({"a": 1}) != config_hash({"a": 2})
+
+
+def test_exponent_floats_without_dot_are_floats(tmp_path):
+    assert apply_overrides({}, ["lr=1e-3", "n=10", "name=2024-frc"]) == {
+        "lr": 0.001,
+        "n": 10,
+        "name": "2024-frc",
+    }
+    (tmp_path / "c.yaml").write_text("lr: 5E+2\n")
+    assert load_config(tmp_path / "c.yaml") == {"lr": 500.0}

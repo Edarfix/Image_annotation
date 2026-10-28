@@ -11,6 +11,7 @@ Overrides use dotted keys and YAML values, as on the command line::
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable, Mapping
 from copy import deepcopy
 from pathlib import Path
@@ -28,9 +29,24 @@ class ConfigError(Exception):
     pass
 
 
+class _Loader(yaml.SafeLoader):
+    """SafeLoader that also reads ``1e-3`` as a float (YAML 1.1 requires ``1.0e-3``)."""
+
+
+_Loader.add_implicit_resolver(
+    "tag:yaml.org,2002:float",
+    re.compile(r"^[-+]?(?:[0-9][0-9_]*)(?:\.[0-9_]*)?[eE][-+]?[0-9]+$"),
+    list("-+0123456789"),
+)
+
+
+def parse_yaml(text: str) -> Any:
+    return yaml.load(text, Loader=_Loader)  # a SafeLoader subclass: no arbitrary objects
+
+
 def load_yaml(path: str | Path) -> dict[str, Any]:
     with Path(path).open(encoding="utf-8") as f:
-        data = yaml.safe_load(f)
+        data = parse_yaml(f.read())
     if data is None:
         return {}
     if not isinstance(data, dict):
@@ -57,7 +73,7 @@ def parse_override(text: str) -> tuple[list[str], Any]:
     key, sep, raw = text.partition("=")
     if not sep or not key.strip():
         raise ConfigError(f"override must look like key.sub=value, got {text!r}")
-    return key.strip().split("."), yaml.safe_load(raw)
+    return key.strip().split("."), parse_yaml(raw)
 
 
 def apply_overrides(cfg: Mapping[str, Any], overrides: Iterable[str]) -> dict[str, Any]:

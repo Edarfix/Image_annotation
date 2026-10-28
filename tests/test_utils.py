@@ -33,3 +33,14 @@ def test_prompts_fail_on_missing_variables(tmp_path):
     assert render_prompt(path, class_name="crack", hint="") == "Is this a crack?\n"
     with pytest.raises(jinja2.UndefinedError):
         render_prompt(path, hint="")
+
+
+def test_atomic_writes_follow_the_umask(tmp_path):
+    import os
+    import stat
+
+    write_json(tmp_path / "m.json", {"x": 1})
+    mode = stat.S_IMODE((tmp_path / "m.json").stat().st_mode)
+    umask = os.umask(0)
+    os.umask(umask)
+    assert mode == 0o666 & ~umask  # not mkstemp's 0600: results are shared with the group

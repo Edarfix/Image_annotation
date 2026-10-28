@@ -49,3 +49,13 @@ def test_to_jsonable_converts_paths_enums_and_tuples():
         "bbox_xyxy": [0, 0, 1, 1],
     }
     assert to_jsonable({"k": FailureKind.OOM}) == {"k": "oom"}
+
+
+def test_numpy_values_are_jsonable():
+    import numpy as np
+
+    ann = ImageAnnotation(
+        "i", detections=[Detection(tuple(np.float32([1, 2, 3, 4])), "a", np.float32(0.5))]
+    )
+    restored = ImageAnnotation.from_dict(json.loads(json.dumps(ann.to_dict())))
+    assert restored.detections[0].score == 0.5 and type(restored.detections[0].score) is float

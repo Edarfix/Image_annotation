@@ -17,8 +17,8 @@ node_modules/
 *.env
 
 # Data, model weights and caches never go to git (symlink data/ to cluster storage)
-data/
-cache/
+/data
+/cache
 .cache/
 *.ckpt
 *.pt
@@ -27,6 +27,9 @@ cache/
 
 # Paper PDFs are fetched by papers/download_papers.py
 papers/pdf/
+
+# Server and job logs
+logs/
 
 # Runs: only metrics.json and config.resolved.yaml are versioned
 results/runs/**

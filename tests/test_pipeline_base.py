@@ -105,4 +105,6 @@ def test_zero_shot_spec_keeps_only_class_names():
     assert zero.setting is Setting.ZERO_SHOT
     few = restrict_to_setting(spec, Setting.FEW_SHOT)
     assert few.classes == spec.classes and few.annotator_instructions == "Label every crack."
-    assert spec.setting is None  # the original is untouched
+    assert few.domain == ""  # any other input defines a new setting (D4)
+    assert few.classes is not spec.classes  # pipelines cannot alter the loader's spec
+    assert spec.setting is None and spec.domain == "Industrial"  # the original is untouched

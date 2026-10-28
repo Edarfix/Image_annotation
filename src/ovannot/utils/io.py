@@ -10,6 +10,9 @@ from typing import Any
 
 from ovannot.core.types import to_jsonable
 
+_UMASK = os.umask(0)
+os.umask(_UMASK)
+
 
 def atomic_write_text(path: str | Path, text: str) -> None:
     """Write ``text`` to ``path`` through a temporary file and an atomic rename.
@@ -20,6 +23,7 @@ def atomic_write_text(path: str | Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=f".{path.name}.", suffix=".tmp")
     try:
+        os.fchmod(fd, 0o666 & ~_UMASK)  # mkstemp makes 0600 files; results are shared
         with os.fdopen(fd, "w", encoding="utf-8") as f:
             f.write(text)
         os.replace(tmp, path)

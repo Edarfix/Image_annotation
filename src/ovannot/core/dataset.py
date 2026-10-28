@@ -14,6 +14,7 @@ things, kept strictly apart:
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from copy import deepcopy
 from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Any, ClassVar
@@ -80,11 +81,13 @@ def discover_datasets(root: Path | None = None) -> list[str]:
 def restrict_to_setting(spec: DatasetSpec, setting: Setting) -> DatasetSpec:
     """Return a copy of ``spec`` containing only what ``setting`` allows (decision D4).
 
-    ``zero_shot`` keeps the class names only; ``few_shot`` keeps everything the loader
-    provides (descriptions, annotator instructions, exemplars). ``spec.name`` is kept in both
-    cases because it identifies the dataset (cache keys, concept-card folders); pipelines must
-    never put it in a prompt.
+    ``zero_shot`` keeps the class names only; ``few_shot`` adds the descriptions, annotator
+    instructions and exemplars. The domain is never passed: any other input defines a separate
+    setting. ``spec.name`` is kept because it identifies the dataset (cache keys, concept-card
+    folders); pipelines must never put it in a prompt. The result shares no mutable state
+    with ``spec``.
     """
+    spec = deepcopy(spec)
     if setting is Setting.ZERO_SHOT:
         return replace(
             spec,
@@ -94,5 +97,5 @@ def restrict_to_setting(spec: DatasetSpec, setting: Setting) -> DatasetSpec:
             setting=setting,
         )
     if setting is Setting.FEW_SHOT:
-        return replace(spec, setting=setting)
+        return replace(spec, domain="", setting=setting)
     raise ValueError(f"unknown setting {setting!r}")
