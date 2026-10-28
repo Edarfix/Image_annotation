@@ -1,0 +1,19 @@
+# Qwen3-VL-30B-A3B-Instruct, served by vLLM (serving/launch_vllm.sh). Stands in for the brief's
+# Qwen3-VL-235B-A22B until that one is downloaded (question.txt, Q2).
+kind: openai_mllm
+checkpoint: Qwen/Qwen3-VL-30B-A3B-Instruct
+revision: 9c4b90e1e4ba969fd3b5378b57d966d725f1b86c
+licence: apache-2.0
+licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+source: >-
+  Box format from the official cookbook QwenLM/Qwen3-VL cookbooks/2d_grounding.ipynb and the
+  Qwen3-VL report §3.2.4 (relative [0, 1000] xyxy, key bbox_2d), checked 2026-10-28.
+endpoint: http://127.0.0.1:8000/v1
+endpoint_env: OVANNOT_ENDPOINT_QWEN3_VL_30B
+served_model_name: qwen3-vl-30b-a3b-instruct
+coord_format: qwen3vl_rel1000
+generation:
+  temperature: 0.0  # greedy: reproducible, and what the cache assumes
+  max_tokens: 8192
+  seed: 0
+notes: bf16, about 62 GB of weights; one B200 (180 GB) with vLLM.

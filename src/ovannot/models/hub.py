@@ -50,8 +50,13 @@ class ModelHub:
         except KeyError:
             raise RegistryError(f"unknown model {name!r} (known: {self.names()})") from None
 
+    def used(self) -> dict[str, dict[str, Any]]:
+        """Configs of the models created so far (recorded in the run's resolved config)."""
+        return {name: self.config(name) for name in sorted(self._instances)}
+
     def get(self, name: str) -> Any:
         """The wrapper for model ``name``, created on first use (thread-safe)."""
+        _import_builtin_kinds()
         with self._lock:
             if name not in self._instances:
                 cfg = self.config(name)
@@ -59,3 +64,9 @@ class ModelHub:
                     raise RegistryError(f"model config {name!r} has no 'kind'")
                 self._instances[name] = MODEL_KINDS.get(cfg["kind"])(name, cfg)
             return self._instances[name]
+
+
+def _import_builtin_kinds() -> None:
+    """Register the wrappers shipped with ovannot (imported lazily: they pull httpx)."""
+    import ovannot.models.mllm_client
+    import ovannot.models.sam3  # noqa: F401

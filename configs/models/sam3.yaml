@@ -1,0 +1,13 @@
+# SAM 3 image model through transformers (Sam3Model), served by serving/sam3_server.py.
+kind: sam3_http
+checkpoint: facebook/sam3
+revision: 3c879f39826c281e95690f02c7821c4de09afae7
+licence: SAM License (HF tag "other"); TODO(verify) read the full text once access is granted
+licence_source: Hugging Face model metadata, checked 2026-10-28 (gated, manual approval)
+source: >-
+  transformers 5.13 Sam3Model / Sam3Processor.post_process_instance_segmentation (boxes are
+  absolute xyxy at target_sizes), checked in the vLLM container on 2026-10-28.
+endpoint: http://127.0.0.1:8100
+endpoint_env: OVANNOT_ENDPOINT_SAM3
+mask_threshold: 0.5
+notes: model.safetensors is 3.4 GB (fp32); one GPU. SAM 3.1 changes only video tracking.
