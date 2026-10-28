@@ -1,0 +1,13 @@
+# SigLIP 2 So400m/14 at 384 px, served by serving/siglip_server.py (serving/launch_siglip.sh).
+kind: siglip_http
+checkpoint: google/siglip2-so400m-patch14-384
+revision: e8e487298228002f3d8a82e0cd5c8ea9c567f57f
+licence: apache-2.0
+licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+source: >-
+  Model card (zero-shot classification); transformers 5.13 SiglipModel: logits_per_image =
+  logit_scale.exp() * <normalised pooler outputs> + logit_bias, reproduced by the server on
+  2026-10-28. Text padded to max_length 64.
+endpoint: http://127.0.0.1:8200
+endpoint_env: OVANNOT_ENDPOINT_SIGLIP2_SO400M
+notes: fp32, 4.5 GB of weights; shares a GPU easily.

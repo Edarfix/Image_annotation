@@ -69,4 +69,5 @@ class ModelHub:
 def _import_builtin_kinds() -> None:
     """Register the wrappers shipped with ovannot (imported lazily: they pull httpx)."""
     import ovannot.models.mllm_client
-    import ovannot.models.sam3  # noqa: F401
+    import ovannot.models.sam3
+    import ovannot.models.siglip  # noqa: F401
