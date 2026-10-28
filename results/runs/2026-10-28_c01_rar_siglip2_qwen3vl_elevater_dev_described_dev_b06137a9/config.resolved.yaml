@@ -1,0 +1,123 @@
+experiment:
+  pipeline: c01_rar_siglip2_qwen3vl
+  setting: described
+  dataset: configs/datasets/elevater_dev.yaml
+  pipeline_cfg: {}
+  models: {}
+datasets:
+- eurosat
+- dtd
+- gtsrb
+- fer2013
+- fgvc_aircraft
+group:
+  loader: elevater
+  datasets:
+  - eurosat
+  - dtd
+  - gtsrb
+  - fer2013
+  - fgvc_aircraft
+  splits:
+    dev: val
+    test: test
+  loader_cfg:
+    open_set: true
+    withheld_fraction: 0.2
+    seed: 0
+  split_loader_cfg:
+    val:
+      max_images: 200
+    test:
+      max_images: 500
+pipeline_cfg:
+  retriever: siglip2_so400m
+  ranker: qwen3_vl_30b
+  top_k: 5
+  description_lines: 6
+  mllm_description_lines: 2
+  none_threshold: 0.0
+  fallback_none_threshold: 0.01
+models:
+  qwen3_vl_30b:
+    kind: openai_mllm
+    checkpoint: Qwen/Qwen3-VL-30B-A3B-Instruct
+    revision: 9c4b90e1e4ba969fd3b5378b57d966d725f1b86c
+    licence: apache-2.0
+    licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+    source: Box format from the official cookbook QwenLM/Qwen3-VL cookbooks/2d_grounding.ipynb
+      and the Qwen3-VL report §3.2.4 (relative [0, 1000] xyxy, key bbox_2d), checked
+      2026-10-28.
+    endpoint: http://127.0.0.1:8000/v1
+    endpoint_env: OVANNOT_ENDPOINT_QWEN3_VL_30B
+    served_model_name: qwen3-vl-30b-a3b-instruct
+    coord_format: qwen3vl_rel1000
+    generation: &id001
+      temperature: 0.0
+      max_tokens: 8192
+      seed: 0
+    notes: bf16, about 62 GB of weights; one B200 (180 GB) with vLLM.
+  sam3:
+    kind: sam3_http
+    checkpoint: facebook/sam3
+    revision: 3c879f39826c281e95690f02c7821c4de09afae7
+    licence: SAM License (HF tag "other"); TODO(verify) read the full text once access
+      is granted
+    licence_source: Hugging Face model metadata, checked 2026-10-28 (gated, manual
+      approval)
+    source: transformers 5.13 Sam3Model / Sam3Processor.post_process_instance_segmentation
+      (boxes are absolute xyxy at target_sizes), checked in the vLLM container on
+      2026-10-28.
+    endpoint: http://127.0.0.1:8100
+    endpoint_env: OVANNOT_ENDPOINT_SAM3
+    mask_threshold: 0.5
+    notes: model.safetensors is 3.4 GB (fp32); one GPU. SAM 3.1 changes only video
+      tracking.
+  siglip2_so400m:
+    kind: siglip_http
+    checkpoint: google/siglip2-so400m-patch14-384
+    revision: e8e487298228002f3d8a82e0cd5c8ea9c567f57f
+    licence: apache-2.0
+    licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+    source: 'Model card (zero-shot classification); transformers 5.13 SiglipModel:
+      logits_per_image = logit_scale.exp() * <normalised pooler outputs> + logit_bias,
+      reproduced by the server on 2026-10-28. Text padded to max_length 64.'
+    endpoint: http://127.0.0.1:8200
+    endpoint_env: OVANNOT_ENDPOINT_SIGLIP2_SO400M
+    notes: fp32, 4.5 GB of weights; shares a GPU easily.
+subset: dev
+limit: null
+code: 9f83d8b439bcc5da67ddb6c7d4bc274c3d1bb625
+run_hash: b06137a9
+git:
+  commit: 9f83d8b439bcc5da67ddb6c7d4bc274c3d1bb625
+  dirty: true
+models_used:
+  qwen3_vl_30b:
+    kind: openai_mllm
+    checkpoint: Qwen/Qwen3-VL-30B-A3B-Instruct
+    revision: 9c4b90e1e4ba969fd3b5378b57d966d725f1b86c
+    licence: apache-2.0
+    licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+    source: Box format from the official cookbook QwenLM/Qwen3-VL cookbooks/2d_grounding.ipynb
+      and the Qwen3-VL report §3.2.4 (relative [0, 1000] xyxy, key bbox_2d), checked
+      2026-10-28.
+    endpoint: http://127.0.0.1:8000/v1
+    endpoint_env: OVANNOT_ENDPOINT_QWEN3_VL_30B
+    served_model_name: qwen3-vl-30b-a3b-instruct
+    coord_format: qwen3vl_rel1000
+    generation: *id001
+    notes: bf16, about 62 GB of weights; one B200 (180 GB) with vLLM.
+  siglip2_so400m:
+    kind: siglip_http
+    checkpoint: google/siglip2-so400m-patch14-384
+    revision: e8e487298228002f3d8a82e0cd5c8ea9c567f57f
+    licence: apache-2.0
+    licence_source: Hugging Face model metadata (license tag), checked 2026-10-28
+    source: 'Model card (zero-shot classification); transformers 5.13 SiglipModel:
+      logits_per_image = logit_scale.exp() * <normalised pooler outputs> + logit_bias,
+      reproduced by the server on 2026-10-28. Text padded to max_length 64.'
+    endpoint: http://127.0.0.1:8200
+    endpoint_env: OVANNOT_ENDPOINT_SIGLIP2_SO400M
+    notes: fp32, 4.5 GB of weights; shares a GPU easily.
+finished: '2026-10-28T15:34:19'

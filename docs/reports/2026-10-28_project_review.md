@@ -27,7 +27,9 @@ from the sources listed at the end. What could not be checked is marked TODO(ver
 
 - `p01` (Qwen3-VL-30B-A3B, direct grounding, zero-shot): **14.7 mAP** on the 5 RF100-VL dev
   datasets. The range is 0.03 (dental X-rays, 32 classes) to 43.3 (into-the-vale).
-- Task 1, ELEVATER open-set dev: see §5.2 (filled from the run of 2026-10-28 evening).
+- Task 1, ELEVATER open-set dev (5 × 200 images): `c01` (retrieve and rank) **42.6%
+  accuracy** with "none" (60.8% closed-set), against 33.8% (49.1%) for the SigLIP 2 baseline
+  `c00`. c01 over-uses "none" (§5.2).
 
 **Main risks.** In order:
 1. The evaluation is not yet checked against published baseline predictions.
@@ -184,7 +186,31 @@ Size: about 2,500 lines in `src/`, 240 in `pipelines/`, 470 in `datasets/`, 290 
 | `c00_siglip2_zeroshot` | Contrastive zero-shot with description ensembling (CLIP / CuPL / ELEVATER style); "none" when the top sigmoid probability is below a threshold | SigLIP 2 So400m/14@384 |
 | `c01_rar_siglip2_qwen3vl` | **Retrieve and rank** (RAR, Liu et al. 2024): SigLIP 2 shortlists 5 classes; Qwen3-VL sees them with descriptions plus "None of the above" and answers one letter. Option probabilities come from first-token logprobs; if the ranker fails, the retriever decides | SigLIP 2 + Qwen3-VL-30B-A3B |
 
-Dev results (ELEVATER open-set, `described`): <!-- RESULTS-C -->filled below<!-- /RESULTS-C -->
+Dev results (ELEVATER open-set, `described`, 200 images per dataset, runs `..._c041d26e` and
+`..._b06137a9`, in %):
+
+| Dataset | c00 acc. | c01 acc. | c00 closed acc. | c01 closed acc. | c00 "none" F1 | c01 "none" F1 | c00 AuPR | c01 AuPR |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| eurosat | 35.0 | 35.5 | 54.4 | 61.3 | 38.8 | 37.6 | 90.7 | 86.4 |
+| dtd | 49.5 | 58.0 | 66.7 | 74.7 | 43.1 | 23.5 | 85.6 | 79.1 |
+| gtsrb | 51.0 | 41.5 | 68.1 | 74.3 | 12.9 | 46.1 | 87.4 | 84.3 |
+| fer2013 | 16.0 | 50.0 | 36.8 | 66.1 | 8.2 | 38.0 | 67.4 | 96.4 |
+| fgvc_aircraft | 17.5 | 28.0 | 19.6 | 27.8 | 18.2 | 38.3 | 67.5 | 81.5 |
+| **mean** | 33.8 | **42.6** | 49.1 | **60.8** | 24.2 | **36.7** | 79.7 | **85.5** |
+
+**Reading.**
+- c01 beats c00 on the mean of every metric. Its closed-set accuracy is higher on all five
+  datasets (+11.7 points on average): the MLLM ranks the shortlist better than SigLIP 2.
+- **c01 says "none" far too often.** The share of "none" answers is 81% on eurosat, 80% on
+  gtsrb, 73% on fgvc_aircraft and 48% on fer2013, against about 20% of open-set images. So on
+  eurosat and gtsrb its open accuracy (with "none") barely beats, or loses to, c00, despite a
+  better closed accuracy. The "None of the above" option attracts the MLLM when the
+  descriptions do not match the image well. This is the first thing to fix (§7, classification
+  step 1). The probabilities are stored (`class_scores`, `extras.p_none`), so a "none" rule
+  tuned on dev needs no GPU.
+- c00's `none_threshold` (0.01) is a placeholder: its "none" F1 is low too.
+- Costs: c01 takes 0.3–1.1 s per image under 32 concurrent requests (one SigLIP embedding and
+  one 1-token MLLM call); c00 takes 0.8–3.3 s, dominated by the first text-embedding calls.
 
 **Is c01 state of the art?**
 - It follows the strongest *training-free* recipe found in the literature for many-class
@@ -278,8 +304,10 @@ Dev results (ELEVATER open-set, `described`): <!-- RESULTS-C -->filled below<!--
 
 **Classification**
 
-1. **Tune `top_k` and the "none" rule on dev**, after measuring the shortlist recall
-   (`extras.candidates`).
+1. **Fix the "none" over-rejection, on dev.** For example, choose "none" only when `p_none`
+   beats the best class by a margin, or combine `p_none` with the retriever's top
+   probability. Tune `top_k` after measuring the shortlist recall (`extras.candidates`).
+   Everything needed is stored in the runs: no GPU.
 2. **Average over option permutations** to cancel the ranker's letter-position bias.
 3. **PE-Core as retriever** instead of SigLIP 2.
 4. **Wire `few_shot`.** ELEVATER train images as in-context examples, as in RAR's ICL variant.

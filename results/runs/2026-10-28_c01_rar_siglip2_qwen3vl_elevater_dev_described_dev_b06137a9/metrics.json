@@ -1,0 +1,144 @@
+{
+  "pipeline": "c01_rar_siglip2_qwen3vl",
+  "task": "classification",
+  "finished": "2026-10-28T15:34:19",
+  "dataset_group": "elevater_dev",
+  "setting": "described",
+  "subset": "dev",
+  "mean": {
+    "accuracy": 0.426,
+    "closed_accuracy": 0.6083245550220671,
+    "macro_f1": 0.32079986836125135,
+    "none_f1": 0.3671010494314893,
+    "aupr": 0.8553525929001673
+  },
+  "per_domain": {
+    "Faces": {
+      "accuracy": 0.5,
+      "closed_accuracy": 0.6609195402298851,
+      "macro_f1": 0.367978550643087,
+      "none_f1": 0.38016528925619836,
+      "aupr": 0.9641445848224879
+    },
+    "Fine-grained objects": {
+      "accuracy": 0.28,
+      "closed_accuracy": 0.27848101265822783,
+      "macro_f1": 0.13092201828903957,
+      "none_f1": 0.3829787234042553,
+      "aupr": 0.8148432665032515
+    },
+    "Remote sensing": {
+      "accuracy": 0.355,
+      "closed_accuracy": 0.6125,
+      "macro_f1": 0.26258060963436874,
+      "none_f1": 0.37623762376237624,
+      "aupr": 0.8638315929955126
+    },
+    "Textures": {
+      "accuracy": 0.58,
+      "closed_accuracy": 0.7466666666666667,
+      "macro_f1": 0.6012497727294354,
+      "none_f1": 0.23529411764705882,
+      "aupr": 0.7905573755226568
+    },
+    "Traffic signs": {
+      "accuracy": 0.415,
+      "closed_accuracy": 0.7430555555555556,
+      "macro_f1": 0.24126839051032603,
+      "none_f1": 0.4608294930875576,
+      "aupr": 0.8433861446569271
+    }
+  },
+  "per_dataset": {
+    "eurosat": {
+      "accuracy": 0.355,
+      "closed_accuracy": 0.6125,
+      "macro_f1": 0.26258060963436874,
+      "none_f1": 0.37623762376237624,
+      "aupr": 0.8638315929955126,
+      "domain": "Remote sensing",
+      "n_images": 200,
+      "failure_rate": 0.0,
+      "cost": {
+        "time_per_image_s": {
+          "mean": 0.3792115942313103,
+          "p95": 0.7666192266508005
+        },
+        "model_calls_per_image": 2.0,
+        "prepare_s": 0.009703529009129852
+      }
+    },
+    "dtd": {
+      "accuracy": 0.58,
+      "closed_accuracy": 0.7466666666666667,
+      "macro_f1": 0.6012497727294354,
+      "none_f1": 0.23529411764705882,
+      "aupr": 0.7905573755226568,
+      "domain": "Textures",
+      "n_images": 200,
+      "failure_rate": 0.0,
+      "cost": {
+        "time_per_image_s": {
+          "mean": 0.4174394688615575,
+          "p95": 0.6634813289914745
+        },
+        "model_calls_per_image": 2.0,
+        "prepare_s": 0.041351435997057706
+      }
+    },
+    "gtsrb": {
+      "accuracy": 0.415,
+      "closed_accuracy": 0.7430555555555556,
+      "macro_f1": 0.24126839051032603,
+      "none_f1": 0.4608294930875576,
+      "aupr": 0.8433861446569271,
+      "domain": "Traffic signs",
+      "n_images": 200,
+      "failure_rate": 0.0,
+      "cost": {
+        "time_per_image_s": {
+          "mean": 0.34092926415760305,
+          "p95": 0.5095480750169372
+        },
+        "model_calls_per_image": 2.0,
+        "prepare_s": 0.038993324036709964
+      }
+    },
+    "fer2013": {
+      "accuracy": 0.5,
+      "closed_accuracy": 0.6609195402298851,
+      "macro_f1": 0.367978550643087,
+      "none_f1": 0.38016528925619836,
+      "aupr": 0.9641445848224879,
+      "domain": "Faces",
+      "n_images": 200,
+      "failure_rate": 0.0,
+      "cost": {
+        "time_per_image_s": {
+          "mean": 0.30781410433730344,
+          "p95": 0.41503611161606385
+        },
+        "model_calls_per_image": 2.0,
+        "prepare_s": 0.006848769960924983
+      }
+    },
+    "fgvc_aircraft": {
+      "accuracy": 0.28,
+      "closed_accuracy": 0.27848101265822783,
+      "macro_f1": 0.13092201828903957,
+      "none_f1": 0.3829787234042553,
+      "aupr": 0.8148432665032515,
+      "domain": "Fine-grained objects",
+      "n_images": 200,
+      "failure_rate": 0.0,
+      "cost": {
+        "time_per_image_s": {
+          "mean": 1.1279983720637392,
+          "p95": 1.3952898605435613
+        },
+        "model_calls_per_image": 2.0,
+        "prepare_s": 0.08552853803848848
+      }
+    }
+  }
+}
