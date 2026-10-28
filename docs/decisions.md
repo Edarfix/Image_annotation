@@ -171,3 +171,45 @@ at `maxDets = 500` instead of calling `COCOeval.summarize`.
 **Why.** `summarize` computes its headline mAP with `maxDets=100` whatever `params.maxDets`
 holds, which returns -1 when the list is `(1, 10, 500)`. detectron2, used by the RF100-VL
 reference code, patches it the same way (`COCOevalMaxDets`, `coco_evaluation.py:684`).
+
+## D16 (2026-10-28): task 1 benchmark, first version (completes D9)
+
+**Decision.**
+- Five ELEVATER datasets, chosen to be far from everyday photos and to span domains:
+  - EuroSAT (satellite land use, 10 classes);
+  - DTD (textures, 47);
+  - GTSRB (traffic signs, 43);
+  - FER-2013 (48×48 grayscale faces, 7);
+  - FGVC-Aircraft (aircraft variants, 100).
+- Images come from the mirror `ytaek-oh/elevater` (revision `48bf249c`). Class names and
+  descriptions come from the official toolkit (`knowledge.json`, commit `00d0af7`, MIT):
+  WordNet, Wiktionary and GPT-3 lines.
+- Open set: 20% of each dataset's classes (at least one) are withheld with a fixed seed.
+  Pipelines see only the known classes; images of withheld classes must be labelled "none".
+- Samples: dev = 200 seeded images of `val`, test = 500 seeded images of `test`, per dataset.
+  The samples are prefixes of a seeded permutation, so a smaller sample sits inside a larger
+  one.
+- Metrics:
+  - accuracy (with "none"), closed-set accuracy, macro-F1, "none" P/R/F1;
+  - Miller et al.'s AuPR, P@95R and R@95P, with true positives against open-set errors,
+    ranked by the top known class's confidence (definitions checked in the paper, §4.1).
+
+**Why.**
+- The owner asked for a working task 1 and delegated the choice ("do the best").
+- These are the ELEVATER datasets least like web photos, small enough to run tonight.
+- PatchCamelyon is left out: with 2 classes, an open-set split leaves a single known class.
+- The samples keep MLLM runs cheap; their size can grow without changing the earlier images.
+
+**Caveats.**
+- The mirror's per-split counts match the toolkit's registry, but the images were not checked
+  against the original host, which is dead.
+- Some GPT-3 descriptions are poor (e.g. GTSRB).
+- None of these datasets is truly out of distribution for modern VLMs.
+
+## D17 (2026-10-28): `described` setting
+
+**Decision.** A third setting, `described`, passes the class names and their descriptions, and
+nothing else: no exemplars, no instructions, no domain. Task 1 runs use it.
+
+**Why.** Task 1 is "classes with their descriptions → one class or none". D4 requires any input
+beyond names to be a declared setting; `few_shot` would also pass exemplars.
