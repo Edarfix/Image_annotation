@@ -81,17 +81,25 @@ def discover_datasets(root: Path | None = None) -> list[str]:
 def restrict_to_setting(spec: DatasetSpec, setting: Setting) -> DatasetSpec:
     """Return a copy of ``spec`` containing only what ``setting`` allows (decision D4).
 
-    ``zero_shot`` keeps the class names only; ``few_shot`` adds the descriptions, annotator
-    instructions and exemplars. The domain is never passed: any other input defines a separate
-    setting. ``spec.name`` is kept because it identifies the dataset (cache keys, concept-card
-    folders); pipelines must never put it in a prompt. The result shares no mutable state
-    with ``spec``.
+    ``zero_shot`` keeps the class names only; ``described`` adds their descriptions;
+    ``few_shot`` adds the descriptions, annotator instructions and exemplars. The domain is
+    never passed: any other input defines a separate setting. ``spec.name`` is kept because it
+    identifies the dataset (cache keys, concept-card folders); pipelines must never put it in a
+    prompt. The result shares no mutable state with ``spec``.
     """
     spec = deepcopy(spec)
     if setting is Setting.ZERO_SHOT:
         return replace(
             spec,
             classes=[ClassSpec(name=c.name) for c in spec.classes],
+            annotator_instructions=None,
+            domain="",
+            setting=setting,
+        )
+    if setting is Setting.DESCRIBED:
+        return replace(
+            spec,
+            classes=[ClassSpec(name=c.name, description=c.description) for c in spec.classes],
             annotator_instructions=None,
             domain="",
             setting=setting,

@@ -39,12 +39,15 @@ class Setting(StrEnum):
     """What a run is allowed to know about the classes (decision D4).
 
     - ``zero_shot``: class names only.
+    - ``described``: class names and their descriptions (task 1: "classes with descriptions";
+      decision D17).
     - ``few_shot``: class names, descriptions, annotator instructions and labelled exemplars.
 
     Anything else (dataset name, domain...) would define a new setting.
     """
 
     ZERO_SHOT = "zero_shot"
+    DESCRIBED = "described"
     FEW_SHOT = "few_shot"
 
 

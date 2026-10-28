@@ -103,6 +103,9 @@ def test_zero_shot_spec_keeps_only_class_names():
     assert zero.classes == [ClassSpec("crack")]
     assert zero.annotator_instructions is None and zero.domain == ""
     assert zero.setting is Setting.ZERO_SHOT
+    described = restrict_to_setting(spec, Setting.DESCRIBED)
+    assert described.classes == [ClassSpec("crack", "a thin dark line")]
+    assert described.annotator_instructions is None and described.domain == ""
     few = restrict_to_setting(spec, Setting.FEW_SHOT)
     assert few.classes == spec.classes and few.annotator_instructions == "Label every crack."
     assert few.domain == ""  # any other input defines a new setting (D4)
