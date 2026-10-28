@@ -124,9 +124,10 @@ class OpenAIMLLM:
             raise ValueError(f"model {self.name!r} declares no supported coord_format")
         out = []
         for item in parse_json_list(text):
-            if not isinstance(item, dict) or "bbox_2d" not in item:
+            if not isinstance(item, dict):
                 continue
-            values = item["bbox_2d"]
+            # Qwen3-VL sometimes writes "bbox" (seen on the dev subset, 2026-10-28)
+            values = item.get("bbox_2d", item.get("bbox"))
             if not (isinstance(values, list) and len(values) == 4):
                 continue
             try:
@@ -142,22 +143,34 @@ class OpenAIMLLM:
 _FENCE = re.compile(r"```(?:json)?\s*(.*?)(?:```|$)", re.S)
 
 
+_OBJECT = re.compile(r"\{[^{}]*\}")
+
+
 def parse_json_list(text: str) -> list[Any]:
-    """A JSON list from a model answer: strips Markdown fences and, if the answer was cut by
-    the token limit, keeps the objects completed before the cut (as the Qwen cookbook does)."""
+    """A JSON list from a model answer.
+
+    - Markdown fences are stripped.
+    - An answer without any JSON bracket (e.g. "There is no object of these categories") is
+      an empty list: the model found nothing.
+    - If the list does not parse (cut by the token limit, or a malformed object), every flat
+      ``{...}`` object that parses on its own is kept, in order.
+    """
     if not text.strip():
         raise EmptyOutputError("empty answer")
     fenced = _FENCE.search(text)
     body = (fenced.group(1) if fenced else text).strip()
+    if "[" not in body and "{" not in body:
+        return []
     try:
         data = json.loads(body)
-    except json.JSONDecodeError:
-        start, end = body.find("["), body.rfind("}")
-        if start < 0 or end < start:
-            raise ParseError(f"no JSON list in answer: {text[:200]!r}") from None
-        try:
-            data = json.loads(body[start : end + 1] + "]")
-        except json.JSONDecodeError as exc:
+    except json.JSONDecodeError as exc:
+        data = []
+        for match in _OBJECT.finditer(body):
+            try:
+                data.append(json.loads(match.group(0)))
+            except json.JSONDecodeError:
+                continue
+        if not data:
             raise ParseError(f"unparsable JSON ({exc}): {text[:200]!r}") from None
     return data if isinstance(data, list) else [data]
 

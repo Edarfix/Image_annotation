@@ -96,11 +96,31 @@ def test_parse_json_list(text, n):
     assert len(parse_json_list(text)) == n
 
 
-def test_parse_errors():
+def test_parse_errors_and_plain_text_answers():
     with pytest.raises(EmptyOutputError):
         parse_json_list("  ")
+    assert parse_json_list("There is no object belonging to the provided categories.") == []
     with pytest.raises(ParseError):
-        parse_json_list("I cannot see any object.")
+        parse_json_list('[{"bbox_2d": [1, 2,')
+
+
+def test_malformed_lists_keep_the_objects_that_parse():
+    text = (
+        '[{"bbox_2d": [1, 2, 3, 4], "label": "a"}, {"bbox_2d": [5 6 7 8]},'
+        ' {"bbox": [9, 9, 10, 10]}]'
+    )
+    assert parse_json_list(text) == [
+        {"bbox_2d": [1, 2, 3, 4], "label": "a"},
+        {"bbox": [9, 9, 10, 10]},
+    ]
+
+
+def test_bbox_key_is_an_alias(tmp_path, monkeypatch):
+    monkeypatch.setenv("OVANNOT_CACHE", str(tmp_path))
+    mllm = OpenAIMLLM("qwen", QWEN)
+    assert mllm.boxes_from_text('[{"bbox": [0, 0, 500, 500], "label": "x"}]', 200, 100) == [
+        ("x", (0.0, 0.0, 100.0, 50.0))
+    ]
 
 
 def test_http_errors_become_model_errors(tmp_path, image, monkeypatch):

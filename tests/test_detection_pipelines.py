@@ -108,8 +108,11 @@ def test_p01_keeps_known_labels_and_converts_boxes(image, tmp_path):
     assert "'dent, crack'" in prompt and "toy" not in prompt  # never the dataset name
 
 
-def test_p01_records_parse_failures(image, tmp_path):
-    ANSWERS["img.png"] = "Sorry, I see nothing."
+def test_p01_text_answers_are_empty_and_broken_json_is_a_parse_failure(image, tmp_path):
+    ANSWERS["img.png"] = "There is no object belonging to the provided categories."
+    ann = build("p01_mllm_grounding_raw", hub(), tmp_path).safe_annotate(image)
+    assert not ann.failures and ann.detections == []
+    ANSWERS["img.png"] = '[{"bbox_2d": [1, 2,'
     ann = build("p01_mllm_grounding_raw", hub(), tmp_path).safe_annotate(image)
     assert [(f.stage, f.kind) for f in ann.failures] == [("ground", FailureKind.PARSE_ERROR)]
     assert ann.detections == []

@@ -108,11 +108,13 @@ nothing. The whole dev subset takes about 4 minutes once the server is up (about
   log-probabilities (the brief's preferred method), or a verifier (`p03`).
 - No exemplar images in `few_shot` yet: only text is added.
 - Dense images can exceed `max_tokens` (8192); the truncation flag measures how often.
-- Seen on dev, not fixed yet (a change of the wrapper or prompt, to decide and log): a
-  plain-text "no object" answer is counted as a parse error, although it means "no
-  detections"; some answers use the key `bbox` instead of `bbox_2d`, and those boxes are lost.
+- Seen on dev and fixed in the parser (see Changelog): plain-text "no object" answers,
+  malformed lists, the key `bbox` instead of `bbox_2d`.
 - ufba-425 (32 dental classes) is near 0 mAP: the class names alone do not ground.
 
 ## 11. Changelog
 
 - 2026-10-28: first version (Qwen3-VL-30B-A3B, ODinW prompt, score 1.0).
+- 2026-10-28 (evening): parser. A plain-text answer is "no detections" instead of a parse
+  error; a malformed list keeps every object that parses on its own; `bbox` is read as
+  `bbox_2d`. Affects every run from commit after `146dc0a` (same cached model answers).
