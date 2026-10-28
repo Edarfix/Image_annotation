@@ -1,0 +1,14 @@
+# Task 1 benchmark (D9, D16): five ELEVATER datasets far from everyday photos, open-set split
+# (20% of the classes withheld, seed 0). Dev: 200 seeded images of `val`; test: 500 of `test`.
+loader: elevater
+splits: {dev: val, test: test}
+loader_cfg: {open_set: true, withheld_fraction: 0.2, seed: 0}
+split_loader_cfg:
+  val: {max_images: 200}
+  test: {max_images: 500}
+datasets:
+  - eurosat  # Sentinel-2 satellite land use, 10 classes
+  - dtd  # describable textures, 47 classes
+  - gtsrb  # German traffic signs, 43 classes
+  - fer2013  # 48x48 grayscale facial expressions, 7 classes
+  - fgvc_aircraft  # aircraft variants (fine-grained), 100 classes

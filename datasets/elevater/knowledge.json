@@ -1,0 +1,2721 @@
+{
+ "_source": "Computer-Vision-in-the-Wild/Elevater_Toolkit_IC (MIT), commit 00d0af78559d5f3d800ae4668210e6bd1f2f84b9, vision_benchmark/resources/knowledge/{external,gpt3}; classes listed in label-id order, which is how the toolkit pairs them; copied 2026-10-28",
+ "datasets": {
+  "eurosat": {
+   "mirror_folder": "eurosat_clip_20210930",
+   "classes": [
+    {
+     "label": "AnnualCrop",
+     "name": "annual crop land",
+     "def_wn": "",
+     "def_wiki": "arable land",
+     "gpt3": [
+      "arable land",
+      "arable land",
+      "land used for growing crops that are harvested once a year",
+      "Land that is used to grow crops for one year.",
+      "arable land"
+     ]
+    },
+    {
+     "label": "Forest",
+     "name": "forest",
+     "def_wn": "the trees and other plants in a large densely wooded area",
+     "def_wiki": "A dense uncultivated tract of trees and undergrowth, larger than woods.",
+     "gpt3": [
+      "a large area of land covered with trees",
+      "land covered with trees",
+      "a tract of land covered with trees and underbrush",
+      "A large area of land covered with trees.",
+      "A tract of land covered with trees and undergrowth, larger than woods."
+     ]
+    },
+    {
+     "label": "HerbaceousVegetation",
+     "name": "brushland or shrubland",
+     "def_wn": "",
+     "def_wiki": "Land that is covered mostly with shrubs.",
+     "gpt3": [
+      "A land area covered with low-growing woody plants, such as bushes, small trees, and shrubs.",
+      "Land that is covered mostly with shrubs.",
+      "land covered with bushes, shrubs, and small trees.",
+      "land covered with low, scrubby vegetation",
+      "land covered with low, scrubby vegetation, especially thorny bushes."
+     ]
+    },
+    {
+     "label": "Highway",
+     "name": "highway or road",
+     "def_wn": "",
+     "def_wiki": "A way used for travelling between places, originally one wide enough to allow foot passengers and horses to travel, now (US) usually one surfaced with asphalt or concrete and designed to accommodate many vehicles travelling in both directions. In the UK both senses are heard: a country road is the same as a country lane.",
+     "gpt3": [
+      "A way or course for the passage of vehicles, persons, and merchandise, usually including paved or graveled surface, curbs, and usually sidewalks.",
+      "a way (usually public) for the transportation of people or goods",
+      "A way used for travelling between places, originally one wide enough to allow foot passengers and horses to travel, now (US) usually one surfaced with asphalt or concrete and designed to accommodate many vehicles travelling in both directions. In the UK both senses are heard",
+      "A way used for travelling between places, originally one wide enough to allow foot passengers and horses to travel, now (US) usually one surfaced with asphalt or concrete and designed to accommodate many vehicles travelling in both directions. In the UK both senses are heard",
+      "A way or path for the travel of people or vehicles."
+     ]
+    },
+    {
+     "label": "Industrial",
+     "name": "industrial buildings or commercial buildings",
+     "def_wn": "",
+     "def_wiki": "The act or process by which something is built; construction.",
+     "gpt3": [
+      "The act or process by which something is built; construction.",
+      "A building or group of buildings where goods are produced, processed or manufactured, or where services are provided.",
+      "A building or group of buildings where goods are manufactured, processed or repaired, or goods and services are sold.",
+      "The act or process by which something is built; construction.",
+      "Buildings used for manufacturing or storing and selling goods."
+     ]
+    },
+    {
+     "label": "Pasture",
+     "name": "pasture land",
+     "def_wn": "",
+     "def_wiki": "land used for grazing animals",
+     "gpt3": [
+      "grassland used for grazing livestock",
+      "Land used for grazing.",
+      "land used for grazing animals",
+      "Land used for grazing.",
+      "Land used for grazing."
+     ]
+    },
+    {
+     "label": "PermanentCrop",
+     "name": "permanent crop land",
+     "def_wn": "",
+     "def_wiki": "arable land",
+     "gpt3": [
+      "land used for growing crops that are not harvested annually",
+      "arable land",
+      "Land that is used for growing crops that are not intended for sale or for feeding livestock.",
+      "Land used for growing crops that are not intended for harvest in the current year.",
+      "land used for growing crops that are not harvested annually, such as trees, shrubs, and vines."
+     ]
+    },
+    {
+     "label": "Residential",
+     "name": "residential buildings or homes or apartments",
+     "def_wn": "",
+     "def_wiki": "A complete domicile occupying only part of a building, especially one for rent; a flat.",
+     "gpt3": [
+      "A complete domicile occupying only part of a building, especially one for rent; a flat.",
+      "A building or group of buildings containing a number of homes.",
+      "The act or process by which something is built; construction.",
+      "buildings where people live",
+      "A complete domicile occupying only part of a building, especially one for rent; a flat."
+     ]
+    },
+    {
+     "label": "River",
+     "name": "river",
+     "def_wn": "a large natural stream of water (larger than a creek)",
+     "def_wiki": "A large and often winding stream which drains a land mass, carrying water down from higher areas to a lower point, oftentimes ending in another body of water, such as an ocean or in an inland sea.",
+     "gpt3": [
+      "A large natural stream of water flowing in a channel to the sea, a lake, or another river.",
+      "a natural stream of water larger than a creek",
+      "A natural stream of water of considerable volume flowing in a definite course from higher to lower ground.",
+      "A large and often winding stream which drains a land mass, carrying water down from higher areas to a lower point, oftentimes ending in another body of water, such as an ocean or in an inland sea.",
+      "A large natural stream of water (larger than a creek) flowing in a channel on the surface of the earth."
+     ]
+    },
+    {
+     "label": "SeaLake",
+     "name": "lake or sea",
+     "def_wn": "",
+     "def_wiki": "A large body of salt water.",
+     "gpt3": [
+      "A large body of salt water.",
+      "a large body of water surrounded by land",
+      "A large body of water surrounded by land.",
+      "A large body of water surrounded by land.",
+      "A large body of water surrounded by land."
+     ]
+    }
+   ]
+  },
+  "dtd": {
+   "mirror_folder": "dtd_20211007",
+   "classes": [
+    {
+     "label": "banded",
+     "name": "banded",
+     "def_wn": "bind or tie together, as with a band",
+     "def_wiki": "A strip of material used for strengthening or coupling.",
+     "gpt3": [
+      "Formed into a band or bands.",
+      "A strip of material or a strip of colour, especially one that is a different colour from the rest of the surface.",
+      "A strip of cloth or ribbon worn around the arm or leg.",
+      "A band is a group of people or things that are linked or similar in some way.",
+      "A band is a strip of material, either flexible or rigid."
+     ]
+    },
+    {
+     "label": "blotchy",
+     "name": "blotchy",
+     "def_wn": "marked with irregularly shaped spots or blots",
+     "def_wiki": "Covered in blotches.",
+     "gpt3": [
+      "Having blotches or patches of different color or shades of color.",
+      "A blotch is a small, irregularly shaped spot.",
+      "Having blotches or patches of different color or shades.",
+      "Having blotches; blotchy.",
+      "A skin condition characterized by red patches on the skin."
+     ]
+    },
+    {
+     "label": "braided",
+     "name": "braided",
+     "def_wn": "make by braiding or interlacing",
+     "def_wiki": "To make a sudden movement with, to jerk.",
+     "gpt3": [
+      "A plait or braid of hair.",
+      "A long, narrow braid.",
+      "A series of interwoven strands or threads.",
+      "Formed by intertwining strands or parts.",
+      "A plait or braid of hair."
+     ]
+    },
+    {
+     "label": "bubbly",
+     "name": "bubbly",
+     "def_wn": "a white sparkling wine either produced in Champagne or resembling that produced there",
+     "def_wiki": "Full of bubbles.",
+     "gpt3": [
+      "Having a lot of tiny bubbles.",
+      "A person who is bubbly is cheerful and lively.",
+      "A person who is bubbly is cheerful and lively.",
+      "Of or relating to a liquid that is foamy or frothy.",
+      "A small amount of liquid in a small amount of gas."
+     ]
+    },
+    {
+     "label": "bumpy",
+     "name": "bumpy",
+     "def_wn": "causing or characterized by jolts and irregular movements",
+     "def_wiki": "rough; jumpy; causing or characterized by jolts and irregular movements",
+     "gpt3": [
+      "Having a surface that is uneven or rough.",
+      "rough; jumpy; causing or characterized by jolts and irregular movements",
+      "A surface that is uneven and rough.",
+      "having a surface that is uneven or rough.",
+      "Having a surface that is uneven or rough."
+     ]
+    },
+    {
+     "label": "chequered",
+     "name": "chequered",
+     "def_wn": "mark into squares or draw squares on; draw crossed lines on",
+     "def_wiki": "The edible fruit of the wild service tree, Sorbus torminalis.",
+     "gpt3": [
+      "having a pattern of squares of different colours",
+      "A flat piece of material used for covering a surface, or for decoration.",
+      "Marked with squares or checks.",
+      "Marked with a pattern of squares of two colours.",
+      "Marked with squares or checks."
+     ]
+    },
+    {
+     "label": "cobwebbed",
+     "name": "cobwebbed",
+     "def_wn": "",
+     "def_wiki": "Covered with cobwebs",
+     "gpt3": [
+      "A network of fine threads, as of a spider’s web.",
+      "Covered with cobwebs.",
+      "Covered with cobwebs.",
+      "Covered in cobwebs.",
+      "Covered with cobwebs."
+     ]
+    },
+    {
+     "label": "cracked",
+     "name": "cracked",
+     "def_wn": "become fractured; break or crack on the surface only",
+     "def_wiki": "To form cracks.",
+     "gpt3": [
+      "A hole in the ground.",
+      "A fissure or crack in a surface.",
+      "Having a surface that is broken or split open, usually with irregular edges.",
+      "A break in the surface of something, such as a piece of pottery or a layer of paint.",
+      "A fissure or crack in a surface or object."
+     ]
+    },
+    {
+     "label": "crosshatched",
+     "name": "crosshatched",
+     "def_wn": "shade with multiple crossing lines",
+     "def_wiki": "A pattern of crossing lines.",
+     "gpt3": [
+      "To mark with lines that cross each other at right angles.",
+      "A pattern of lines or strokes at right angles to one another.",
+      "To draw a series of parallel lines across a surface, especially in a regular pattern.",
+      "To mark with lines that cross each other at right angles.",
+      "To draw or mark with lines that cross each other at various angles."
+     ]
+    },
+    {
+     "label": "crystalline",
+     "name": "crystalline",
+     "def_wn": "consisting of or containing or of the nature of crystals",
+     "def_wiki": "Of, relating to, or composed of crystals.",
+     "gpt3": [
+      "Having the appearance of crystals; resembling crystals.",
+      "Having the appearance of crystals.",
+      "Of, relating to, or composed of crystals.",
+      "A substance that has a regular, repeating internal structure, as in a crystal.",
+      "transparent; clear; like a crystal"
+     ]
+    },
+    {
+     "label": "dotted",
+     "name": "dotted",
+     "def_wn": "scatter or intersperse like dots or studs",
+     "def_wiki": "A small, round spot.",
+     "gpt3": [
+      "To mark with dots.",
+      "Marked with dots or small spots.",
+      "Dotted with small spots.",
+      "Marked with dots or small spots.",
+      "Marked with dots or small spots."
+     ]
+    },
+    {
+     "label": "fibrous",
+     "name": "fibrous",
+     "def_wn": "having or resembling fibers especially fibers used in making cordage such as those of jute",
+     "def_wiki": "Of or pertaining to fibre.",
+     "gpt3": [
+      "Consisting of or resembling fibers.",
+      "Made of or containing fibers.",
+      "Consisting of or containing fibers.",
+      "Made of or resembling fibers.",
+      "Consisting of or resembling fibers."
+     ]
+    },
+    {
+     "label": "flecked",
+     "name": "flecked",
+     "def_wn": "make a spot or mark onto",
+     "def_wiki": "A flake",
+     "gpt3": [
+      "To cover with small spots or patches.",
+      "To be spotted or speckled with small spots.",
+      "To cover with small spots or streaks.",
+      "A flake",
+      "A flake"
+     ]
+    },
+    {
+     "label": "freckled",
+     "name": "freckled",
+     "def_wn": "become freckled",
+     "def_wiki": "A small brownish or reddish pigmentation spot on the surface of the skin.",
+     "gpt3": [
+      "Having small spots or marks of a different colour or shades.",
+      "Having small spots or patches of color.",
+      "Having small spots or patches of colour.",
+      "A small brownish or reddish pigmentation spot on the surface of the skin.",
+      "Having small spots or patches of color."
+     ]
+    },
+    {
+     "label": "frilly",
+     "name": "frilly",
+     "def_wn": "having decorative ruffles or frills",
+     "def_wiki": "Having frills; frilled.",
+     "gpt3": [
+      "Having a ruffled edge or border.",
+      "Having a lot of frills.",
+      "Having a lot of frills or ruffles.",
+      "Having a ruffled or scalloped edge.",
+      "Having a lot of frills or ruffles."
+     ]
+    },
+    {
+     "label": "gauzy",
+     "name": "gauzy",
+     "def_wn": "so thin as to transmit light",
+     "def_wiki": "Resembling gauze; light, thin, translucent.",
+     "gpt3": [
+      "Light and thin, like a gauze.",
+      "Light and thin, like gauze.",
+      "Light and thin, like gauze.",
+      "Light and airy, like a gauze.",
+      "Light and airy in texture."
+     ]
+    },
+    {
+     "label": "grid",
+     "name": "grid",
+     "def_wn": "a pattern of regularly spaced horizontal and vertical lines",
+     "def_wiki": "A rectangular array of squares or rectangles of equal size, such as in a crossword puzzle.",
+     "gpt3": [
+      "A rectangular array of squares or rectangles of equal size, such as in a crossword puzzle.",
+      "A network of intersecting lines.",
+      "A pattern of crossed lines used to divide a surface into squares or rectangles.",
+      "A pattern of lines that cross each other to form a network.",
+      "a network of intersecting lines or wires forming a pattern or network"
+     ]
+    },
+    {
+     "label": "grooved",
+     "name": "grooved",
+     "def_wn": "make a groove in, or provide with a groove",
+     "def_wiki": "A long, narrow channel or depression; e.g., such a slot cut into a hard material to provide a location for an engineering component, a tyre groove, or a geological channel or depression.",
+     "gpt3": [
+      "A long narrow channel, especially one cut into a surface.",
+      "A long, narrow channel or groove.",
+      "Having a groove or grooves.",
+      "A long narrow channel or groove.",
+      "A groove is a long narrow channel or depression."
+     ]
+    },
+    {
+     "label": "honeycombed",
+     "name": "honeycombed",
+     "def_wn": "carve a honeycomb pattern into",
+     "def_wiki": "A structure of hexagonal cells made by bees primarily of wax, to hold their larvae and for storing the honey to feed the larvae and to feed themselves during winter.",
+     "gpt3": [
+      "A structure with many cavities or cells, as a honeycomb.",
+      "A structure of hexagonal cells made by bees primarily of wax, to hold their larvae and for storing the honey to feed the larvae and to feed themselves during winter.",
+      "A structure of hexagonal cells made by bees primarily of wax, to hold their larvae and for storing the honey to feed the larvae and to feed themselves during winter.",
+      "To be filled with holes like a honeycomb.",
+      "Having cells or cavities that are interconnected."
+     ]
+    },
+    {
+     "label": "interlaced",
+     "name": "interlaced",
+     "def_wn": "spin,wind, or twist together",
+     "def_wiki": "A decorative element found especially in early medieval art",
+     "gpt3": [
+      "To weave together; to form a pattern by crossing one thing over another.",
+      "A pattern of weaving in which one set of threads crosses over and under another set of threads at regular intervals.",
+      "Laid or woven together.",
+      "To weave together; to entwine.",
+      "A decorative element found especially in early medieval art"
+     ]
+    },
+    {
+     "label": "knitted",
+     "name": "knitted",
+     "def_wn": "make (textiles) by knitting",
+     "def_wiki": "To turn thread or yarn into a piece of fabric by forming loops that are pulled through each other. This can be done by hand with needles or by machine.",
+     "gpt3": [
+      "A knitted fabric is a fabric in which the yarns are interlaced or interwoven at regular intervals.",
+      "A fabric made by interlacing two sets of yarns in a series of loops that are connected by a third set of yarns.",
+      "To form by interlacing loops of yarn with a needle.",
+      "To be woven together.",
+      "Made by knitting."
+     ]
+    },
+    {
+     "label": "lacelike",
+     "name": "lacelike",
+     "def_wn": "made of or resembling lace",
+     "def_wiki": "Resembling lace.",
+     "gpt3": [
+      "Resembling a lace.",
+      "Resembling a lacy pattern.",
+      "Resembling a lace in form or structure.",
+      "Resembling lace.",
+      "Resembling a lacey."
+     ]
+    },
+    {
+     "label": "lined",
+     "name": "lined",
+     "def_wn": "be in line with; form a line along",
+     "def_wiki": "A path through two or more points (compare ‘segment’); a continuous mark, including as made by a pen; any path, curved or straight.",
+     "gpt3": [
+      "A layer of material applied to the surface of something, especially to protect or insulate it.",
+      "To form a line or series of lines.",
+      "A layer of fabric or other material sewn into the inside of a garment to make it more comfortable or to provide extra warmth.",
+      "To provide with a line or lines.",
+      "To cover the inside of (something) with a layer of something."
+     ]
+    },
+    {
+     "label": "marbled",
+     "name": "marbled",
+     "def_wn": "paint or stain like marble",
+     "def_wiki": "A metamorphic rock of crystalline limestone.",
+     "gpt3": [
+      "Having a pattern of dark and light areas, as if produced by the flow of a liquid.",
+      "Of, relating to, or consisting of marble.",
+      "Having a pattern of irregularly shaped spots or patches of different colors, as in marble.",
+      "A pattern of colors that are swirled together, usually in a liquid.",
+      "Having a pattern of dark and light areas, as in a marble."
+     ]
+    },
+    {
+     "label": "matted",
+     "name": "matted",
+     "def_wn": "twist together or entwine into a confusing mass",
+     "def_wiki": "A flat piece of coarse material used for wiping one’s feet, or as a decorative or protective floor covering.",
+     "gpt3": [
+      "A mass of tangled hair or fibers.",
+      "To form a mat.",
+      "A mass of tangled hair or wool.",
+      "A mass of fibers, threads, or hair that is tangled or interwoven.",
+      "A mass of tangled fibers, as of hair."
+     ]
+    },
+    {
+     "label": "meshed",
+     "name": "meshed",
+     "def_wn": "the holy city of Shiite Muslims; located in northeastern Iran",
+     "def_wiki": "A structure made of connected strands of metal, fiber, or other flexible/ductile material, with evenly spaced openings between them.",
+     "gpt3": [
+      "To form a network of threads, wires, etc.",
+      "Having a network of interwoven lines.",
+      "A network of intersecting lines or threads.",
+      "To interlace; to interweave; to interlace; to interweave.",
+      "A network of interwoven strands or threads."
+     ]
+    },
+    {
+     "label": "paisley",
+     "name": "paisley",
+     "def_wn": "a soft wool fabric with a colorful swirled pattern of curved shapes",
+     "def_wiki": "A motif of a swirling droplet.",
+     "gpt3": [
+      "A pattern consisting of a symmetrical shape made of interlacing curved lines.",
+      "A pattern of swirling colours.",
+      "A pattern consisting of a symmetrical design of interlacing curved lines.",
+      "A pattern of curving lines, usually in contrasting colours, often used as a design for clothing.",
+      "A motif of a swirling droplet."
+     ]
+    },
+    {
+     "label": "perforated",
+     "name": "perforated",
+     "def_wn": "make a hole into or between, as for ease of separation",
+     "def_wiki": "To pierce; to penetrate.",
+     "gpt3": [
+      "A hole made by a drill or punch.",
+      "Having a hole or holes made in it.",
+      "A hole that goes through something.",
+      "To pierce; to penetrate.",
+      "A hole made by a pointed instrument, as a pin, needle, or awl."
+     ]
+    },
+    {
+     "label": "pitted",
+     "name": "pitted",
+     "def_wn": "set into opposition or rivalry",
+     "def_wiki": "A hole in the ground.",
+     "gpt3": [
+      "A small hole or depression in the surface of something.",
+      "Having depressions or holes.",
+      "A small depression or hole.",
+      "having small holes or indentations",
+      "a small depression or hole"
+     ]
+    },
+    {
+     "label": "pleated",
+     "name": "pleated",
+     "def_wn": "pleat or gather into a ruffle",
+     "def_wiki": "A fold in the fabric of a garment, usually a skirt, as a part of the design of the garment, with the purpose of adding controlled fullness and freedom of movement, or taking up excess fabric. There are many types of pleats, differing in their construction and appearance.",
+     "gpt3": [
+      "Folded or gathered in many parallel lines or layers.",
+      "Folded or gathered in pleats.",
+      "Folded or gathered into folds or plaits.",
+      "Folded or gathered into folds.",
+      "A fold in the fabric of a garment, usually a skirt, as a part of the design of the garment, with the purpose of adding controlled fullness and freedom of movement, or taking up excess fabric. There are many types of pleats,"
+     ]
+    },
+    {
+     "label": "polka-dotted",
+     "name": "polka-dotted",
+     "def_wn": "",
+     "def_wiki": "Having a regular pattern of round dots (polka dots).",
+     "gpt3": [
+      "A pattern of dots in a circular or oval pattern.",
+      "Marked with polka dots.",
+      "Marked with polka dots.",
+      "A small round spot.",
+      "Marked with spots or patches of different colours."
+     ]
+    },
+    {
+     "label": "porous",
+     "name": "porous",
+     "def_wn": "able to absorb fluids",
+     "def_wiki": "Full of tiny pores that allow fluids or gasses to pass through.",
+     "gpt3": [
+      "Having pores or interstices through which liquid or gas can pass.",
+      "A material that is full of holes or spaces.",
+      "A material that allows liquid or gas to pass through it.",
+      "A material that allows fluids to pass through it.",
+      "Having pores; full of pores."
+     ]
+    },
+    {
+     "label": "potholed",
+     "name": "potholed",
+     "def_wn": "used of paved surfaces having holes or pits",
+     "def_wiki": "A shallow pit or other edged depression in a road's surface, especially when caused by erosion by weather or traffic.",
+     "gpt3": [
+      "A road surface that is full of holes.",
+      "A shallow pit or other edged depression in a road's surface, especially when caused by erosion by weather or traffic.",
+      "Having a surface that is full of holes.",
+      "To form holes or depressions in.",
+      "A deep hole in the ground, especially one caused by the action of water."
+     ]
+    },
+    {
+     "label": "scaly",
+     "name": "scaly",
+     "def_wn": "rough to the touch; covered with scales or scurf",
+     "def_wiki": "Covered or abounding with scales.",
+     "gpt3": [
+      "Having a rough, dry, and hard surface.",
+      "Resembling a scale; having a thin, flat, overlapping structure.",
+      "Having scales; covered with scales.",
+      "A thin, flat, plate-like scale.",
+      "Having a dry, flaky, or scurfy surface."
+     ]
+    },
+    {
+     "label": "smeared",
+     "name": "smeared",
+     "def_wn": "stain by smearing or daubing with a dirty substance",
+     "def_wiki": "To spread (a substance, especially one that colours or is dirty) across a surface by rubbing.",
+     "gpt3": [
+      "To spread or cover with a thin layer of something.",
+      "A mark or stain that has been spread over a surface.",
+      "A mark or stain made by smearing.",
+      "To spread or daub over a surface.",
+      "spread or daubed over a surface"
+     ]
+    },
+    {
+     "label": "spiralled",
+     "name": "spiralled",
+     "def_wn": "to wind or move in a spiral course",
+     "def_wiki": "A curve that is the locus of a point that rotates about a fixed point while continuously increasing its distance from that point.",
+     "gpt3": [
+      "Formed or twisted into a spiral.",
+      "A spiral.",
+      "A spiral-shaped object or structure.",
+      "A spiral-shaped object or structure.",
+      "A decorative element found especially in early medieval art"
+     ]
+    },
+    {
+     "label": "sprinkled",
+     "name": "sprinkled",
+     "def_wn": "distribute loosely",
+     "def_wiki": "To cause (a substance) to fall in fine drops (for a liquid substance) or small pieces (for a solid substance).",
+     "gpt3": [
+      "To scatter or distribute small quantities of a substance over a surface.",
+      "To scatter or strew over a surface.",
+      "To scatter or distribute in small quantities.",
+      "To scatter or cover with small particles.",
+      "To scatter or cover with small particles."
+     ]
+    },
+    {
+     "label": "stained",
+     "name": "stained",
+     "def_wn": "color with a liquid dye or tint",
+     "def_wiki": "A discoloured spot or area.",
+     "gpt3": [
+      "To discolour or dye with a colour or dye.",
+      "A color that is darker than the original color.",
+      "A color or tint that is added to something, typically a fabric, to give it a particular appearance.",
+      "A color that is produced by dyeing or staining.",
+      "A mark or discoloration on a surface, especially one that is visible when the surface is viewed from a particular angle."
+     ]
+    },
+    {
+     "label": "stratified",
+     "name": "stratified",
+     "def_wn": "divide society into social classes or castes",
+     "def_wiki": "To become separated out into distinct layers or strata.",
+     "gpt3": [
+      "Arranged in layers or strata.",
+      "A layer of sedimentary rock.",
+      "A layer of rock or soil.",
+      "Arranged in layers.",
+      "Arranged in layers."
+     ]
+    },
+    {
+     "label": "striped",
+     "name": "striped",
+     "def_wn": "mark with stripes",
+     "def_wiki": "A long region of a single colour in a repeating pattern of similar regions.",
+     "gpt3": [
+      "A long region of a single colour in a repeating pattern of similar regions.",
+      "A long region of a single colour in a repeating pattern of similar regions.",
+      "A pattern of stripes.",
+      "A line of color, especially one that is narrow and close together.",
+      "Marked with stripes."
+     ]
+    },
+    {
+     "label": "studded",
+     "name": "studded",
+     "def_wn": "scatter or intersperse like dots or studs",
+     "def_wiki": "A male animal, especially a stud horse (stallion), kept for breeding.",
+     "gpt3": [
+      "Having a pattern of small objects attached to a surface.",
+      "To decorate with studs or spikes.",
+      "To be decorated with studs.",
+      "A male animal, especially a stud horse (stallion), kept for breeding.",
+      "To decorate with studs."
+     ]
+    },
+    {
+     "label": "swirly",
+     "name": "swirly",
+     "def_wn": "",
+     "def_wiki": "Having swirls; swirling.",
+     "gpt3": [
+      "A spiral or spiral-shaped object.",
+      "A spiral or spiral-shaped object or pattern.",
+      "A spiral or spiral-shaped object or pattern.",
+      "A spiral or spiral-shaped object or pattern.",
+      "A spiral."
+     ]
+    },
+    {
+     "label": "veined",
+     "name": "veined",
+     "def_wn": "make a veinlike pattern",
+     "def_wiki": "A blood vessel that transports blood from the capillaries back to the heart.",
+     "gpt3": [
+      "Having a pattern of lines or streaks.",
+      "A blood vessel or nerve.",
+      "having a pattern of veins or channels",
+      "A blood vessel.",
+      "Having veins; having a vein-like pattern."
+     ]
+    },
+    {
+     "label": "waffled",
+     "name": "waffled",
+     "def_wn": "pause or hold back in uncertainty or unwillingness",
+     "def_wiki": "A flat pastry pressed with a grid pattern, often eaten hot with butter and/or honey or syrup.",
+     "gpt3": [
+      "To form a pattern of wavy lines.",
+      "To talk or write about something in a confused or unclear way.",
+      "A flat pastry pressed with a grid pattern, often eaten hot with butter and/or honey or syrup.",
+      "To make a waffle pattern.",
+      "To talk or write about something in a way that is not clear or direct."
+     ]
+    },
+    {
+     "label": "woven",
+     "name": "woven",
+     "def_wn": "interlace by or as if by weaving",
+     "def_wiki": "To form something by passing lengths or strands of material over and under one another.",
+     "gpt3": [
+      "A fabric made by interlacing two sets of yarns at right angles to each other.",
+      "To form (a fabric) by interlacing threads or yarns, or by interlacing strands of other material.",
+      "To form something by passing lengths or strands of material over and under one another.",
+      "A fabric made by interlacing two sets of yarns at right angles to each other.",
+      "To form (a fabric) by interlacing threads or yarns."
+     ]
+    },
+    {
+     "label": "wrinkled",
+     "name": "wrinkled",
+     "def_wn": "gather or contract into wrinkles or folds; pucker",
+     "def_wiki": "A small furrow, ridge or crease in an otherwise smooth surface.",
+     "gpt3": [
+      "A small, hard, round seed of a fruit, especially a grape or cherry.",
+      "A small furrow, ridge or crease in an otherwise smooth surface.",
+      "Having wrinkles or folds.",
+      "Having wrinkles or creases.",
+      "To form wrinkles in."
+     ]
+    },
+    {
+     "label": "zigzagged",
+     "name": "zigzagged",
+     "def_wn": "travel along a zigzag path",
+     "def_wiki": "a line or path that proceeds by sharp turns in alternating directions",
+     "gpt3": [
+      "A line that is drawn in a series of short, steep, alternatingly convex and concave segments.",
+      "A line or path that is in a series of short bends or angles, usually at right angles to the direction of travel.",
+      "A pattern of zigzags.",
+      "Having a zigzag pattern.",
+      "A line or series of lines that form a pattern of short, sharp turns."
+     ]
+    }
+   ]
+  },
+  "gtsrb": {
+   "mirror_folder": "gtsrb_20210923",
+   "classes": [
+    {
+     "label": "0",
+     "name": "red and white circle 20 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "A circular area or space.",
+      "A circular area or region.",
+      "A circular shape, a plane figure bounded by a single line such that all points on the line are equidistant from a given point (the center)."
+     ]
+    },
+    {
+     "label": "1",
+     "name": "red and white circle 30 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "2",
+     "name": "red and white circle 50 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "A circular region or an area within a region.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To change place."
+     ]
+    },
+    {
+     "label": "3",
+     "name": "red and white circle 60 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "A two-dimensional geometric figure, a line, consisting of the set of all those points in a plane that are equally distant from a given point (center).",
+      "A circular segment of a plane curve.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "4",
+     "name": "red and white circle 70 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "A circular region or an area within a region.",
+      "To change place.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line."
+     ]
+    },
+    {
+     "label": "5",
+     "name": "red and white circle 80 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line."
+     ]
+    },
+    {
+     "label": "6",
+     "name": "end / de-restriction of 80 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "A way used for travelling between places, originally one wide enough to allow foot passengers and horses to travel, now (US) usually one surfaced with asphalt or concrete and designed to accommodate many vehicles travelling in both directions. In the UK both senses are heard",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line."
+     ]
+    },
+    {
+     "label": "7",
+     "name": "red and white circle 100 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A circular disc used to indicate the speed at which vehicles may travel.",
+      "A circular region or an area within a circular region.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line."
+     ]
+    },
+    {
+     "label": "8",
+     "name": "red and white circle 120 kph speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A circular red and white sign indicates a maximum speed limit of 120 km/h.",
+      "To change place."
+     ]
+    },
+    {
+     "label": "9",
+     "name": "red and white circle red car and black car no passing",
+     "def_wn": "",
+     "def_wiki": "To change place.",
+     "gpt3": [
+      "Used on signs to indicate that passing is forbidden.",
+      "No passing; no overtaking.",
+      "To change place.",
+      "A warning sign that indicates that passing is not allowed in the direction of the arrow.",
+      "A no passing zone."
+     ]
+    },
+    {
+     "label": "10",
+     "name": "red and white circle red truck and black car no passing",
+     "def_wn": "",
+     "def_wiki": "To change place.",
+     "gpt3": [
+      "A red circle with a red line through it.",
+      "To change place.",
+      "No passing; no overtaking.",
+      "To change place.",
+      "To change place."
+     ]
+    },
+    {
+     "label": "11",
+     "name": "red and white triangle road intersection warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "12",
+     "name": "white and yellow diamond priority road",
+     "def_wn": "",
+     "def_wiki": "A way used for travelling between places, originally one wide enough to allow foot passengers and horses to travel, now (US) usually one surfaced with asphalt or concrete and designed to accommodate many vehicles travelling in both directions. In the UK both senses are heard: a country road is the same as a country lane.",
+     "gpt3": [
+      "A road or street that has been designated as a through route for traffic moving in a particular direction.",
+      "A diamond-shaped sign used to indicate the point at which a road or highway joins another road or highway.",
+      "A road on which vehicles must give way to others on the road.",
+      "A road on which vehicles must give way to others on the road.",
+      "A road or street that has been designated as a through route for traffic, especially one that has been given priority over other traffic."
+     ]
+    },
+    {
+     "label": "13",
+     "name": "red and white upside down triangle yield right-of-way",
+     "def_wn": "",
+     "def_wiki": "The right to proceed first in traffic, on land, on water or in the air. Also in metaphorical senses.",
+     "gpt3": [
+      "A sign used to indicate that a driver must yield the right-of-way to traffic or pedestrians.",
+      "To yield the right-of-way to another vehicle or to a pedestrian.",
+      "To make (someone) aware of (something impending); especially:",
+      "To yield the right-of-way to traffic approaching from the opposite direction.",
+      "A warning sign that indicates a hazard or a dangerous situation ahead."
+     ]
+    },
+    {
+     "label": "14",
+     "name": "stop",
+     "def_wn": "the event of something ending",
+     "def_wiki": "To cease moving.",
+     "gpt3": [
+      "A place where vehicles are required to stop.",
+      "To cause to come to a halt; to bring to a standstill.",
+      "A place where vehicles are required to stop.",
+      "a traffic sign that indicates that a driver must stop at the next intersection",
+      "a place where vehicles can stop and park, usually with a building or shelter for passengers; a place where vehicles can stop and park, usually with a building or shelter for passengers; a place where vehicles can stop and park, usually with a building or"
+     ]
+    },
+    {
+     "label": "15",
+     "name": "empty red and white circle",
+     "def_wn": "",
+     "def_wiki": "A two-dimensional geometric figure, a line, consisting of the set of all those points in a plane that are equally distant from a given point (center).",
+     "gpt3": [
+      "An empty circle is a symbol of the void, the absence of, or the end of something.",
+      "A two-dimensional geometric figure, a line, consisting of the set of all those points in a plane that are equally distant from a given point (center).",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A sign that indicates that the road is closed to traffic.",
+      "The act of entering."
+     ]
+    },
+    {
+     "label": "16",
+     "name": "red and white circle no truck entry",
+     "def_wn": "",
+     "def_wiki": "The act of entering.",
+     "gpt3": [
+      "A circular region, especially one bounded by a curve or line.",
+      "Used on signs to indicate that entry into the area where the sign is displayed is forbidden.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "To prohibit or forbid."
+     ]
+    },
+    {
+     "label": "17",
+     "name": "red circle with white horizonal stripe no entry",
+     "def_wn": "",
+     "def_wiki": "Used on signs to indicate that entry into the area where the sign is displayed is forbidden.",
+     "gpt3": [
+      "A line that is tangent to a curve at a given point.",
+      "A circular segment of a sphere, especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To prohibit or forbid.",
+      "A prohibition."
+     ]
+    },
+    {
+     "label": "18",
+     "name": "red and white triangle with exclamation mark warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "Warning; caution.",
+      "a warning sign",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "19",
+     "name": "red and white triangle with black left curve approaching warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "Warning; caution.",
+      "A warning sign that indicates that a hazard is ahead.",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "20",
+     "name": "red and white triangle with black right curve approaching warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "A warning sign indicating that the road ahead is curved to the right.",
+      "a warning sign indicating that the road ahead curves to the right",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "21",
+     "name": "red and white triangle with black double curve approaching warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "A warning sign is a type of traffic sign. It is used to provide notice of potential hazards on the road that may not be readily apparent to a driver.",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "22",
+     "name": "red and white triangle rough / bumpy road warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign indicating that the road ahead is rough or bumpy.",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign that indicates a rough or bumpy road ahead."
+     ]
+    },
+    {
+     "label": "23",
+     "name": "red and white triangle car skidding / slipping warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign that indicates a hazard ahead on the road."
+     ]
+    },
+    {
+     "label": "24",
+     "name": "red and white triangle with merging / narrow lanes warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign indicating that the lanes of a road are merging into one lane.",
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign to indicate that the lanes are merging or narrowing.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "25",
+     "name": "red and white triangle with person digging / construction / road work warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign that indicates that there is a temporary hazard ahead on the road.",
+      "To make (someone) aware of (something impending); especially:",
+      "Warning of danger or obstruction ahead.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "26",
+     "name": "red and white triangle with traffic light approaching warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "A warning sign that indicates that a traffic light is approaching.",
+      "A warning that a traffic light is about to change to red.",
+      "Warning of a traffic light ahead.",
+      "Warning; a cautionary statement or action to alert a person to a possible hazard or danger.",
+      "Used to warn of a traffic light ahead."
+     ]
+    },
+    {
+     "label": "27",
+     "name": "red and white triangle with person walking warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To warn of a hazard ahead.",
+      "Warning; caution.",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign that indicates that pedestrians are crossing the road ahead."
+     ]
+    },
+    {
+     "label": "28",
+     "name": "red and white triangle with child and person walking warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "To warn of danger or risk."
+     ]
+    },
+    {
+     "label": "29",
+     "name": "red and white triangle with bicyle warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign.",
+      "A warning sign that indicates a hazard or a condition that may be hazardous to a specific vehicle type.",
+      "Used on signs to indicate that the road ahead is unsuitable for bicycles.",
+      "A warning sign is a type of traffic sign that indicates a hazard ahead on the road that may not be readily apparent to a driver."
+     ]
+    },
+    {
+     "label": "30",
+     "name": "red and white triangle with snowflake / ice warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:",
+      "The warning of slippery road conditions due to snow or ice.",
+      "To make (someone) aware of (something impending); especially:",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "31",
+     "name": "red and white triangle with deer warning",
+     "def_wn": "",
+     "def_wiki": "To make (someone) aware of (something impending); especially:",
+     "gpt3": [
+      "To make (someone) aware of (something impending); especially:",
+      "A warning sign that is used to alert drivers of a potential hazard on or near the roadway.",
+      "To make (someone) aware of (something impending); especially:",
+      "a warning sign for deer crossing the road",
+      "A warning sign to alert road users of a hazard or danger ahead."
+     ]
+    },
+    {
+     "label": "32",
+     "name": "white circle with gray strike bar no speed limit",
+     "def_wn": "",
+     "def_wiki": "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "To make (someone) aware of (something impending); especially:",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A circular area of land, especially one enclosed by a fence or wall."
+     ]
+    },
+    {
+     "label": "33",
+     "name": "blue circle with white right turn arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "A sign showing a blue circle with a white arrow pointing to the right. It indicates that you must turn right at the next intersection.",
+      "Obligatory; required or commanded by authority.",
+      "Mandatory right turn.",
+      "an intersection with a circular shape and, usually, a central island",
+      "Obligatory; required or commanded by authority."
+     ]
+    },
+    {
+     "label": "34",
+     "name": "blue circle with white left turn arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "Obligatory; required or commanded by authority.",
+      "A sign used to indicate that a left turn is permitted from the lane or road where the sign is placed.",
+      "Obligatory; required or commanded by authority.",
+      "To make (someone) aware of (something impending); especially:",
+      "A turn to the left is required."
+     ]
+    },
+    {
+     "label": "35",
+     "name": "blue circle with white forward arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "To be obliged to do something; to be required to do something.",
+      "The act of moving forward.",
+      "Obligatory; required or commanded by authority.",
+      "Mandatory direction.",
+      "To make (someone) aware of (something impending); especially:"
+     ]
+    },
+    {
+     "label": "36",
+     "name": "blue circle with white forward or right turn arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "To change direction.",
+      "Mandatory turn.",
+      "Mandatory right turn ahead.",
+      "A circular area or space.",
+      "Mandatory direction to turn right."
+     ]
+    },
+    {
+     "label": "37",
+     "name": "blue circle with white forward or left turn arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "To turn (to the right or left) in the direction indicated by the arrow.",
+      "Obligatory; required or commanded by authority.",
+      "Obligatory; required or commanded by authority.",
+      "a circular intersection with a central island, where traffic in the circle must turn in the direction indicated by the arrow",
+      "Mandatory turn."
+     ]
+    },
+    {
+     "label": "38",
+     "name": "blue circle with white keep right arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "Obligatory; required or commanded by authority.",
+      "Mandatory instruction to keep right.",
+      "Obligatory; required or commanded by authority.",
+      "Mandatory sign.",
+      "Mandatory instruction to keep to the right."
+     ]
+    },
+    {
+     "label": "39",
+     "name": "blue circle with white keep left arrow mandatory",
+     "def_wn": "",
+     "def_wiki": "Obligatory; required or commanded by authority.",
+     "gpt3": [
+      "A sign that indicates the direction in which traffic must proceed.",
+      "Obligatory; required or commanded by authority.",
+      "To make (someone) aware of (something impending); especially:",
+      "Obligatory; required or commanded by authority.",
+      "Obligatory; required or commanded by authority."
+     ]
+    },
+    {
+     "label": "40",
+     "name": "blue circle with white arrows indicating a traffic circle",
+     "def_wn": "",
+     "def_wiki": "an intersection with a circular shape and, usually, a central island",
+     "gpt3": [
+      "A circular intersection at which traffic moves in one direction around a central island.",
+      "A circular intersection of two or more roads at which traffic moves in one direction around a central island.",
+      "A circular intersection at which traffic moves in one direction around a central island.",
+      "A circular intersection at which traffic moves in one direction around a central island.",
+      "A circular intersection with a central island, for traffic moving in one direction only."
+     ]
+    },
+    {
+     "label": "41",
+     "name": "white circle with gray strike bar indicating no passing for cars has ended",
+     "def_wn": "",
+     "def_wiki": "The terminal point of something in space or time.",
+     "gpt3": [
+      "an intersection with a circular shape and, usually, a central island",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A strike bar is a line across a roadway that indicates where a no-passing zone begins.",
+      "A circular line, or a line of circular shape, that is used to indicate the end of a restriction or prohibition.",
+      "A circular area in the middle of a road, used to slow down traffic."
+     ]
+    },
+    {
+     "label": "42",
+     "name": "white circle with gray strike bar indicating no passing for trucks has ended",
+     "def_wn": "",
+     "def_wiki": "The terminal point of something in space or time.",
+     "gpt3": [
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "The maximum speed permitted by law for vehicles on the road; also the maximum speed permitted over a stretch of railway line.",
+      "A sign used to indicate that a no-passing zone has ended.",
+      "To make (someone) aware of (something impending); especially:",
+      "A sign that prohibits or restricts the movement of certain types of vehicles."
+     ]
+    }
+   ]
+  },
+  "fer2013": {
+   "mirror_folder": "fer_2013_20211008",
+   "classes": [
+    {
+     "label": "angry",
+     "name": "angry",
+     "def_wn": "feeling or showing anger",
+     "def_wiki": "Displaying or feeling anger.",
+     "gpt3": [
+      "Feeling or showing anger.",
+      "Displaying or feeling anger.",
+      "Feeling or showing anger; wrathful; irate.",
+      "Displaying or feeling anger.",
+      "A feeling of displeasure and antagonism aroused by a wrong; wrath; ire; rage."
+     ]
+    },
+    {
+     "label": "disgust",
+     "name": "disgusted",
+     "def_wn": "fill with distaste",
+     "def_wiki": "Filled with disgust.",
+     "gpt3": [
+      "Having a feeling of loathing or revulsion; repulsed.",
+      "Feeling or displaying disgust.",
+      "Affected with a feeling of loathing or repugnance; having a feeling of extreme repugnance or aversion.",
+      "Filled with disgust.",
+      "Feeling or showing a strong dislike of something."
+     ]
+    },
+    {
+     "label": "fear",
+     "name": "fearful",
+     "def_wn": "experiencing or showing fear",
+     "def_wiki": "Frightening.",
+     "gpt3": [
+      "Causing fear.",
+      "Causing fear.",
+      "Frightening.",
+      "Frightening.",
+      "Causing fear or dread; frightening."
+     ]
+    },
+    {
+     "label": "happy",
+     "name": "happy",
+     "def_wn": "enjoying or showing or marked by joy or pleasure",
+     "def_wiki": "Having a feeling arising from a consciousness of well-being or of enjoyment; enjoying good of any kind, such as comfort, peace, or tranquillity; blissful, contented, joyous.",
+     "gpt3": [
+      "Emotionally positive.",
+      "Feeling or showing pleasure and satisfaction.",
+      "Having a feeling arising from a consciousness of well-being or of enjoyment; enjoying good of any kind, such as comfort, peace, or tranquillity; blissful, contented, joyous.",
+      "Having a feeling arising from a consciousness of well-being or of enjoyment; enjoying good of any kind, such as comfort, peace, or tranquillity; blissful, contented, joyous.",
+      "Having a feeling arising from a consciousness of well-being or of enjoyment; enjoying good of any kind, such as comfort, peace, or tranquillity; blissful, contented, joyous."
+     ]
+    },
+    {
+     "label": "neutral",
+     "name": "neutral",
+     "def_wn": "one who does not side with any party in a war or dispute",
+     "def_wiki": "Not taking sides in a conflict such as war; nonaligned.",
+     "gpt3": [
+      "Not showing any emotion.",
+      "Having no particular feeling or interest; not caring one way or the other; indifferent.",
+      "Not taking sides in a conflict such as war; nonaligned.",
+      "Neither positive nor negative.",
+      "Neither good nor bad."
+     ]
+    },
+    {
+     "label": "sad",
+     "name": "sad",
+     "def_wn": "experiencing or showing sorrow or unhappiness; ; - Christina Rossetti",
+     "def_wiki": "Emotionally negative.",
+     "gpt3": [
+      "Feeling or showing sorrow or unhappiness.",
+      "Feeling or showing sorrow or unhappiness; mournful; gloomy; dismal; dreary; dismal; cheerless; dismal; gloomy; dismal; cheerless; dismal; gloomy; dismal; cheerless; dismal; gloomy; dismal; cheerless",
+      "Feeling or showing sorrow or unhappiness.",
+      "Feeling or showing sorrow or unhappiness.",
+      "Feeling or showing sorrow or unhappiness; mournful; melancholy; dismal; gloomy; dismal; cheerless; dreary; dismal; cheerless; dreary; dismal; cheerless; dreary; dismal; cheerless; d"
+     ]
+    },
+    {
+     "label": "surprise",
+     "name": "surprised",
+     "def_wn": "cause to be surprised",
+     "def_wiki": "Caused to feel surprise, amazement or wonder, or showing an emotion due to an unexpected event.",
+     "gpt3": [
+      "Caused to feel surprise, amazement or wonder, or showing an emotion due to an unexpected event.",
+      "Caused to feel surprise, amazement or wonder, or showing an emotion due to an unexpected event.",
+      "Astonished; astounded; amazed; dumbfounded; flabbergasted; flummoxed; flabbergasted; thunderstruck; dumbstruck; thunderstruck; dumbstruck; thunderstruck; dumbstruck;",
+      "Surprised.",
+      "Surprised."
+     ]
+    }
+   ]
+  },
+  "fgvc_aircraft": {
+   "mirror_folder": "fgvc_aircraft_2013b_variants102_20211007",
+   "classes": [
+    {
+     "label": "707-320",
+     "name": "707-320",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of jet airliner that was produced by Boeing from 1958 to 1979.",
+      "A type of aircraft that is used for passenger transport.",
+      "A Boeing 707-320, a narrow-body jet airliner, the first of the 707 line.",
+      "A Boeing 707-320 is a passenger jet airliner.",
+      "A Boeing 707-320, a long-range, four-engine jet airliner."
+     ]
+    },
+    {
+     "label": "727-200",
+     "name": "727-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of Boeing jet airliner.",
+      "A type of aircraft.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of aircraft.",
+      "A type of jet airliner that was produced between 1964 and 1984."
+     ]
+    },
+    {
+     "label": "737-200",
+     "name": "737-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A short- to medium-range, narrow-body, twin-engine jet airliner.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of aircraft that has two engines and can carry up to 189 passengers.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A Boeing 737-200 is a narrow-body jet airliner."
+     ]
+    },
+    {
+     "label": "737-300",
+     "name": "737-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft, also known as a Boeing 737-300.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A Boeing 737-300 aircraft."
+     ]
+    },
+    {
+     "label": "737-400",
+     "name": "737-400",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 737-400 is a narrow-body jet airliner.",
+      "A Boeing 737-400 is a narrow-body twin-engine jet airliner.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of aircraft that has a maximum takeoff weight of 100,000 pounds.",
+      "A type of aircraft that is used for short-haul flights."
+     ]
+    },
+    {
+     "label": "737-500",
+     "name": "737-500",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for short-haul flights.",
+      "The twenty-second letter of the English alphabet, called vee and written in the Latin script.",
+      "A type of Boeing 737-500.",
+      "A type of aircraft.",
+      "The act of having sex with a woman who is menstruating."
+     ]
+    },
+    {
+     "label": "737-600",
+     "name": "737-600",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for transporting passengers and cargo.",
+      "A Boeing 737-600 is a narrow-body jet airliner.",
+      "A Boeing 737-600 is a short- to medium-range, narrow-body, twin-engine jet airliner.",
+      "A type of aircraft",
+      "A type of aircraft that is used for short-haul flights."
+     ]
+    },
+    {
+     "label": "737-700",
+     "name": "737-700",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for short-haul flights.",
+      "A Boeing 737-700 is a narrow-body twin-engine jet airliner.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A type of aircraft that is used for passenger transport.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns."
+     ]
+    },
+    {
+     "label": "737-800",
+     "name": "737-800",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 737-800 is a narrow-body twin-engine jet airliner.",
+      "A type of Boeing 737 airliner.",
+      "A type of aircraft that is used for passenger transport.",
+      "The act of having sex with a woman who is menstruating.",
+      "A type of aircraft that has two engines and can carry up to 189 passengers."
+     ]
+    },
+    {
+     "label": "737-900",
+     "name": "737-900",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 737-900 is a narrow-body jet airliner.",
+      "A Boeing 737-900 is a narrow-body jet airliner.",
+      "A Boeing 737-900 is a narrow-body twin-engine jet airliner.",
+      "A type of serial line that transmits data at a rate of 9.6 megabits per second.",
+      "A Boeing 737-900 is a narrow-body twin-engine jet airliner."
+     ]
+    },
+    {
+     "label": "747-100",
+     "name": "747-100",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A large passenger jet airliner, with four jet engines, that was developed by Boeing in the 1960s.",
+      "A type of aircraft that was used for long-distance flights.",
+      "A type of aircraft that is used for transporting passengers and cargo.",
+      "A type of aircraft that is used to transport the President of the United States."
+     ]
+    },
+    {
+     "label": "747-200",
+     "name": "747-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 747-200",
+      "A type of aircraft that is used for long-distance flights.",
+      "A type of aircraft that has two engines and four jet engines.",
+      "A Boeing 747 with two engines.",
+      "A type of aircraft that is used for long-distance flights."
+     ]
+    },
+    {
+     "label": "747-300",
+     "name": "747-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 747-300 is a wide-body commercial airliner and cargo transport aircraft.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A type of aircraft that has a maximum takeoff weight of 735,000 pounds.",
+      "A large, four-engine jet airliner, the 747-300 is the largest 747 model.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006."
+     ]
+    },
+    {
+     "label": "747-400",
+     "name": "747-400",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 747-400",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A Boeing 747-400 is a wide-body jet airliner.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A Boeing 747-400."
+     ]
+    },
+    {
+     "label": "757-200",
+     "name": "757-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "Initialism of the United States.",
+      "A type of aircraft that is used for transporting passengers.",
+      "A Boeing jet airliner that is used for short- to medium-range flights.",
+      "A type of airplane that is used to transport the President of the United States.",
+      "A type of aircraft that is used for short-haul flights."
+     ]
+    },
+    {
+     "label": "757-300",
+     "name": "757-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of jet airliner manufactured by Boeing.",
+      "A type of aircraft that is used for transporting passengers.",
+      "A Boeing 757-300 is a twin-engine wide-body jet airliner.",
+      "A large, wide-bodied, twin-engine jet airliner.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006."
+     ]
+    },
+    {
+     "label": "767-200",
+     "name": "767-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 767-200 with a two-class cabin layout, with the first class cabin in the nose of the aircraft and the economy class cabin in the rear.",
+      "A type of aircraft that has two engines and can carry up to 230 passengers.",
+      "A Boeing 767-200 is a twin-engine, wide-body, long-range jet airliner.",
+      "The act of putting a 767-200 in a nose dive.",
+      "A Boeing 767-200 is a twin-engine wide-body jet airliner."
+     ]
+    },
+    {
+     "label": "767-300",
+     "name": "767-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is a long-range, wide-body, twin-engine jet airliner.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "A Boeing wide-body twin-engine jet airliner.",
+      "A Boeing 767-300 with a full load of passengers, fuel, and cargo."
+     ]
+    },
+    {
+     "label": "767-400",
+     "name": "767-400",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for long-distance flights.",
+      "A Boeing 767-400ER, a long-range, wide-body, twin-engine jet airliner.",
+      "A type of aircraft.",
+      "A type of aircraft that is used for long-distance flights.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights."
+     ]
+    },
+    {
+     "label": "777-200",
+     "name": "777-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "The number of the beast, as described in the Book of Revelation.",
+      "The Boeing 777 is a long-range, wide-body twin-engine jet airliner developed and manufactured by Boeing Commercial Airplanes.",
+      "A type of aircraft that is used for long-haul flights.",
+      "A Boeing 777-200 aircraft.",
+      "A Boeing 777-200"
+     ]
+    },
+    {
+     "label": "777-300",
+     "name": "777-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Boeing 777-300 is a long-range, wide-body, twin-engine jet airliner.",
+      "A Boeing 777-300 is a long-range, wide-body, twin-engine jet airliner.",
+      "A type of aircraft that is used for long-haul flights.",
+      "The Boeing 777 is a long-range, wide-body twin-engine jet airliner developed and manufactured by Boeing Commercial Airplanes. It is the world's largest twinjet and has a typical seating capacity of 314 to 396 passengers, with a range of",
+      "A Boeing 777-300 is a long-range wide-body twin-engine jet airliner."
+     ]
+    },
+    {
+     "label": "A300B4",
+     "name": "A300B4",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "A kind of jet airliner manufactured by Airbus.",
+      "A kind of aircraft that was used by the United States Air Force.",
+      "A kind of aircraft that was operated by Japan Airlines.",
+      "A type of serial line that transmits data at a rate of 2.048 megabits per second."
+     ]
+    },
+    {
+     "label": "A310",
+     "name": "A310",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for short-haul flights.",
+      "A kind of Airbus aircraft.",
+      "A type of aircraft.",
+      "A type of aircraft that is used for passenger transport.",
+      "A type of aircraft that was used by Air France."
+     ]
+    },
+    {
+     "label": "A318",
+     "name": "A318",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for short-haul flights.",
+      "The act of being in a state of being in a state of being in a state of being in a state of being in a state of being in a state of being in a state of being in a state of being in a state of being in",
+      "A kind of Airbus A320.",
+      "The eighteenth letter of the English alphabet, called ee and written in the Latin script.",
+      "A type of aircraft"
+     ]
+    },
+    {
+     "label": "A319",
+     "name": "A319",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of jet airliner.",
+      "A type of aircraft used by the German Air Force.",
+      "A type of aircraft",
+      "A type of aircraft that is used for short-haul flights.",
+      "A kind of Airbus aircraft."
+     ]
+    },
+    {
+     "label": "A320",
+     "name": "A320",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A320 is a short- to medium-range airliner.",
+      "A320 is a family of narrow-body, short- to medium-range, single-aisle commercial passenger jet airliners manufactured by Airbus. The family includes the A318, A319, A320 and A321, as well as the",
+      "A type of serial line that transmits data at a rate of 1.544 megabits per second.",
+      "A type of aircraft"
+     ]
+    },
+    {
+     "label": "A321",
+     "name": "A321",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of Airbus plane.",
+      "A type of aircraft.",
+      "A type of aircraft.",
+      "A type of aircraft",
+      "A kind of Airbus plane."
+     ]
+    },
+    {
+     "label": "A330-200",
+     "name": "A330-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft",
+      "A kind of wide-body jet airliner manufactured by Airbus.",
+      "A type of aircraft that is used to transport passengers and cargo.",
+      "A kind of jet airliner.",
+      "A kind of wide-body jet airliner manufactured by Airbus."
+     ]
+    },
+    {
+     "label": "A330-300",
+     "name": "A330-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A kind of wide-body jet airliner.",
+      "A type of aircraft that is used for long-haul flights.",
+      "A three-engine medium-range wide-body jet airliner.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second."
+     ]
+    },
+    {
+     "label": "A340-200",
+     "name": "A340-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for the transportation of passengers.",
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A type of Airbus A340-200.",
+      "A type of aircraft that is used to transport the President of the United States."
+     ]
+    },
+    {
+     "label": "A340-300",
+     "name": "A340-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A wide-body, four-engine jet airliner.",
+      "A long-range wide-body jet airliner.",
+      "A type of aircraft, a Boeing 767-300ER.",
+      "A kind of Airbus plane.",
+      "A long-range wide-body jet airliner developed by Airbus Industrie."
+     ]
+    },
+    {
+     "label": "A340-500",
+     "name": "A340-500",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of aircraft that is used for long-haul flights.",
+      "A type of aircraft that is used for transporting passengers and cargo.",
+      "A type of aircraft that is used to transport the President of the United States.",
+      "A type of airplane",
+      "A type of aircraft that is used for long-haul flights."
+     ]
+    },
+    {
+     "label": "A340-600",
+     "name": "A340-600",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of Airbus A340-600 aircraft.",
+      "A type of wide-body jet airliner manufactured by Airbus.",
+      "A type of wide-body airliner that is capable of carrying up to 386 passengers.",
+      "A Boeing 747-400",
+      "A long-range wide-body jet airliner developed by Airbus."
+     ]
+    },
+    {
+     "label": "A380",
+     "name": "A380",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "A type of aircraft that is the largest passenger plane in the world.",
+      "A large passenger jet airliner, the largest commercial aircraft in the world.",
+      "A large, four-engine airliner, the Airbus A380 is the world's largest passenger plane."
+     ]
+    },
+    {
+     "label": "An-12",
+     "name": "An-12",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for transporting cargo.",
+      "A type of aircraft that is used to transport people or cargo.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "A Soviet-designed four-engine turboprop transport aircraft."
+     ]
+    },
+    {
+     "label": "ATR-42",
+     "name": "ATR-42",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of turboprop aircraft.",
+      "A type of aircraft used by the United States Air Force to transport troops and cargo.",
+      "A type of aircraft used by the United States Air Force.",
+      "A twin-engine turboprop airliner, used by many airlines around the world.",
+      "A twin-engine turboprop regional airliner, manufactured by the French-Italian aircraft manufacturer ATR."
+     ]
+    },
+    {
+     "label": "ATR-72",
+     "name": "ATR-72",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft used by the United States Air Force.",
+      "A type of turboprop aircraft.",
+      "A type of aircraft",
+      "The act of being in a state of confusion.",
+      "A twin-engine turboprop airliner designed and built by the French-Italian aircraft manufacturer ATR."
+     ]
+    },
+    {
+     "label": "BAE 146-200",
+     "name": "BAE 146-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for transporting passengers and cargo.",
+      "A type of aircraft",
+      "A type of aircraft.",
+      "A small, single-engine, four-seat jet aircraft.",
+      "The act of being a passenger on a plane that is not moving."
+     ]
+    },
+    {
+     "label": "BAE 146-300",
+     "name": "BAE 146-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A British-made jet airliner",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of fish",
+      "A type of aircraft that is used for transporting passengers.",
+      "A type of aircraft that is used for short-haul flights."
+     ]
+    },
+    {
+     "label": "BAE-125",
+     "name": "BAE-125",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of business jet aircraft.",
+      "A type of business jet aircraft.",
+      "A type of business jet aircraft.",
+      "A British-made jet airliner.",
+      "A kind of business jet aircraft."
+     ]
+    },
+    {
+     "label": "Beechcraft 1900",
+     "name": "Beechcraft 1900",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A small, propeller-driven airliner.",
+      "A small, twin-engine turboprop aircraft.",
+      "Initialism of \"Boeing\".",
+      "A type of tree",
+      "A kind of small propeller plane used for short-distance flights."
+     ]
+    },
+    {
+     "label": "Boeing 717",
+     "name": "Boeing 717",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft",
+      "A small, single-engine, propeller-driven aircraft used for training pilots.",
+      "A type of jet airliner that was developed by Boeing Commercial Airplanes and operated by several airlines.",
+      "A Boeing 717 is a passenger jet airliner.",
+      "A type of aircraft."
+     ]
+    },
+    {
+     "label": "C-130",
+     "name": "C-130",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of military transport aircraft.",
+      "A type of aircraft that is used for military transport.",
+      "Initialism of \"cargo\".",
+      "A kind of military transport aircraft.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights."
+     ]
+    },
+    {
+     "label": "C-47",
+     "name": "C-47",
+     "def_wn": "",
+     "def_wiki": "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+     "gpt3": [
+      "Initialism of the Central Intelligence Agency.",
+      "Initialism of intravenous.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "The act of being in a state of confusion.",
+      "A kind of military transport aircraft"
+     ]
+    },
+    {
+     "label": "Cessna 172",
+     "name": "Cessna 172",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of small airplane.",
+      "A small, four-seat, single-engine, high-wing airplane.",
+      "A small, single-engine, four-seat, fixed-wing aircraft.",
+      "A single-engine, four-seat, high-wing fixed-wing aircraft.",
+      "A type of airplane"
+     ]
+    },
+    {
+     "label": "Cessna 208",
+     "name": "Cessna 208",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of airplane",
+      "Initialism of intravenous.",
+      "A small, single-engine, fixed-wing aircraft.",
+      "A type of aircraft that is used for training pilots.",
+      "A type of serial line that transmits data at a rate of 115.2 kilobits per second."
+     ]
+    },
+    {
+     "label": "Cessna 525",
+     "name": "Cessna 525",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "A small, single-engine, high-wing, light aircraft.",
+      "A type of small, brown, furry rodent.",
+      "A small, single-engine, high-wing monoplane used for business or pleasure.",
+      "A type of beer"
+     ]
+    },
+    {
+     "label": "Cessna 560",
+     "name": "Cessna 560",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft, also known as a Citation II.",
+      "A type of aircraft.",
+      "A type of aircraft that is used for the transportation of passengers.",
+      "A type of airplane",
+      "A small, single-engine, high-wing, light aircraft."
+     ]
+    },
+    {
+     "label": "Challenger 600",
+     "name": "Challenger 600",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A business jet manufactured by Bombardier Aerospace.",
+      "A type of business jet aircraft.",
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "A business jet aircraft manufactured by Bombardier Aerospace.",
+      "A jet aircraft"
+     ]
+    },
+    {
+     "label": "CRJ-200",
+     "name": "CRJ-200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of regional jet that is used by many airlines.",
+      "Initialism of intravenous.",
+      "A type of regional jet that is used by Delta Air Lines.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A small, regional jet airliner."
+     ]
+    },
+    {
+     "label": "CRJ-700",
+     "name": "CRJ-700",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft used by the United States Air Force.",
+      "A type of aircraft that is used for regional flights.",
+      "A kind of regional jet aircraft.",
+      "A type of aircraft that is used for regional flights.",
+      "A type of aircraft that is used for regional flights."
+     ]
+    },
+    {
+     "label": "CRJ-900",
+     "name": "CRJ-900",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A type of aircraft used by the United States Air Force.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A type of aircraft, a regional jet.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns."
+     ]
+    },
+    {
+     "label": "DC-10",
+     "name": "DC-10",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for transporting passengers and cargo.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A wide-body jet airliner manufactured by McDonnell Douglas.",
+      "A type of airplane.",
+      "Initialism of intravenous."
+     ]
+    },
+    {
+     "label": "DC-3",
+     "name": "DC-3",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A kind of airplane.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of aircraft.",
+      "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia."
+     ]
+    },
+    {
+     "label": "DC-6",
+     "name": "DC-6",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "A type of aircraft",
+      "A type of aircraft",
+      "A type of aircraft used for transporting passengers and cargo.",
+      "A type of aircraft that is used for the transportation of passengers and cargo."
+     ]
+    },
+    {
+     "label": "DC-8",
+     "name": "DC-8",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of jet airliner.",
+      "A kind of jet airliner that was built by Douglas Aircraft Company from 1958 to 1972.",
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "The twenty-second letter of the English alphabet, called vee and written in the Latin script.",
+      "A jet airliner."
+     ]
+    },
+    {
+     "label": "DC-9-30",
+     "name": "DC-9-30",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft, a twin-engine jet airliner.",
+      "A type of aircraft, also known as a \"nine thirty\".",
+      "A type of aircraft used by Delta Air Lines.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A type of aircraft that has two engines and can carry up to 172 passengers."
+     ]
+    },
+    {
+     "label": "DH-82",
+     "name": "DH-82",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of de Havilland Canada DHC-2 Beaver, a single-engine, high-wing, propeller-driven, STOL aircraft.",
+      "A type of British biplane trainer aircraft used in the First World War.",
+      "A type of biplane used in the First World War.",
+      "A type of biplane used by the British Royal Air Force in the First World War.",
+      "A type of biplane used by the British in World War I."
+     ]
+    },
+    {
+     "label": "DHC-1",
+     "name": "DHC-1",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of helicopter",
+      "A type of aircraft that was developed by De Havilland Canada and was used by the Royal Canadian Air Force.",
+      "A type of airplane.",
+      "A type of Canadian bush plane, also known as the \"De Havilland Beaver\".",
+      "A type of aircraft that is used for training pilots."
+     ]
+    },
+    {
+     "label": "DHC-6",
+     "name": "DHC-6",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft.",
+      "Initialism of intravenous.",
+      "A kind of turboprop aircraft that was developed by de Havilland Canada and operated by many airlines around the world.",
+      "A type of Canadian goose.",
+      "A type of aircraft that is used for the transportation of passengers and cargo."
+     ]
+    },
+    {
+     "label": "DHC-8-100",
+     "name": "DHC-8-100",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for transporting people or cargo.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of airplane.",
+      "A type of airplane that is used for short-haul flights.",
+      "A type of aircraft used by the Canadian Coast Guard."
+     ]
+    },
+    {
+     "label": "DHC-8-300",
+     "name": "DHC-8-300",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of airplane that is used to transport people and cargo.",
+      "A kind of airplane",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A kind of airplane."
+     ]
+    },
+    {
+     "label": "Dornier 328",
+     "name": "Dornier 328",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for the transportation of passengers and cargo.",
+      "A kind of turboprop aircraft.",
+      "A twin-engine short-haul regional airliner that was built by Dornier Flugzeugwerke.",
+      "A type of small, brown, furry animal that lives in the Arctic.",
+      "A type of aircraft that is used to transport passengers and cargo."
+     ]
+    },
+    {
+     "label": "DR-400",
+     "name": "DR-400",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of helicopter.",
+      "The act of putting a finger in the ear of a sleeping person.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of aircraft",
+      "A type of aircraft."
+     ]
+    },
+    {
+     "label": "E-170",
+     "name": "E-170",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of aircraft.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of serial line that transmits data at a rate of 2.048 megabits per second."
+     ]
+    },
+    {
+     "label": "E-190",
+     "name": "E-190",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft",
+      "A kind of aircraft operated by the Brazilian airline TAM.",
+      "A kind of aircraft.",
+      "A type of aircraft that is used for commercial flights.",
+      "A type of aircraft that is used to transport passengers."
+     ]
+    },
+    {
+     "label": "E-195",
+     "name": "E-195",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft engine manufactured by Rolls-Royce.",
+      "A type of aircraft",
+      "A type of aircraft that is used for training purposes.",
+      "A type of aircraft that is used for training purposes.",
+      "A small, single-engine, propeller-driven airplane."
+     ]
+    },
+    {
+     "label": "EMB-120",
+     "name": "EMB-120",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of regional jet airliner.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A Brazilian airliner",
+      "A Brazilian regional airliner.",
+      "A Brazilian airliner, the Embraer 120 Brasilia, a regional jet."
+     ]
+    },
+    {
+     "label": "Embraer Legacy 600",
+     "name": "Embraer Legacy 600",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for the transportation of the President of the United States.",
+      "A type of business jet aircraft manufactured by Embraer.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia.",
+      "A type of serial line that transmits data at a rate of 622 (or 614) kilobits per second."
+     ]
+    },
+    {
+     "label": "ERJ 135",
+     "name": "ERJ 135",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "Initialism of intravenous.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A type of jet engine.",
+      "Initialism of intravenous.",
+      "A type of jet airliner, the thirty-fifth letter of the English alphabet, called zed and written in the Latin script."
+     ]
+    },
+    {
+     "label": "ERJ 145",
+     "name": "ERJ 145",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A small jet airliner",
+      "A Brazilian-made jet airliner.",
+      "A small, single-engine, regional jet airliner.",
+      "A Brazilian airliner.",
+      "A type of regional jet aircraft."
+     ]
+    },
+    {
+     "label": "Eurofighter Typhoon",
+     "name": "Eurofighter Typhoon",
+     "def_wn": "",
+     "def_wiki": "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia.",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A kind of fighter jet used by the Royal Air Force.",
+      "A type of serial line that transmits data at a rate of 2.048 (or 2.048) megabits per second.",
+      "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia.",
+      "A type of tropical fish."
+     ]
+    },
+    {
+     "label": "F-16A-B",
+     "name": "F-16A-B",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A single-seat, single-engine, all-weather fighter aircraft.",
+      "A fighter aircraft developed by General Dynamics and Lockheed Martin for the United States Air Force (USAF).",
+      "A type of aircraft carrier.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A fighter jet"
+     ]
+    },
+    {
+     "label": "F-A-18",
+     "name": "F-A-18",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used by the US Navy.",
+      "The act of having sex with a woman in the doggy style position, while she is on her knees, and you are standing up.",
+      "A type of aircraft carrier that is equipped with a catapult system.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "The act of having sex with a woman in the doggy style position, while simultaneously receiving a blowjob from another woman."
+     ]
+    },
+    {
+     "label": "Falcon 2000",
+     "name": "Falcon 2000",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of business jet aircraft.",
+      "A violent windstorm characterized by a mobile, twisting, funnel-shaped cloud.",
+      "A type of falcon, a bird of prey.",
+      "A type of serial line that transmits data at a rate of 2.048 megabits per second.",
+      "A type of high-speed train that operates on the Tōkaidō Shinkansen line in Japan."
+     ]
+    },
+    {
+     "label": "Falcon 900",
+     "name": "Falcon 900",
+     "def_wn": "",
+     "def_wiki": "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+     "gpt3": [
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "The act of spinning 900 degrees in the air, doing two and a half complete turns.",
+      "A large, long-winged, long-tailed bird of prey.",
+      "A type of aircraft used by the United States Air Force for transporting the President of the United States.",
+      "A kind of business jet manufactured by Dassault Aviation."
+     ]
+    },
+    {
+     "label": "Fokker 100",
+     "name": "Fokker 100",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A short-haul airliner that can carry up to 100 passengers.",
+      "A short-haul airliner that can carry up to 100 passengers.",
+      "A short-haul airliner",
+      "A type of aircraft that is used for transporting passengers and cargo."
+     ]
+    },
+    {
+     "label": "Fokker 50",
+     "name": "Fokker 50",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft",
+      "A Dutch aircraft manufacturer.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A type of aircraft that is used for transporting passengers."
+     ]
+    },
+    {
+     "label": "Fokker 70",
+     "name": "Fokker 70",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "Initialism of intravenous.",
+      "A type of Dutch cheese.",
+      "A type of airplane",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of aircraft that has a maximum speed of 870 kilometers per hour."
+     ]
+    },
+    {
+     "label": "Global Express",
+     "name": "Global Express",
+     "def_wn": "",
+     "def_wiki": "Moving or operating quickly, as a train not making local stops.",
+     "gpt3": [
+      "A type of business jet aircraft manufactured by Bombardier Aerospace.",
+      "A kind of business jet manufactured by Bombardier Aerospace.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "Moving or operating quickly, as a train not making local stops.",
+      "A type of business jet aircraft."
+     ]
+    },
+    {
+     "label": "Gulfstream IV",
+     "name": "Gulfstream IV",
+     "def_wn": "",
+     "def_wiki": "Initialism of intravenous.",
+     "gpt3": [
+      "A type of intravenous.",
+      "A type of fish",
+      "A type of airplane",
+      "A type of jet aircraft that is used for long-distance travel.",
+      "Initialism of intravenous."
+     ]
+    },
+    {
+     "label": "Gulfstream V",
+     "name": "Gulfstream V",
+     "def_wn": "",
+     "def_wiki": "The twenty-second letter of the English alphabet, called vee and written in the Latin script.",
+     "gpt3": [
+      "A type of aircraft used to transport the President of the United States.",
+      "A type of small, round, hard candy that is colored red and white and flavored with wintergreen.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "Initialism of intravenous.",
+      "A kind of business jet aircraft."
+     ]
+    },
+    {
+     "label": "Hawk T1",
+     "name": "Hawk T1",
+     "def_wn": "",
+     "def_wiki": "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+     "gpt3": [
+      "A type of military jet aircraft.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A British single-seat jet trainer aircraft.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second."
+     ]
+    },
+    {
+     "label": "Il-76",
+     "name": "Il-76",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft",
+      "A Soviet-built military transport aircraft.",
+      "A type of Russian transport aircraft.",
+      "A type of Russian truck that is used to transport large loads.",
+      "A Russian-made cargo plane."
+     ]
+    },
+    {
+     "label": "L-1011",
+     "name": "L-1011",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "Initialism of long-term.",
+      "A type of wide-body jet airliner that was produced by Lockheed Corporation.",
+      "A wide-body jet airliner, the first wide-body aircraft produced by Lockheed.",
+      "A wide-body jet airliner produced by Lockheed.",
+      "A type of aircraft"
+     ]
+    },
+    {
+     "label": "MD-11",
+     "name": "MD-11",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of jet airliner that was produced by McDonnell Douglas from 1990 to 1999.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "The act of being a doctor.",
+      "A doctor",
+      "A type of aircraft that is used for long-haul flights."
+     ]
+    },
+    {
+     "label": "MD-80",
+     "name": "MD-80",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that is used for medical evacuation.",
+      "A type of aircraft.",
+      "A type of aircraft used by the United States Air Force.",
+      "A type of jet airliner manufactured by McDonnell Douglas.",
+      "A type of aircraft."
+     ]
+    },
+    {
+     "label": "MD-87",
+     "name": "MD-87",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of jet airliner that was produced by McDonnell Douglas from 1983 to 1999.",
+      "A type of jet airliner.",
+      "A type of aircraft used to transport organs for transplant.",
+      "A type of aircraft, a medium-range twin-engine jet airliner.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second."
+     ]
+    },
+    {
+     "label": "MD-90",
+     "name": "MD-90",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of aircraft that is used for military purposes.",
+      "A kind of airplane that was manufactured by McDonnell Douglas.",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of jet airliner manufactured by McDonnell Douglas."
+     ]
+    },
+    {
+     "label": "Metroliner",
+     "name": "Metroliner",
+     "def_wn": "",
+     "def_wiki": "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+     "gpt3": [
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A high-speed train",
+      "A type of aircraft that is used for short-haul flights.",
+      "A type of serial line that transmits data at a rate of 4.8 megabits per second."
+     ]
+    },
+    {
+     "label": "Model B200",
+     "name": "Model B200",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 115.2 kilobits per second.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A type of aircraft.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006.",
+      "A type of fire extinguisher."
+     ]
+    },
+    {
+     "label": "PA-28",
+     "name": "PA-28",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of single-engine, two-seat, low-wing, light aircraft.",
+      "A kind of airplane.",
+      "A type of single-engine, two-seat, low-wing, retractable-gear airplane.",
+      "A kind of small airplane.",
+      "A type of plane."
+     ]
+    },
+    {
+     "label": "Saab 2000",
+     "name": "Saab 2000",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A kind of automobile manufactured by Saab Automobile from 1978 to 1993.",
+      "A type of automobile manufactured by Saab Automobile AB.",
+      "A kind of high-speed train that operated between Stockholm and Gothenburg from 2000 to 2010.",
+      "A type of aircraft that is used for military purposes.",
+      "A type of aircraft that is used for military purposes."
+     ]
+    },
+    {
+     "label": "Saab 340",
+     "name": "Saab 340",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of twin-engine turboprop aircraft.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of car",
+      "A type of serial line that transmits data at a rate of 9600 bits per second."
+     ]
+    },
+    {
+     "label": "Spitfire",
+     "name": "Spitfire",
+     "def_wn": "a highly emotional and quick-tempered person (especially a girl or woman)",
+     "def_wiki": "A cannon",
+     "gpt3": [
+      "A type of fighter aircraft used by the British Royal Air Force and many other Allied countries during and after World War II.",
+      "A cannon",
+      "A small, fast, maneuverable fighter aircraft used by the British Royal Air Force and other Allied countries during and after World War II.",
+      "A British fighter plane used in World War II.",
+      "A kind of high-speed train that operated between Washington, D.C. and New York City from 1969 to 2006."
+     ]
+    },
+    {
+     "label": "SR-20",
+     "name": "SR-20",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of serial line that transmits data at a rate of 20 megabits per second.",
+      "A type of jet engine used in the SR-71 Blackbird.",
+      "A type of rocket engine used in the launch vehicles of the Apollo program.",
+      "A standard wooden clothespin with a metal spring, used to hold gels to the barn doors of cinema lights.",
+      "A 20-watt light bulb."
+     ]
+    },
+    {
+     "label": "Tornado",
+     "name": "Tornado",
+     "def_wn": "a localized and violently destructive windstorm occurring over land characterized by a funnel-shaped cloud extending toward the ground",
+     "def_wiki": "A violent windstorm characterized by a mobile, twisting, funnel-shaped cloud.",
+     "gpt3": [
+      "A type of fighter aircraft.",
+      "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia.",
+      "A kind of weather phenomenon that occurs in the southern hemisphere.",
+      "A weather phenomenon in the northwestern Pacific that is precisely equivalent to a hurricane, which results in wind speeds of 64 knots (118 km/h) or above. Equivalent to a cyclone in the Indian Ocean and Indonesia/Australia.",
+      "A violent windstorm characterized by a mobile, twisting, funnel-shaped cloud."
+     ]
+    },
+    {
+     "label": "Tu-134",
+     "name": "Tu-134",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Russian airliner, the Tupolev Tu-134 is a medium-range twin-engine jet airliner.",
+      "A type of serial line that transmits data at a rate of 9600 bits per second.",
+      "A type of serial line that transmits data at a rate of 1544 (or 1536) kilobits per second.",
+      "A Soviet-built jet airliner, produced from 1968 to 1984.",
+      "A kind of jet airliner that was produced in the Soviet Union from 1964 to 1982."
+     ]
+    },
+    {
+     "label": "Tu-154",
+     "name": "Tu-154",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A type of aircraft that can fly at a speed of 900 kilometers per hour.",
+      "A Russian airliner.",
+      "A Russian airliner, the name of which is pronounced \"too-154\".",
+      "A Russian airliner.",
+      "A type of Russian airliner."
+     ]
+    },
+    {
+     "label": "Yak-42",
+     "name": "Yak-42",
+     "def_wn": "",
+     "def_wiki": "",
+     "gpt3": [
+      "A Russian airliner",
+      "A type of Russian aircraft.",
+      "A type of high-speed train that operated between Moscow and St. Petersburg from 2003 to 2009.",
+      "A Russian-made aircraft.",
+      "A type of Russian airliner."
+     ]
+    }
+   ]
+  }
+ }
+}
