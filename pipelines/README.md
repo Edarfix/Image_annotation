@@ -29,4 +29,5 @@ parent.
 | `p02_sam3_concept_card` | detection | `p00` | MLLM-compiled concept cards give SAM 3 its phrases; per-class fusion | M4 |
 | `p03_concept_card_verifier_binary` | detection | `p02` | Adds a yes/no MLLM verifier on a context crop and on the full image with the box drawn | M4 |
 | `p04_concept_card_verifier_checklist` | detection | `p02` | Adds an attribute and confuser checklist with a calibrated decision rule | M4 |
-| `c00_…` | classification | none | First classification baselines, defined at M3 | M3 |
+| `c00_siglip2_zeroshot` | classification | none | SigLIP 2 with description ensembling; "none" by threshold | done (M3) |
+| `c01_rar_siglip2_qwen3vl` | classification | `c00` | Retrieve-and-rank: SigLIP 2 top-5, Qwen3-VL picks a class or "none" from first-token logprobs | done (M3) |

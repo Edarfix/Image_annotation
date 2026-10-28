@@ -1,0 +1,8 @@
+# Default hyper-parameters of c01, validated by C01Config in pipeline.py.
+retriever: siglip2_so400m
+ranker: qwen3_vl_30b
+top_k: 5  # RAR's default shortlist size (Liu et al. 2024, arXiv 2403.13805)
+description_lines: 6
+mllm_description_lines: 2
+none_threshold: 0.0  # 0: "none" only when the MLLM prefers the "none" option; tune on dev
+fallback_none_threshold: 0.01

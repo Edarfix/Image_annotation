@@ -1,0 +1,9 @@
+flowchart LR
+  spec["DatasetSpec<br/>(known class names and<br/>descriptions, 'none' allowed)"] --> texts["prepare():<br/>SigLIP texts per class"]
+  img["ImageRecord"] --> retrieve
+  texts --> retrieve["stage: retrieve<br/>SigLIP 2 So400m<br/>top-k classes"]
+  retrieve -->|"k candidates"| rank["stage: rank<br/>Qwen3-VL-30B-A3B (vLLM)<br/>prompts/choose.jinja<br/>letters A..k + 'none'"]
+  img --> rank
+  rank -->|"first-token logprobs"| decide["option probabilities;<br/>'none' if it wins"]
+  retrieve -.->|"rank failed: SigLIP decision"| decide
+  decide --> out["ImageAnnotation.label<br/>class or none, class_scores"]

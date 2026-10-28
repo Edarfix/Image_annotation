@@ -1,0 +1,4 @@
+# Default hyper-parameters of c00, validated by C00Config in pipeline.py.
+model: siglip2_so400m
+description_lines: 6  # all of ELEVATER's knowledge lines in practice (WordNet, Wiktionary, GPT-3)
+none_threshold: 0.01  # TODO: tune on the dev subset (D3); SigLIP probabilities are small

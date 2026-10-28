@@ -1,0 +1,5 @@
+# c01_rar_siglip2_qwen3vl on the ELEVATER task 1 subset (open-set split, D16), described setting (D17).
+pipeline: c01_rar_siglip2_qwen3vl
+setting: described
+dataset: configs/datasets/elevater_dev.yaml
+pipeline_cfg: {}

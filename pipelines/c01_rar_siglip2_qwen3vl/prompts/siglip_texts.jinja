@@ -1,0 +1,8 @@
+{#- Role: the texts SigLIP scores for one class; their logits are averaged (prompt
+    ensembling: CLIP templates, CuPL / ELEVATER descriptions).
+    Variables: class_name (str); description_lines (list of str, empty in zero_shot).
+    Output: one text per non-empty line. -#}
+a photo of a {{ class_name }}.
+{% for line in description_lines -%}
+a photo of a {{ class_name }}: {{ line }}
+{% endfor %}

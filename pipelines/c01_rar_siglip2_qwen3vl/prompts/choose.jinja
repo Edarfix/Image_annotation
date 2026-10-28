@@ -1,0 +1,9 @@
+{#- Role: the MLLM picks the class of the image among the lettered candidates, or "none".
+    Variables: options (list of {letter, name, description}; name is None for "none of
+    these"; description may be empty).
+    Expected output: one letter. Its first-token log-probabilities give the option scores. -#}
+Which of the following categories does this image show?
+{% for o in options -%}
+{{ o.letter }}. {% if o.name is none %}None of the above: the image shows none of these categories.{% else %}{{ o.name }}{% if o.description %} ({{ o.description }}){% endif %}{% endif %}
+{% endfor -%}
+Answer with the letter of the correct option only.

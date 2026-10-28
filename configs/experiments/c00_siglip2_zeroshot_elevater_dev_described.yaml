@@ -1,0 +1,5 @@
+# c00_siglip2_zeroshot on the ELEVATER task 1 subset (open-set split, D16), described setting (D17).
+pipeline: c00_siglip2_zeroshot
+setting: described
+dataset: configs/datasets/elevater_dev.yaml
+pipeline_cfg: {}

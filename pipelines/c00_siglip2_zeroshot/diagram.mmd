@@ -1,0 +1,6 @@
+flowchart LR
+  spec["DatasetSpec<br/>(known class names and<br/>descriptions, 'none' allowed)"] --> texts["prepare():<br/>prompts/siglip_texts.jinja<br/>name + each description line"]
+  img["ImageRecord"] --> score
+  texts --> score["stage: score<br/>SigLIP 2 So400m (HTTP)<br/>mean logit per class"]
+  score --> decide["top class by sigmoid probability;<br/>'none' if below none_threshold"]
+  decide --> out["ImageAnnotation.label<br/>class or none, class_scores"]
