@@ -1,0 +1,5 @@
+# Default hyper-parameters of p01, validated by P01Config in pipeline.py.
+# Experiments override them under `pipeline_cfg:` (see configs/experiments/).
+model: qwen3_vl_30b
+score_threshold: 0.5  # every box scores 1.0, so any threshold below 1 keeps them all
+max_detections: 500

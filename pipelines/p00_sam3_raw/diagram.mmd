@@ -1,0 +1,6 @@
+flowchart LR
+  spec["DatasetSpec<br/>(class names)"] --> phrases["prompts/phrase.jinja<br/>one phrase per class:<br/>the raw class name"]
+  img["ImageRecord<br/>(original image)"] --> ground
+  phrases --> ground["stage: ground<br/>SAM 3 (HTTP server)<br/>image encoded once,<br/>one pass per phrase"]
+  ground -->|"boxes in pixels, SAM 3 scores"| filter["clip, drop invalid boxes<br/>top 500 by score"]
+  filter --> out["ImageAnnotation<br/>detections, failures, cost"]

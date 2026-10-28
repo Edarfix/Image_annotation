@@ -1,0 +1,5 @@
+# p00_sam3_raw on the RF100-VL dev subset, zero_shot (D4). Use --subset test only for final reports (D3).
+pipeline: p00_sam3_raw
+setting: zero_shot
+dataset: configs/datasets/rf100vl_dev.yaml
+pipeline_cfg: {}

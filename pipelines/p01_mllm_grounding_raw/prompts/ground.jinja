@@ -1,0 +1,20 @@
+{#- Role: ask the MLLM for every instance of the dataset's classes, as JSON boxes.
+    Variables: class_names (list of str); descriptions (dict name -> text, few-shot only,
+    may be empty); instructions (str, few-shot only, may be empty).
+    Expected output: JSON list of {"bbox_2d": [x1, y1, x2, y2], "label": <class name>},
+    coordinates in the model's own format (Qwen3-VL: relative, 0-1000); the wrapper converts.
+    The first sentence is the Qwen3-VL report's ODinW prompt (App. B.5, p37). -#}
+Locate every instance that belongs to the following categories: '{{ class_names | join(", ") }}'. Report bbox coordinates in JSON format.
+{%- if descriptions %}
+
+Category descriptions:
+{%- for name, text in descriptions.items() %}
+- {{ name }}: {{ text }}
+{%- endfor %}
+{%- endif %}
+{%- if instructions %}
+
+Annotation instructions:
+{{ instructions }}
+{%- endif %}
+Use exactly the category names above as "label".

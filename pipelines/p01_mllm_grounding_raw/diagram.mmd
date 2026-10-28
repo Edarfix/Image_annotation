@@ -1,0 +1,6 @@
+flowchart LR
+  spec["DatasetSpec<br/>(class names; descriptions and<br/>instructions in few_shot)"] --> prompt["prompts/ground.jinja<br/>one prompt, all classes"]
+  img["ImageRecord<br/>(original image)"] --> ground
+  prompt --> ground["stage: ground<br/>Qwen3-VL-30B-A3B (vLLM)<br/>JSON bbox_2d, relative 0-1000"]
+  ground -->|"wrapper: to pixels"| filter["keep known labels<br/>clip, drop invalid boxes<br/>score = 1.0, top 500"]
+  filter --> out["ImageAnnotation<br/>detections, failures, cost"]
